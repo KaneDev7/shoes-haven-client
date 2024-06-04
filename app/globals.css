@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+@layer components {
+  .globalMaxWidth {
+     @apply w-[1500px] 
+  }
+}
+
+body{
+  background: rgb(255, 255, 255);
+}
+
+.animOpac{
+  animation: opacAnim cubic-bezier(0.075, 0.82, 0.165, 1) 2s;
+}
+
