@@ -16,7 +16,8 @@ const config: Config = {
       colors: {
         secondaryColor: '#FFBD59',
         backgroundBody : "#f5f5f5",
-        blackColor2: "#353535"
+        bg_gray_light: "#f5f5f5",
+        blackColor2: "#353535",
       }
     },
   },

@@ -1,8 +1,9 @@
 "use client"
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Saira_Extra_Condensed } from "next/font/google";
 import { HiArrowLongLeft, HiArrowLongRight } from "react-icons/hi2";
+import NavSlide from '../NavSlide';
 
 const saira_Extra_Condensed = Saira_Extra_Condensed({ weight: ['700'], subsets: ['latin'] });
 
@@ -32,38 +33,34 @@ export default function BannerHome() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCout(v => v < 4 ? v + 1 : 0)
-    }, 5000)
+    }, 10000)
     return function () {
       return clearInterval(timer)
     }
   }, [count])
 
   return (
-    <section className='w-full h-[90vh] banner'>
+    <section className='w-full h-[90vh] banner relative'>
       <div className='relative h-full'>
-        <div className='w-full absolute top-[110px] left-[50%] translate-x-[-50%] z-[2] '>
+        <div className={`w-full absolute top-[110px] left-[50%] translate-x-[-50%] z-[2]  ${saira_Extra_Condensed.className}`}>
           <p className='text-center font-bold text-2xl opacity-80'>Élégance en Marche Chaussures de Style</p>
-          <h1 className={`text-center tracking-wide text-secondaryColor text-[7rem] font-extrabold ${saira_Extra_Condensed.className}`}>{categories[count].title} </h1>
+          <h1 className={`text-center tracking-wide text-secondaryColor text-[90px] font-extrabold`}> SHOES HAVEN SHOP</h1>
+          <p className='text-center font-semibold'>{categories[count].title}</p>
         </div>
         <div className='slide absolute top-[330px] left-[50%] translate-x-[-50%]'>
           <img
-            className='aspect-square w-[700px] max-h-[400px] object-cover z-[-1] '
+            className='aspect-square w-[700px] max-h-[400px] object-contain z-[-1] '
             src={`/${categories[count].uri}`} alt="" />
         </div>
         <img className='aspect-square w-full  max-h-[90vh] relative' src="/banner.png" alt="" />
 
-        <div className='nav flex justify-between items-center w-[80%] absolute top-[500px] left-[50%] translate-x-[-50%]'>
-
-          <button onClick={handlPrev} className='w-[40px] h-[40px] flex items-center justify-center rounded-full border-2' >
-            <HiArrowLongLeft />
-          </button>
-
-          <button onClick={handlNext} className='w-[200px] h-[40px] rounded-full flex items-center gap-5 border-2 px-4'>
-            <HiArrowLongRight />
-            <p>Next</p>
-          </button>
-        </div>
+        <NavSlide
+          handlNext={handlNext}
+          handlPrev={handlPrev}
+          style=' w-[80%]  absolute top-[500px] left-[50%] translate-x-[-50%]'
+        />
       </div>
+      <div className='absolute inset-0 w-full h-full bg-white z-[-1] '></div>
     </section>
   )
 }

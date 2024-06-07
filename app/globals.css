@@ -7,14 +7,19 @@
 
 @layer components {
   .globalMaxWidth {
-     @apply w-[1500px] 
+     @apply max-w-[1500px] w-full
   }
+ 
+
 }
 
 body{
-  background: rgb(255, 255, 255);
+  background: #e6e6e6;
 }
 
+.trending-slide::-webkit-scrollbar-track{
+  height: 0;
+}
 .animOpac{
   animation: opacAnim cubic-bezier(0.075, 0.82, 0.165, 1) 2s;
 }
