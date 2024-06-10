@@ -18,6 +18,7 @@ const config: Config = {
         backgroundBody : "#f5f5f5",
         bg_gray_light: "#f5f5f5",
         blackColor2: "#353535",
+        footerTextColor : "#b1b1b1"
       }
     },
   },

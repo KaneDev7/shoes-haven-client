@@ -23,7 +23,7 @@ export default function TrCard({src}:{src : string} ) {
 
             <div className='w-full flex justify-between'>
                 <Sizes sizes={[40, 41, 42, 43]} />
-                <Button text='Ajouter au panier'style='bg-black text-white py-1 ' />
+                <Button text='Ajouter au panier'style='bg-black text-white py-1 rounded-full' />
             </div>
         </div>
     )
