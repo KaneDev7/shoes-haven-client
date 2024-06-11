@@ -20,8 +20,9 @@ export default function Navbar() {
     return (
         <section className='relative w-full max-h-[90px] px-2 py-4 flex justify-center items-center bg-backgroundBody'>
             <div className='flex justify-between items-center globalMaxWidth'>
-                <h1 className='text-3xl font-extrabold'>Shoes Haven</h1>
-
+                <Link href='/'>
+                    <h1 className='text-3xl font-extrabold'>Shoes Haven</h1>
+                </Link>
                 <nav className='w-fit lg:flex hidden justify-between items-center rounded-full px-10 bg-white gap-10 text-xs font-bold shadow-sm '>
                     <Link href='/'>ACCUEIL</Link>
                     <Link

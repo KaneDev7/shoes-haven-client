@@ -84,7 +84,6 @@ export default function ProductMenu({ isMonseInLink }: ProductMenuType) {
               />
             </div>
           </li>
-
         </ul>
       </div>
     )
