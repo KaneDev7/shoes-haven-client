@@ -1,4 +1,6 @@
-export const QuickLinks : {title : string, href : string}[] =[
+import { Link } from "@/types/link.type"
+
+export const Collections : Link[] =[
     {
         title : 'Nouveautés',
         href : '#'
@@ -9,7 +11,7 @@ export const QuickLinks : {title : string, href : string}[] =[
     },
     {
         title : 'Offres Spéciales',
-        href : '#'
+        href : '/produc'
     },
     {
         title : 'Chaussures de Sport',
@@ -25,7 +27,55 @@ export const QuickLinks : {title : string, href : string}[] =[
     }
 ]
 
-export const supports : {title : string, href : string}[] =[
+
+export const Marks : Link[] = [
+    {
+        title: 'Chaussures Puma',
+        href: '#'
+    },
+    {
+        title: 'Chaussures Asics',
+        href: '#'
+    },
+    {
+        title: 'Chaussures Guess',
+        href: '#'
+    },
+    {
+        title: 'Chaussures Calvin Klein',
+        href: '#'
+    },
+    {
+        title: 'Chaussures Tommyhilfiger',
+        href: '#'
+    },
+    {
+        title: 'Chaussures Armani',
+        href: '#'
+    },
+    {
+        title: 'Chaussures Boss',
+        href: '#'
+    },
+    {
+        title: 'Chaussures Lacost',
+        href: '#'
+    },
+    {
+        title: 'Chaussures Timberland',
+        href: '#'
+    },
+    {
+        title: 'Chaussures Kaporal',
+        href: '#'
+    },
+    {
+        title: 'Chaussures Teddy Smith',
+        href: '#'
+    }
+]
+
+export const supports : Link[] =[
     {
         title : 'Termes',
         href : '#'

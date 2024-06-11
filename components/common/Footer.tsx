@@ -1,4 +1,4 @@
-import { QuickLinks, supports } from '@/constants/links'
+import { Collections, supports } from '@/constants/links'
 import { FaFacebook, FaTiktok } from "react-icons/fa";
 
 import Link from 'next/link'
@@ -7,6 +7,7 @@ import Input from '../Input'
 import Button from '../buttons'
 import { RiInstagramFill } from 'react-icons/ri';
 import { SiTwitter } from 'react-icons/si';
+import LinkList from '../LinkList';
 
 
 export default function Footer() {
@@ -34,29 +35,21 @@ export default function Footer() {
                 </div>
 
                 <div className='space-y-4'>
-                    <h2 className='text-secondaryColor font-bold'>COLLECTIONS</h2>
-                    <ul className='leading-8 text-sm '>
-                        {
-                            QuickLinks.map(link => (
-                                <li className='text-footerTextColor hover:text-white'>
-                                    <Link href={link.href}>{link.title}</Link>
-                                </li>
-                            ))
-                        }
-                    </ul>
+                    <LinkList
+                        linksList={Collections}
+                        title='COLLECTIONS'
+                        titleStyle='text-secondaryColor font-bold'
+                        linkStyle='text-footerTextColor'
+                    />
                 </div>
 
                 <div className='space-y-4'>
-                    <h2 className='text-secondaryColor font-bold'>SUPORTS</h2>
-                    <ul className='leading-8 text-sm '>
-                        {
-                            supports.map(link => (
-                                <li className='text-footerTextColor hover:text-white text-nowrap'>
-                                    <Link href={link.href}>{link.title}</Link>
-                                </li>
-                            ))
-                        }
-                    </ul>
+                    <LinkList
+                        linksList={supports}
+                        title='SUPPORTS'
+                        titleStyle='text-secondaryColor font-bold'
+                        linkStyle='text-footerTextColor'
+                    />
                 </div>
 
 

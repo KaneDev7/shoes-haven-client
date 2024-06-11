@@ -1,4 +1,4 @@
-import { Product } from "@/types/product";
+import { Product } from "@/types/product.type";
 
 export const ProductsMock : Array<Product> = [
     {

@@ -13,7 +13,6 @@ export default function Home() {
       <Trending />
       <ProductList  products={ProductsMock}/>
       <Categories/>
-      <Trust/>
     </>
   );
 }

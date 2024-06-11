@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '../buttons'
-import { Product } from '@/types/product'
+import { Product } from '@/types/product.type'
 import ProductCard from '../ProductCard'
 
 type Productsypes = {

@@ -4,7 +4,6 @@
 
 
 
-
 @layer components {
   .globalMaxWidth {
      @apply max-w-[1500px] w-full mx-auto
@@ -24,9 +23,21 @@ body{
   animation: opacAnim cubic-bezier(0.075, 0.82, 0.165, 1) 2s;
 }
 
+.transAnime{
+  animation: .3s transanime forwards ;
+}
 
 @media (max-width : 400px){
   .productsGrid{
     grid-template-columns: repeat(1,1fr);
+  }
+}
+
+
+@keyframes transanime {
+  to{
+    transform: translateY(0);
+    transform: translateX(-50%);
+    opacity: 1;
   }
 }
