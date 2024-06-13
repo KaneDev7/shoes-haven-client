@@ -12,3 +12,4 @@ export interface Product {
     uri: string[],
     __v?: number
 }
+

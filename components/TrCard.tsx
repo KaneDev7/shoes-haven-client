@@ -22,7 +22,8 @@ export default function TrCard({src}:{src : string} ) {
             <Image className='w-[80%] mx-auto' src={src} width={200} height={200} alt='' />
 
             <div className='w-full flex justify-between'>
-                <Sizes sizes={[40, 41, 42, 43]} />
+                <Sizes sizes={[40, 41, 42, 43]}
+                />
                 <Button text='Ajouter au panier'style='bg-black text-white py-1 rounded-full' />
             </div>
         </div>

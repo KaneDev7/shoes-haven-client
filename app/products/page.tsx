@@ -24,7 +24,7 @@ export default function Products() {
                             products={ProductsMock}
                             title="CHAUSSURE DE SPORT"
                             gridParamsStyle='productsPage sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '
-                            component={
+                            headerRightEl={
                                 <select>
                                     <option selected hidden value="Tirer par"></option>
                                     <option value="">Prix inferieur</option>

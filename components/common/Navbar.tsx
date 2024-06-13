@@ -18,7 +18,7 @@ export default function Navbar() {
     }
 
     return (
-        <section className='relative w-full max-h-[90px] px-2 py-4 flex justify-center items-center bg-backgroundBody'>
+        <section className='relative w-full max-h-[90px] px-2 py-4 flex justify-center items-center bg-backgroundBody  shadow-sm'>
             <div className='flex justify-between items-center globalMaxWidth'>
                 <Link href='/'>
                     <h1 className='text-3xl font-extrabold'>Shoes Haven</h1>
