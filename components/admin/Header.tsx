@@ -5,7 +5,7 @@ import Search from './Search.admin';
 
 export default function Header() {
     return (
-        <header className='flex justify-between items-center py-7 px-10 bg-white w-full'>
+        <header className='flex justify-between items-center p-7 bg-white w-full'>
             <h1 className='text-2xl font-bold'>Produits</h1>
             <div className='flex items-center gap-4'>
                 <Search />

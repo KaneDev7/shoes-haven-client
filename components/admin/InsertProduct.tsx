@@ -9,7 +9,7 @@ import Button from '../buttons';
 
 export default function InsertProduct() {
     return (
-        <section className='my-10'>
+        <section className='my-10 ml-10'>
             <h1 className='text-2xl font-bold'>Ajouter Produit</h1>
             <div className=' flex bg-white p-5 mt-4'>
                 <div className='flex gap-4 w-full'>
@@ -94,7 +94,7 @@ export default function InsertProduct() {
                
             </div>
             <div className='w-full flex justify-end mt-4'>
-                    <div className='flex gap-2'>
+                    <div className='flex gap-4'>
                         <Button
                             text='Enregistrer'
                             style='w-[100px]  bg-secondaryColor py-2 font-bold rounded-full text-blackColor2'
