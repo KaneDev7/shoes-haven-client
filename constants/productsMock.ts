@@ -324,3 +324,39 @@ export const ProductsMock : Array<Product> = [
         ],
     },
 ]
+
+
+export const categories : string[] =[
+    'Nouveautés',
+    'Meilleures Ventes',
+    'Offres Spéciales',
+    'Chaussures de Sport',
+    'Chaussures Formelles',
+    'Chaussures Décontractées',
+]
+
+export const marks : string[] =[
+    "Chaussures Puma",
+    "Chaussures Asics",
+    "Chaussures Guess",
+    "Chaussures Calvin Klein",
+    "Chaussures Tommyhilfiger",
+    "Chaussures Armani",
+    "Chaussures Boss",
+    "Chaussures Lacost",
+    "Chaussures Timberland",
+    "Chaussures Kaporal",
+    "Chaussures Teddy Smith"
+]
+
+export const sizes : number[] =[41, 42, 43, 44, 45, 46, 47]
+export const colors : string[] =[
+    "Vert",
+    "Jaune",
+    "Rouge",
+    "Bleu",
+    "Orange",
+    "Noir",
+    "Blanc",
+    "Gray",
+]

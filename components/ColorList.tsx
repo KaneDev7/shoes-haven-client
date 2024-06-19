@@ -1,5 +1,6 @@
 "use client"
 
+import useSelectList from '@/hooks/useSelectList'
 import React, { useState } from 'react'
 
 type ColorListType = {
@@ -16,16 +17,12 @@ const CheckCage = () => {
 }
 
 export default function ColorList() {
-  const [checklist, setChecklist] = useState<string[]>(['Bleu'])
+  const { handleToggleSelect, selectlist } = useSelectList({ list: ['Noir'] })
 
-  const handleToggleColor = (event:  React.MouseEvent<HTMLLIElement, MouseEvent>) => {
-   const element = event.target as HTMLLIElement
-   const colorCliked = element.id
-
-   if(checklist.includes(element.id)){
-    return setChecklist(prevChecklist => prevChecklist.filter(color => color !== colorCliked))
-   }
-    setChecklist(prevChecklist => [...prevChecklist, colorCliked] )
+  const handleToggleColor = (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+    const element = event.target as HTMLLIElement
+    const colorCliked = element.id
+    handleToggleSelect(colorCliked)
   }
 
   return (
@@ -39,7 +36,7 @@ export default function ColorList() {
               id={color}
               className='flex items-center gap-2'>
               <div className='w-[12px] h-[12px] pointer-events-none border border-blackColor2 relative'>
-                {checklist.includes(color) && <CheckCage />}
+                {selectlist.includes(color) && <CheckCage />}
               </div>
               <p className='pointer-events-none text-sm'>{color}</p>
             </li>

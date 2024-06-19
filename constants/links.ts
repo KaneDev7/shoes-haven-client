@@ -1,5 +1,7 @@
 import { Link } from "@/types/link.type"
 
+
+
 export const Collections : Link[] =[
     {
         title : 'Nouveautés',
@@ -75,6 +77,8 @@ export const Marks : Link[] = [
     }
 ]
 
+
+
 export const supports : Link[] =[
     {
         title : 'Termes',
@@ -99,5 +103,39 @@ export const supports : Link[] =[
     {
         title : 'Contactez-nous',
         href : '#'
+    }
+]
+
+// Admin
+
+export const adminLink : Link[] =[
+    {
+        title : 'Dashboard',
+        href : '/admin',
+        iconName : 'MdOutlineDashboard'
+    },
+    
+    {
+        title : 'Produits',
+        href : '/admin/products',
+        iconName : 'AiOutlineProduct'
+    },
+
+    {
+        title : 'Commandes',
+        href : '/admin/orders',
+        iconName : 'BsCart2'
+    },
+
+    {
+        title : 'Utulisateurs',
+        href : '/admin/users',
+        iconName : 'FiUser'
+    },
+
+    {
+        title : 'Paramètres',
+        href : '/admin/settings',
+        iconName : 'IoSettingsOutline'
     }
 ]

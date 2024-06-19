@@ -1,5 +1,6 @@
 "use client"
 
+import useSelectList from '@/hooks/useSelectList'
 import React, { useState } from 'react'
 
 type SizeProps = {
@@ -9,18 +10,12 @@ type SizeProps = {
 
 export default function Sizes({ sizes, style }: SizeProps) {
 
-    const [sizeSelectedList, setSizeSelectedList] = useState<number[]>([43])
+    const { handleToggleSelect, selectlist } = useSelectList({ list: [43]})
 
-    console.log('sizeSelectedList', sizeSelectedList)
     const handleToggleSelectSize = (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
-        console.log('hello')
         const element = event.target as HTMLLIElement
         const sizeSelected: number = Number(element.id)
-
-        if (sizeSelectedList.includes(sizeSelected)) {
-            return setSizeSelectedList(prevSelectSizelist => prevSelectSizelist.filter(size => size !== sizeSelected))
-        }
-        setSizeSelectedList(prevSelectSizelist => [...prevSelectSizelist, sizeSelected])
+        handleToggleSelect(sizeSelected)
     }
 
     return (
@@ -30,7 +25,7 @@ export default function Sizes({ sizes, style }: SizeProps) {
                     <span
                         onClick={handleToggleSelectSize}
                         id={size.toString()}
-                        className={`w-[30px] h-[30px] cursor-pointer flex justify-center items-center  text-xs rounded-full border-2 ${sizeSelectedList.includes(size) && 'bg-blackColor2 text-white'}`} >
+                        className={`w-[30px] h-[30px] cursor-pointer flex justify-center items-center  text-xs rounded-full border-2 ${selectlist.includes(size) && 'bg-blackColor2 text-white'}`} >
                         {size}
                     </span>
                 ))
