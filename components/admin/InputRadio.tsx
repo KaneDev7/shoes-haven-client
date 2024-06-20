@@ -6,12 +6,12 @@ export default function InputRadio({ placeholder }: { placeholder: string }) {
             <legend>{placeholder}:</legend>
 
             <div>
-                <input className='mr-4' type="radio" id="oui" name="stock" value="oui" />
-                <label htmlFor="oui">Oui</label>
+                <input className='mr-4' type="radio" id="yes" name="stock" value={1} />
+                <label htmlFor="yes">Oui</label>
             </div>
 
             <div>
-                <input className='mr-4' type="radio" id="no" name="stock" value="no" />
+                <input className='mr-4' type="radio" id="no" name="stock" value={0} />
                 <label htmlFor="no">Non</label>
             </div>
         </fieldset>
