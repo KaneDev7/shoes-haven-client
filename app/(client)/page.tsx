@@ -1,9 +1,10 @@
-import BannerHome from "@/components/containers/BannerHome";
-import Categories from "@/components/containers/Categories";
-import ProductList from "@/components/containers/ProductList";
-import Trending from "@/components/containers/Trending";
+import BannerHome from "@/components/client/containers/BannerHome";
+import Categories from "@/components/client/containers/Categories";
+import ProductList from "@/components/client/containers/ProductList";
+import Trending from "@/components/client/containers/Trending";
 import { ProductsMock } from "@/constants/productsMock";
-import Button from "@/components/buttons";
+import Button from "@/components/client/buttons";
+
 
 
 export default function Home() {
@@ -19,6 +20,8 @@ export default function Home() {
         gridParamsStyle="grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
       />
       <Categories />
+
     </>
+
   );
 }

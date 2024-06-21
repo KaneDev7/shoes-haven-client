@@ -1,4 +1,5 @@
 "use client"
+
 import React, { MutableRefObject, useReducer, useRef, useState } from 'react'
 import { FaImage } from "react-icons/fa6";
 import UploadedCard from '@/components/admin/UploadedCard.admin';
@@ -6,11 +7,11 @@ import InputText from '@/components/admin/InputText';
 import InputSelect from '@/components/admin/InputSelect.admin';
 import { categories, colors, marks, sizes } from '@/constants/productsMock';
 import InputRadio from '@/components/admin/InputRadio';
-import Button from '../buttons';
-import { z } from "zod";
+import Button from '../client/buttons';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { headers } from 'next/headers';
+import { useForm, SubmitHandler } from "react-hook-form"
+import { z } from "zod";
 
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9tYXIga2FuZSIsInVzZXJJZCI6IjY2NTc4OWIxYzU2ZTMyZTRiM2U2NWJiYiIsImlhdCI6MTcxNzE4NjMyNiwiZXhwIjoxNzE3MTg2Mzg2fQ.Mi3pDWTI7RTMhR0Frtysmeq5aPr6BLhwyieuFTRNVzM'
 
@@ -44,73 +45,90 @@ const createUrl = (files: FileList) => {
     return uris
 }
 
-const addProduct = (data) => {
-    axios.post('http://localhost:3001/api/products/add',
-    {data},
-    {
-        headers : {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+const addProduct = async (formData) => {
+    try {
+        const response = await axios.post('http://localhost:3001/api/products/add',
+            formData,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+        return response
+
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+
 }
 
 export default function InsertProduct() {
-    const [files, setFiles] = useState()
+
+    const [files, setFiles] = useState<FileList | null>()
+    const [fileError, setFileError] = useState<string>('')
     const [imageData, setImageData] = useState<imageDataType[]>([])
+    const [isSelectListEmpty, setIsSelectListEmpty] = useState<boolean>(false)
+
+
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm<Inputs>()
+
     const selectCategories = useSelector(state => state.selectCategories)
     const selectColors = useSelector(state => state.selectColors)
 
+    let inputFile: MutableRefObject<HTMLInputElement | null> = useRef(null);
+    let submitButton: MutableRefObject<HTMLButtonElement | null> = useRef(null);
+    let form : MutableRefObject<HTMLFormElement | undefined> = useRef();
 
-    let inputFile: MutableRefObject<null> = useRef(null)
-    let submitButton: MutableRefObject<null> = useRef(null)
 
     const clickOtherElement = (element: any) => {
         element = element?.current as HTMLInputElement | null
         element?.click()
     }
 
-    const saveDate = () => {
-        const element = submitButton?.current as HTMLInputElement | null
-        element?.click()
-    }
     const handleUploads = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { files } = e.target
         if (!files) return
+        setFileError('')
         const uris = createUrl(files)
         setImageData(prevUri => [...prevUri, ...uris])
         setFiles(files)
     }
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        const formData = new FormData(event.target)
-
-        const dataToSend = {
-            title : formData.get('title'),
-            productId : formData.get('productId'),
-            category : selectCategories,
-            mark : formData.get('mark'),
-            size : Number(formData.get('size')),
-            color : selectColors,
-            description : formData.get('description'),
-            price : Number(formData.get('price')),
-            // stock : Boolean(Number(formData.get('stock'))),
-            files   
+    //event: React.FormEvent<HTMLFormElement>
+    const onSubmit = async (data: any) => {
+        if (imageData.length === 0) {
+            return setFileError('Veillez ajouter des images')
+        }
+        console.log('isSelectListEmpty',isSelectListEmpty)
+        if (isSelectListEmpty) {
+            console.log('cat error')
+            return
         }
 
+        const formData = new FormData(form.current);
+        formData.append('category', selectCategories);
+        formData.append('color', selectColors);
 
-        addProduct(dataToSend)
-        console.log('dataToSend', dataToSend)
+        if (files) {
+            Array.from(files).forEach((file) => {
+                formData.append('files', file);
+            });
+        }
+
+        const response = await addProduct(formData)
+
+        if (response?.response?.status === 413) {
+            setFileError(response.response.data.message)
+        }
     }
 
-    console.log("files", files)
 
     return (
         <section className='my-10 ml-10'>
@@ -119,12 +137,15 @@ export default function InsertProduct() {
                 <div className='flex gap-4 w-full'>
 
                     <div
-                        onClick={() => clickOtherElement(inputFile)}
                         className='flex-1 p-4 space-y-4 cursor-pointer border-2'>
                         <p className='text-sm'>Ajouter  Images</p>
-                        <div className='h-[300px] flex flex-col items-center justify-center gap-5 border-2 border-dashed border-black/50	opacity-60 '>
+                        <div
+                            onClick={() => clickOtherElement(inputFile)}
+
+                            className={`h-[300px] flex flex-col items-center justify-center gap-5 border-2 border-dashed ${fileError ? 'border-red-400' : 'border-black/50'}  opacity-60 `}>
                             <FaImage size={50} />
                             <p>Cliquer Pour ajouter une image</p>
+                            {fileError && <p className='text-red-500'> {fileError}</p>}
                             <input type="file" hidden ref={inputFile} multiple onChange={handleUploads} />
                         </div>
                         <ul className='flex-1 space-y-2'>
@@ -142,18 +163,23 @@ export default function InsertProduct() {
 
 
                     <div className='flex-1 border-2 p-4'>
-                        <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+                        <form onSubmit={handleSubmit(onSubmit)} ref={form} className='flex flex-col gap-4'>
                             <InputText
                                 label='Nom du Produit'
                                 placeholder='Entrez le nom du produit'
                                 type='text'
                                 name='title'
+                                register={register}
+                                errors={errors}
                             />
+
                             <InputText
                                 label='Identifiant du Produit'
                                 placeholder='Entrez l’identifiant du produit'
                                 type='text'
                                 name='productId'
+                                register={register}
+                                errors={errors}
                             />
 
                             <InputSelect
@@ -162,6 +188,9 @@ export default function InsertProduct() {
                                 data={categories}
                                 variant='multuple'
                                 name='category'
+                                setIsSelectListEmpty={setIsSelectListEmpty}
+                                isSelectListEmpty={isSelectListEmpty}
+
                             />
 
                             <InputSelect
@@ -170,6 +199,8 @@ export default function InsertProduct() {
                                 data={marks}
                                 variant='single'
                                 name='mark'
+                                setIsSelectListEmpty={setIsSelectListEmpty}
+                                isSelectListEmpty={isSelectListEmpty}
                             />
 
                             <InputSelect
@@ -178,6 +209,8 @@ export default function InsertProduct() {
                                 data={sizes}
                                 variant='single'
                                 name='size'
+                                setIsSelectListEmpty={setIsSelectListEmpty}
+                                isSelectListEmpty={isSelectListEmpty}
                             />
 
                             <InputSelect
@@ -186,7 +219,8 @@ export default function InsertProduct() {
                                 data={colors}
                                 variant='multuple'
                                 name='color'
-
+                                setIsSelectListEmpty={setIsSelectListEmpty}
+                                isSelectListEmpty={isSelectListEmpty}
                             />
 
                             <InputText
@@ -195,6 +229,8 @@ export default function InsertProduct() {
                                 type='text'
                                 variant='long'
                                 name='description'
+                                register={register}
+                                errors={errors}
                             />
 
                             <InputText
@@ -202,6 +238,8 @@ export default function InsertProduct() {
                                 placeholder='Entrez le prix'
                                 type='number'
                                 name='price'
+                                register={register}
+                                errors={errors}
                             />
 
                             <InputRadio

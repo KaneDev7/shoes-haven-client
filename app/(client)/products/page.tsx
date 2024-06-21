@@ -1,11 +1,15 @@
-import SideBar from '@/components/SideBar'
-import Productlist from '@/components/containers/ProductList'
+"use client"
+import SideBar from '@/components/client/SideBar'
+import Productlist from '@/components/client/containers/ProductList'
 import { ProductsMock } from '@/constants/productsMock'
+import { store } from '@/redux/store/store'
 import Image from 'next/image'
 import React from 'react'
+import { Provider } from 'react-redux'
 
 export default function Products() {
     return (
+    <Provider store={store}>
         <div className='p-4'>
             <header className='globalMaxWidth mb-10'>
                 <Image
@@ -36,5 +40,7 @@ export default function Products() {
                 </div>
             </section>
         </div>
+    </Provider>
+
     )
 }

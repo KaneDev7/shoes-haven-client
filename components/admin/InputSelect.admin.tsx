@@ -1,6 +1,6 @@
 "use client"
 import useSelectList from '@/hooks/useSelectList'
-import React from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { IoCloseCircleSharp } from "react-icons/io5";
 
 type InputSelectType = {
@@ -8,12 +8,15 @@ type InputSelectType = {
     data: (string | number)[]
     placeholder: string,
     variant?: 'multuple' | 'single',
-    name : string
+    name: string,
+    setIsSelectListEmpty : Dispatch<SetStateAction<boolean>>
+    isSelectListEmpty : boolean
 }
 
 type selectedListElType = {
     selectlist: (string | number | null)[],
     handleToggleSelect: (selected: string | number | null) => void
+
 }
 
 const RenderListEl = ({ selectlist, handleToggleSelect }: selectedListElType) => {
@@ -22,10 +25,11 @@ const RenderListEl = ({ selectlist, handleToggleSelect }: selectedListElType) =>
             {
                 selectlist.length > 0 && selectlist.map(item => (
                     <div
-                        onClick={() => handleToggleSelect(item)}
                         className='flex items-center justify-between gap-4 p-2 bg-bg_gray_light'>
                         <p className='text-xs'> {item} </p>
-                        <IoCloseCircleSharp size={20} className='opacity-80 text-gray-400 hover:text-gray-500 hover:placeholder-opacity-100' />
+                        <IoCloseCircleSharp
+                            onClick={() => handleToggleSelect(item)}
+                            size={20} className='opacity-80 text-gray-400 hover:text-gray-500 hover:placeholder-opacity-100' />
                     </div>
                 ))
             }
@@ -34,13 +38,22 @@ const RenderListEl = ({ selectlist, handleToggleSelect }: selectedListElType) =>
 }
 
 
-export default function InputSelect({ data, label, placeholder, variant , name}: InputSelectType) {
+export default function InputSelect({ data, label, placeholder, variant, name, setIsSelectListEmpty, isSelectListEmpty }: InputSelectType) {
     const { selectlist, handleToggleSelect } = useSelectList({ list: [], name })
+    const [isFirstSelect, setIsFirstSelect] = useState(false)
 
     const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectElments = event.target.value
         handleToggleSelect(selectElments)
+        if(!isFirstSelect){
+            setIsFirstSelect(true)
+        }
     }
+
+    useEffect(() => {
+        if(isFirstSelect)
+        setIsSelectListEmpty(selectlist.length === 0)
+    },[isFirstSelect, selectlist])
 
     return (
         <div className='flex flex-col gap-2'>
@@ -53,7 +66,7 @@ export default function InputSelect({ data, label, placeholder, variant , name}:
 
                         variant === 'multuple' ?
                             (<option disabled={selectlist.includes(item)} value={item} >{item}</option>) :
-                            (<option  value={item} >{item}</option>)
+                            (<option value={item} >{item}</option>)
                     ))
                 }
             </select>
@@ -64,6 +77,8 @@ export default function InputSelect({ data, label, placeholder, variant , name}:
                     handleToggleSelect={handleToggleSelect}
                 />
             }
+            {isSelectListEmpty && <p className='text-red-400 text-sm'>Veillez selectionnez des {label} </p> }
+
         </div>
     )
 }

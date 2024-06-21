@@ -3,10 +3,10 @@ import { Inter } from "next/font/google";
 import "../globals.css";
 import "../slideStyle.css";
 
+import Navbar from "@/components/client/common/Navbar";
+import Footer from "@/components/client/common/Footer";
+import Trust from "@/components/client/common/Trust";
 
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
-import Trust from "@/components/common/Trust";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,12 +22,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Navbar />
-        {children}
-        <Trust />
-        <Footer />
-      </body>
+        <body className={inter.className}>
+          <Navbar />
+          {children}
+          <Trust />
+          <Footer />
+        </body>
     </html>
   );
 }
