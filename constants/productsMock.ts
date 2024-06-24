@@ -8,14 +8,14 @@ export const ProductsMock : Array<Product> = [
         description: "Chaussures de sport confortables pour la course à pied et football",
         category: "Chaussures de mode",
         price: 200,
-        onStock: true,
+        onStock: false,
         size: 44,
         color: "#FF5733",
         mark: "Nike",
         uri: [
-            "1717453064180.jpeg",
-            "1717453064183.png",
-            "1717453064183.jpeg"
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
         ],
     },
 
@@ -31,9 +31,9 @@ export const ProductsMock : Array<Product> = [
         color: "#FF5733",
         mark: "Air Max",
         uri: [
-            "1717312663161.png",
-            "1717453064180.jpeg",
-            "1717453064183.jpeg"
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
         ],
     },
 
@@ -49,9 +49,9 @@ export const ProductsMock : Array<Product> = [
         color: "#FF5733",
         mark: "Nike",
         uri: [
-            "1717331653274.jpg",
-            "1717453064183.png",
-            "1717453064183.jpeg"
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
         ],
     },
 
@@ -67,9 +67,9 @@ export const ProductsMock : Array<Product> = [
         color: "#FF5733",
         mark: "Air Max",
         uri: [
-            "1717333320199.png",
-            "1717453064183.png",
-            "1717453064183.jpeg"
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
         ],
     },
 
@@ -85,9 +85,9 @@ export const ProductsMock : Array<Product> = [
         color: "#FF5733",
         mark: "Nike",
         uri: [
-            "1717453064180.jpeg",
-            "1717453064183.png",
-            "1717453064183.jpeg"
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
         ],
     },
 
@@ -103,9 +103,9 @@ export const ProductsMock : Array<Product> = [
         color: "#FF5733",
         mark: "Air Max",
         uri: [
-            "1717453064180.jpeg",
-            "1717453064183.png",
-            "1717453064183.jpeg"
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
         ],
     },
 
@@ -121,9 +121,9 @@ export const ProductsMock : Array<Product> = [
         color: "#FF5733",
         mark: "Nike",
         uri: [
-            "1717453064180.jpeg",
-            "1717453064183.png",
-            "1717453064183.jpeg"
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
         ],
     },
 
@@ -139,9 +139,9 @@ export const ProductsMock : Array<Product> = [
         color: "#FF5733",
         mark: "Air Max",
         uri: [
-            "1717312663161.png",
-            "1717453064180.jpeg",
-            "1717453064183.jpeg"
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
         ],
     },
 
@@ -157,9 +157,9 @@ export const ProductsMock : Array<Product> = [
         color: "#FF5733",
         mark: "Nike",
         uri: [
-            "1717331653274.jpg",
-            "1717453064183.png",
-            "1717453064183.jpeg"
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
         ],
     },
 
@@ -175,9 +175,9 @@ export const ProductsMock : Array<Product> = [
         color: "#FF5733",
         mark: "Nike",
         uri: [
-            "1717333320199.png",
-            "1717453064183.png",
-            "1717453064183.jpeg"
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
         ],
     },
 
@@ -193,9 +193,9 @@ export const ProductsMock : Array<Product> = [
         color: "#FF5733",
         mark: "Air Max",
         uri: [
-            "1717453064180.jpeg",
-            "1717453064183.png",
-            "1717453064183.jpeg"
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
         ],
     },
 
@@ -211,9 +211,9 @@ export const ProductsMock : Array<Product> = [
         color: "#FF5733",
         mark: "Nike",
         uri: [
-            "1717453064180.jpeg",
-            "1717453064183.png",
-            "1717453064183.jpeg"
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
         ],
     },
 
@@ -229,9 +229,9 @@ export const ProductsMock : Array<Product> = [
         color: "#FF5733",
         mark: "Nike",
         uri: [
-            "1717453064180.jpeg",
-            "1717453064183.png",
-            "1717453064183.jpeg"
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
         ],
     },
 
@@ -247,9 +247,9 @@ export const ProductsMock : Array<Product> = [
         color: "#FF5733",
         mark: "Air Max",
         uri: [
-            "1717312663161.png",
-            "1717453064180.jpeg",
-            "1717453064183.jpeg"
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
         ],
     },
 
@@ -265,9 +265,9 @@ export const ProductsMock : Array<Product> = [
         color: "#FF5733",
         mark: "Nike",
         uri: [
-            "1717331653274.jpg",
-            "1717453064183.png",
-            "1717453064183.jpeg"
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
         ],
     },
 
@@ -283,9 +283,9 @@ export const ProductsMock : Array<Product> = [
         color: "#FF5733",
         mark: "Nike",
         uri: [
-            "1717333320199.png",
-            "1717453064183.png",
-            "1717453064183.jpeg"
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
         ],
     },
 
@@ -301,9 +301,9 @@ export const ProductsMock : Array<Product> = [
         color: "#FF5733",
         mark: "Air Max",
         uri: [
-            "1717453064180.jpeg",
-            "1717453064183.png",
-            "1717453064183.jpeg"
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
         ],
     },
     {
@@ -318,9 +318,9 @@ export const ProductsMock : Array<Product> = [
         color: "#FF5733",
         mark: "Nike",
         uri: [
-            "1717453064180.jpeg",
-            "1717453064183.png",
-            "1717453064183.jpeg"
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
+            "1719181352870.jpeg",
         ],
     },
 ]
@@ -350,4 +350,4 @@ export const marks : string[] =[
 ]
 
 export const sizes : number[] = [41, 42, 43, 44, 45, 46, 47]
-export const colors : string[] = ["Vert","Jaune","Rouge","Bleu","Orange","Noir","Blanc","Gray"]
+export const colors : string[] = ["Vert","Jaune","Rouge","Bleu","Orange","Noir","Blanc","Gray", "Maron"]

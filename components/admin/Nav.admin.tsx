@@ -38,9 +38,9 @@ export default function NavAdmin({ data }: NavAdminType) {
     return (
         <ul className='space-y-5'>
             {
-                data.map((item) => (
-                    <Link href={item.href} className='block'>
-                        <li key={item.href} className={`flex items-center gap-2 ${pathName === item.href && navActif} rounded-md  text-blackColor2 py-3 px-4`} >
+                data.map((item, index) => (
+                    <Link key={index} href={item.href} className='block'>
+                        <li key={item.href} className={`flex items-center gap-2 ${(pathName === item.href || item?.subRoute?.includes(pathName) ) && navActif} rounded-md  text-blackColor2 py-3 px-4`} >
                             {getIcons(item.iconName)}
                             <p>{item.title} </p>
                         </li>

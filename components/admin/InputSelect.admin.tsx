@@ -28,8 +28,9 @@ const RenderListEl = ({ selectlist, handleToggleSelect }: selectedListElType) =>
     return (
         <div className='flex flex-wrap gap-3'>
             {
-                selectlist.length > 0 && selectlist.map(item => (
+                selectlist.length > 0 && selectlist.map((item, index) => (
                     <div
+                        key={index}
                         className='flex items-center justify-between gap-4 p-2 bg-bg_gray_light'>
                         <p className='text-xs'> {item} </p>
                         <IoCloseCircleSharp
@@ -79,11 +80,11 @@ export default function InputSelect({ data, label, placeholder, variant, name, r
                 className={`px-2 py-3 border-2 ${(errors[name] || isValidate) && 'border-red-300'}  bg-gray-50 text-sm outline-none`} name={name} id="">
                 <option value='' selected hidden >--{placeholder}--</option>
                 {
-                    data.map(item => (
+                    data.map((item, index) => (
 
                         variant === 'multuple' ?
-                            (<option disabled={selectlist.includes(item)} value={item} >{item}</option>) :
-                            (<option value={item} >{item}</option>)
+                            (<option key={index} disabled={selectlist.includes(item)} value={item} >{item}</option>) :
+                            (<option key={index} value={item} >{item}</option>)
                     ))
                 }
             </select>

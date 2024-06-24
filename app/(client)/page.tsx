@@ -1,10 +1,9 @@
 import BannerHome from "@/components/client/containers/BannerHome";
 import Categories from "@/components/client/containers/Categories";
-import ProductList from "@/components/client/containers/ProductList";
 import Trending from "@/components/client/containers/Trending";
 import { ProductsMock } from "@/constants/productsMock";
 import Button from "@/components/client/buttons";
-
+import RenderProductList from "@/components/client/containers/RenderProductList";
 
 
 export default function Home() {
@@ -12,7 +11,7 @@ export default function Home() {
     <>
       <BannerHome />
       <Trending />
-      <ProductList
+      <RenderProductList
         products={ProductsMock}
         title="NOS CHAUSSURES"
         style="mt-20"

@@ -118,6 +118,7 @@ export const adminLink : Link[] =[
     {
         title : 'Produits',
         href : '/admin/products',
+        subRoute : ['/admin/products/add'],
         iconName : 'AiOutlineProduct'
     },
 
