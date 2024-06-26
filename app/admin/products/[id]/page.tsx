@@ -1,5 +1,5 @@
 "use client"
-import { toggleStock } from '@/api/products'
+import { deleteProduct, toggleStock } from '@/api/products'
 import Button from '@/components/admin/Button.admin'
 import Header from '@/components/admin/Header'
 import { token } from '@/components/admin/InsertProduct'
@@ -34,6 +34,13 @@ export default function ProductDetail() {
         dispatch(validateSelectListForFirstCheckWhileUpdating())
         dispatch(setIsProducUpdate(true))
         route.push('/admin/products/edit')
+    }
+
+    const hadleDeletProduct = async () =>{
+        const confirm = window.confirm('Voulez-vous supprimer ce produit ?')
+        if(!confirm) return
+        await deleteProduct(token, product._id)
+        route.push('/admin/products')
     }
 
     const onToggleInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -131,8 +138,9 @@ export default function ProductDetail() {
                                     />
 
                                     <Button
+                                        handleClick={hadleDeletProduct}
                                         text='Supprimier'
-                                        style='bg-red-500 text-white bg-red-400'
+                                        style='bg-red-400 text-white'
                                     />
                                 </div>
                             </div>

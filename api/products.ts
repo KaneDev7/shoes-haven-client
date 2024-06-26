@@ -39,6 +39,23 @@ export const updateProduct = async (formData : FormData, token : string, product
     }
 }
 
+export const deleteProduct = async (token : string, productId :string) : Promise<any> => {
+    try {
+        const response = await instanceAxios.delete(`/products/delete/${productId}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            }
+        )
+        return response
+
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}
+
 
 export const toggleStock = async (token : string, productId :string, statut : boolean | undefined) : Promise<any> => {
     try {
