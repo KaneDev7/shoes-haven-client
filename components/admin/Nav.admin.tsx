@@ -33,18 +33,32 @@ const getIcons = (iconName: string | undefined) => {
 }
 const navActif = 'bg-secondaryColor font-bold'
 
-export default function NavAdmin({ data }: NavAdminType) {
+
+const NavLink = ({ link }: { link: AdminLink }) => {
     const pathName = usePathname()
+
+    const isMatch = (pathName === link.href || link?.subRoute?.includes(pathName) || link.title === 'Produits' && pathName.startsWith(link.subRoute![1]))
+    return (
+
+        <Link href={link.href} className='block'>
+            <li key={link.href} className={`flex items-center gap-2 ${isMatch && navActif} rounded-md  text-blackColor2 py-3 px-4`} >
+                {getIcons(link.iconName)}
+                <p>{link.title} </p>
+            </li>
+        </Link>
+    )
+}
+
+export default function NavAdmin({ data }: NavAdminType) {
+
     return (
         <ul className='space-y-5'>
             {
-                data.map((item, index) => (
-                    <Link key={index} href={item.href} className='block'>
-                        <li key={item.href} className={`flex items-center gap-2 ${(pathName === item.href || item?.subRoute?.includes(pathName) ) && navActif} rounded-md  text-blackColor2 py-3 px-4`} >
-                            {getIcons(item.iconName)}
-                            <p>{item.title} </p>
-                        </li>
-                    </Link>
+                data.map((link, index) => (
+                    <NavLink
+                        key={index}
+                        link={link}
+                    />
                 ))
             }
         </ul>

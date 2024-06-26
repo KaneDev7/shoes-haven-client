@@ -11,7 +11,7 @@ type SelectListType = {
 }
 
 export default function useSelectList({ list, name }: SelectListType) {
-    const [selectlist, setSelectlist] = useState<(string | number | null)[]>(list)
+    const [selectlist, setSelectlist] = useState<(string | number | null )[]>(list)
     const dispatch = useDispatch()
 
     const setDataToRedux = (selectlistUpdated: (string | number | null)[]) => {

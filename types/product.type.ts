@@ -4,9 +4,9 @@ export interface Product {
     title: string
     description: string,
     category: string,
-    price: number,
+    price: number | null,
     onStock: boolean,
-    size: number,
+    size: number | null,
     color: string,
     mark: string,
     uri: string[],

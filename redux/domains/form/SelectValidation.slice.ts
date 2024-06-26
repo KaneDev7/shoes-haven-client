@@ -16,7 +16,7 @@ type SelectValidation = {
 }
 
 
-const initialState: SelectValidation = {
+export const initialStateValidationSelect: SelectValidation = {
     isSelectListEmpty :  {
         size: true,
         mark: true,
@@ -34,7 +34,7 @@ const initialState: SelectValidation = {
 
 export const selectValidationSlice = createSlice({
     name: 'selectValidation',
-    initialState,
+    initialState : initialStateValidationSelect,
 
     reducers: {
         setIsFirstSelect : (state, action) => {
@@ -57,12 +57,30 @@ export const selectValidationSlice = createSlice({
                 isFirstSelect : state.isFirstSelect,
             }
             return state
+        },
+
+        validateSelectListForFirstCheckWhileUpdating : (state) => {
+            state = {
+                isSelectListEmpty :  {
+                    size: false,
+                    mark: false,
+                    color: false,
+                    category: false
+                },
+                isFirstSelect : {
+                    size: false,
+                    mark: false,
+                    color: false,
+                    category: false
+                }
+            }
+            return state
         }
     },
 })
 
 
 // Action creators are generated for each case reducer function
-export const { setIsFirstSelect, setIsSelectListEmpty } = selectValidationSlice.actions
+export const { setIsFirstSelect, setIsSelectListEmpty, validateSelectListForFirstCheckWhileUpdating } = selectValidationSlice.actions
 
 export default selectValidationSlice.reducer

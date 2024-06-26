@@ -7,9 +7,10 @@ import { FiPlus } from 'react-icons/fi';
 
 
 export default function Products() {
+  
   return (
     <div className='w-full'>
-      <Header>
+      <Header title='Ajouter un Produit'>
         <Button
           text='Ajouter un Produit'
           icon={<FiPlus size={20} />}

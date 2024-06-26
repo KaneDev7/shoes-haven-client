@@ -350,4 +350,4 @@ export const marks : string[] =[
 ]
 
 export const sizes : number[] = [41, 42, 43, 44, 45, 46, 47]
-export const colors : string[] = ["Vert","Jaune","Rouge","Bleu","Orange","Noir","Blanc","Gray", "Maron"]
+export const colors : string[] = ["Vert","Jaune","Rouge","Bleu","Orange","Noir","Blanc","Gray", "Maron", 'Beige']

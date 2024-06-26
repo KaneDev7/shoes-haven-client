@@ -2,6 +2,7 @@
 import React from 'react'
 import { AiOutlineDelete } from 'react-icons/ai'
 import { imageDataType } from './InsertProduct'
+import { useSelector } from 'react-redux'
 
 export default function UploadedCard({ uri, name, onDeletFile }: imageDataType) {
 

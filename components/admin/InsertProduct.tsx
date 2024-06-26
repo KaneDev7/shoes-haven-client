@@ -1,15 +1,15 @@
 "use client"
-
 import React, { MutableRefObject, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
-import axios from 'axios';
 import { useForm } from "react-hook-form"
 import UploadImges from './UploadImges';
 import ProductForm from './ProductForm';
 import Link from 'next/link';
 import Button from './Button.admin';
+import { addProduct, updateProduct } from '@/api/products';
+import { useRouter } from 'next/navigation';
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9tYXIga2FuZSIsInVzZXJJZCI6IjY2NTc4OWIxYzU2ZTMyZTRiM2U2NWJiYiIsImlhdCI6MTcxNzE4NjMyNiwiZXhwIjoxNzE3MTg2Mzg2fQ.Mi3pDWTI7RTMhR0Frtysmeq5aPr6BLhwyieuFTRNVzM'
+export const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9tYXIga2FuZSIsInVzZXJJZCI6IjY2NTc4OWIxYzU2ZTMyZTRiM2U2NWJiYiIsImlhdCI6MTcxNzE4NjMyNiwiZXhwIjoxNzE3MTg2Mzg2fQ.Mi3pDWTI7RTMhR0Frtysmeq5aPr6BLhwyieuFTRNVzM'
 
 export type imageDataType = {
     uri: string,
@@ -17,23 +17,6 @@ export type imageDataType = {
     onDeletFile?: (uri: string, index: number) => void,
 }
 
-const addProduct = async (formData) => {
-    try {
-        const response = await axios.post('http://localhost:3001/api/products/add',
-            formData,
-            {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-        return response
-
-    } catch (error) {
-        console.log(error)
-        return error
-    }
-}
 
 export default function InsertProduct() {
 
@@ -43,10 +26,14 @@ export default function InsertProduct() {
     const selectCategories = useSelector<any>(state => state.selectCategories)
     const selectColors = useSelector<any>(state => state.selectColors)
     const files: FileList[] = useSelector<any>(state => state.files)
-    const { isSelectListEmpty } = useSelector(state => state.selectValidation)
+    const { isSelectListEmpty } = useSelector<any>(state => state.selectValidation)
+    const isProducUpdate = useSelector<any>(state => state.isProducUpdate)
+    const productDefaultValue = useSelector<any>(state => state.productDefaultValue)
+
 
     let seclectRef: MutableRefObject<HTMLButtonElement | null> = useRef(null);
 
+    const route = useRouter()
     const {
         register,
         handleSubmit,
@@ -66,7 +53,7 @@ export default function InsertProduct() {
     }
 
     const onSubmit = async () => {
-        if (imageUris.length === 0) {
+        if (imageUris.length === 0 && !isProducUpdate) {
             return setFileError('Veillez ajouter des images')
         }
 
@@ -83,25 +70,29 @@ export default function InsertProduct() {
         formData.append('category', selectCategories);
         formData.append('color', selectColors);
 
-        if (files) {
-            files.forEach((file) => {
+        if (files && !isProducUpdate) {
+            files.forEach((file: any) => {
                 formData.append('files', file);
             });
         }
-
-        const response = await addProduct(formData)
-        if (response?.response?.status === 413) {
-            setFileError(response.response.data.message)
+        if (!isProducUpdate) {
+            const response = await addProduct(formData, token)
+            if (response?.response?.status === 413) {
+                return setFileError(response.response.data.message)
+            }
+        }else{
+            await updateProduct(formData, token, productDefaultValue._id)
         }
+
+        route.push('/admin/products')
     }
 
 
     return (
-        <section ref={seclectRef} className='my-10 ml-10'>
-            <h1 className='text-2xl font-bold'>Ajouter Produit</h1>
+        <section ref={seclectRef} className='my-10'>
             <div className=' flex bg-white p-5 mt-4'>
                 <div className='flex gap-4 w-full flex-col lg:flex-row flex-wrap'>
-
+                    { }
                     <UploadImges
                         clickOtherElement={clickOtherElement}
                         setFileError={setFileError}

@@ -4,7 +4,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 
 export type SelectType = (string | number | null) [] 
 
-const initialState:  SelectType= []
+const initialState:  SelectType = []
 
 export const selectCategoriesSlice = createSlice({
   name: 'selectCategories',

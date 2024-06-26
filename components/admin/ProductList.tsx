@@ -1,8 +1,19 @@
-import { ProductsMock } from '@/constants/productsMock'
+"use client"
+import useFetch from '@/hooks/useFetch'
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
+import ProductSkeleton from './ProductSkeleton'
 
 export default function ProductList() {
+    const {data, error, loading} = useFetch('/products')
+    if(loading){
+        return <ProductSkeleton/>
+    }
+
+    if(error){
+        console.log("error", error)
+    }
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
 
@@ -12,7 +23,7 @@ export default function ProductList() {
                         <th>
                             <input type="checkbox" className='w-fit ml-2' />
                         </th>
-                        
+
                         <th scope="col" className="px-6 py-3">
                             Nom du produit
                         </th>
@@ -35,7 +46,7 @@ export default function ProductList() {
                 <tbody>
 
                     {
-                        ProductsMock.map(product => (
+                        data?.map(product => (
                             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 <td>
                                     <input type="checkbox" className='w-fit ml-2' />
@@ -52,14 +63,19 @@ export default function ProductList() {
                                     </div>
 
                                 </td>
-                                <td className="px-6 py-4 capitalize"> {product?.category} </td>
+                                <td className="px-6 py-4 capitalize line-clamp-6"> {product?.category} </td>
                                 <td className="px-6 py-4 capitalize"> {product?.price} FCFA </td>
                                 <td className="px-6 py-4 capitalize"> {product?.onStock ? 'Oui' : 'Non'} </td>
 
                                 <td className="px-6 py-4">
-                                    <a href="#" className="font-medium text-secondaryColor hover:underline">
+                                    <Link
+                                    href={`/admin/products/${product._id}`}
+                                        className="font-medium text-secondaryColor hover:underline"
+                                    >
                                         Details
-                                    </a>
+
+                                    </Link>
+                                   
                                 </td>
                             </tr>
                         ))

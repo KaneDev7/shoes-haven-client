@@ -6,6 +6,7 @@ import { imageDataType } from './InsertProduct'
 import { Dispatch } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
 import { FileType, deleteFile, setFiles } from '@/redux/domains/form/file.slice'
+import { createUrl } from '@/utils/uploads'
 
 type UploadImgesType = {
     clickOtherElement: (ref: MutableRefObject<HTMLInputElement | null>) => void,
@@ -17,23 +18,6 @@ type UploadImgesType = {
 }
 
 
-const troncText = (text: string, length: number) => {
-    if (text.length > length) {
-        return text.substring(0, length) + '...'
-    }
-    return text
-}
-
-const createUrl = (files: FileList) => {
-    const uris = []
-    for (const file of Array.from(files)) {
-        const objectURL = URL.createObjectURL(file)
-        const name = troncText(file.name, 20)
-        uris.push({ uri: objectURL, name })
-    }
-    return uris
-}
-
 export default function UploadImges({
     clickOtherElement,
     setImageUris,
@@ -42,8 +26,12 @@ export default function UploadImges({
     fileError,
 }: UploadImgesType) {
 
-    const filesSlice : FileType[] | any = useSelector<any[] >(state => state.files)
+    const filesSlice: FileType[] | any = useSelector<any[]>(state => state.files)
+    const productDefaultValue = useSelector<any>(state => state.productDefaultValue)
+    const isProducUpdate = useSelector<any>(state => state.isProducUpdate)
+
     const dispattch = useDispatch()
+
     let inputFile: MutableRefObject<HTMLInputElement | null> = useRef(null);
 
     const handleUploads = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +52,7 @@ export default function UploadImges({
     return (
 
         <div
-            className='flex-1 p-4 space-y-4 cursor-pointer border-2'>
+            className={`flex-1 p-4 space-y-4 cursor-pointer border-2 ${isProducUpdate && 'opacity-50 pointer-events-none'} `} >
             <p className='text-sm'>Ajouter  Images</p>
             <div
                 onClick={() => clickOtherElement(inputFile)}
@@ -75,17 +63,33 @@ export default function UploadImges({
                 <input type="file" hidden ref={inputFile} multiple onChange={handleUploads} />
             </div>
 
-            <ul className='flex-1 space-y-2'>
-                {
-                    imageUris.map((item, index) => (
-                        <UploadedCard
-                            uri={item.uri}
-                            name={item.name}
-                            onDeletFile={onDeletFile}
-                        />
-                    ))
-                }
-            </ul>
+            {
+                !isProducUpdate ?
+                    <ul className='flex-1 space-y-2'>
+                        {
+                            imageUris.map((item, index) => (
+                                <UploadedCard
+                                    uri={item.uri}
+                                    name={item.name}
+                                    onDeletFile={onDeletFile}
+                                />
+                            ))
+                        }
+                    </ul> :
+
+                    <ul className='flex-1 space-y-2'>
+                        {
+                            productDefaultValue.uri.map((uri, index) => (
+                                <UploadedCard
+                                    uri={`/uploads/${uri}`}
+                                    name={uri}
+                                    onDeletFile={onDeletFile}
+                                />
+                            ))
+                        }
+                    </ul>
+            }
+
         </div>
     )
 }

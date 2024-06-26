@@ -1,11 +1,11 @@
 "use client"
-import instance from '@/lib/axios'
+import instanceAxios from '@/lib/axios';
 import { Product } from '@/types/product.type';
 import  { useEffect, useState } from 'react'
 
 
 const useFetch = (url : string) => {
-    const [data, setData] = useState<Product[]>([]);
+    const [data, setData] = useState<Product[] | Product>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
   
@@ -15,7 +15,7 @@ const useFetch = (url : string) => {
       const fetchData = async () => {
         setLoading(true);
         try {
-          const response = await instance.get(url);
+          const response = await instanceAxios.get(url);
           if (isMounted) {
             setData(response.data.data);
             setError(null);

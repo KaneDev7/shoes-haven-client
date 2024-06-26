@@ -3,13 +3,17 @@ import { selectCategoriesSlice } from '../domains/form/caregories.slice'
 import { selectColorsSlice } from '../domains/form/colors.slice'
 import { selectValidationSlice } from '../domains/form/SelectValidation.slice'
 import { filesSlice } from '../domains/form/file.slice'
+import { productDefaultValueSlice } from '../domains/form/productDefaultValue'
+import { isProducUpdateSlice } from '../domains/form/isProducUpdate'
 
 export const store = configureStore({
   reducer: {
     selectCategories : selectCategoriesSlice.reducer,
     selectColors : selectColorsSlice.reducer,
     selectValidation : selectValidationSlice.reducer,
-    files : filesSlice.reducer
+    files : filesSlice.reducer,
+    productDefaultValue: productDefaultValueSlice.reducer,
+    isProducUpdate : isProducUpdateSlice.reducer
   },
 })
 
