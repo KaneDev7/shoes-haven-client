@@ -2,20 +2,44 @@
 import React from 'react'
 import { FieldErrors, InputValidationRules, UseFormRegister } from 'react-hook-form'
 
+type InputTextValidationType = {
+    required: {
+        value: boolean,
+        message: string
+    },
+    maxLength?: {
+        value: number,
+        message : string
+    },
+    minLength? : {
+        value: number,
+        message : string
+    },
+    min?: {
+        value: number,
+        message: string
+    },
+    max?: {
+        value: number,
+        message: string
+    }
+}
+
 type InputType = {
     label: string,
     placeholder: string,
     variant?: 'long' | 'cours',
     type: 'text' | 'number',
+    validations: InputTextValidationType,
     name: string,
-    defaultValue? : string | number 
-    value? : string, 
+    value?: string,
     errors: FieldErrors<InputValidationRules>
     register: UseFormRegister<InputValidationRules>
 }
 
-export default function InputText({ label, placeholder, variant, type, name, register, errors, defaultValue }: InputType) {
-  
+export default function InputText({ label, placeholder, variant, type, name, register, errors, validations }: InputType) {
+
+    console.log('validations', validations)
     return (
         <div className={`flex flex-col gap-2 `} >
             <label className='text-sm opacity-80'>{label}</label>
@@ -23,22 +47,20 @@ export default function InputText({ label, placeholder, variant, type, name, reg
                 variant === "long" ?
                     <textarea
                         name={name}
-                        {...register(name, {required : true})}
+                        {...register(name, validations)}
                         placeholder={placeholder}
-                        defaultValue={defaultValue}
-                        className={`min-h-[100px] px-2 py-3 border-2 ${errors[name] && 'border-red-200' } bg-gray-50 text-sm outline-none resize-none`}
+                        className={`min-h-[100px] px-2 py-3 border-2 ${errors[name] && 'border-red-200'} bg-gray-50 text-sm outline-none resize-none`}
                     >
                     </textarea> :
                     <input
                         name={name}
-                        {...register(name, {required : true})}
+                        {...register(name, validations)}
                         type={type}
-                        defaultValue={defaultValue}
                         placeholder={placeholder}
-                        className={`px-2 py-3 border-2 ${errors[name] && 'border-red-200' } bg-gray-50 text-sm outline-none`}
+                        className={`px-2 py-3 border-2 ${errors[name] && 'border-red-200'} bg-gray-50 text-sm outline-none`}
                     />
             }
-            {errors[name] && <p className='text-red-400 text-sm'>Vérifier ce champ</p> }
+            {errors[name] && <p className='text-red-400 text-sm'> {errors[name]?.message } </p>}
         </div>
     )
 }

@@ -5,6 +5,7 @@ import ProductList from '@/components/admin/ProductList';
 import Search from '@/components/admin/Search.admin';
 import { setSelectCategories } from '@/redux/domains/form/caregories.slice';
 import { setSelectColors } from '@/redux/domains/form/colors.slice';
+import { setFiles } from '@/redux/domains/form/file.slice';
 import { setIsProducUpdate } from '@/redux/domains/form/isProducUpdate';
 import { initialStateProductDefaultValue, setProductDefaultValue } from '@/redux/domains/form/productDefaultValue';
 import { useRouter } from 'next/navigation';
@@ -22,6 +23,8 @@ export default function Products() {
     dispatch(setSelectColors([]))
     dispatch(setProductDefaultValue(initialStateProductDefaultValue))
     dispatch(setIsProducUpdate(false))
+    dispatch(setFiles([]))
+
     route.push('/admin/products/add')
   }
   return (

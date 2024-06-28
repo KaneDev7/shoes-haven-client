@@ -4,8 +4,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { IoCloseCircleSharp } from "react-icons/io5";
 import { IsSelectListEmpty } from './InsertProduct';
 import { FieldErrors, InputValidationRules, UseFormRegister } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { setIsFirstSelect, setIsSelectListEmpty } from '@/redux/domains/form/SelectValidation.slice';
+import {useSelector } from 'react-redux';
 
 type InputSelectType = {
     label: string,
@@ -47,29 +46,13 @@ const RenderListEl = ({ selectlist, handleToggleSelect }: selectedListElType) =>
 
 export default function InputSelect({ data, label, placeholder, variant, name, register, errors, defaultValue }: InputSelectType) {
     const { selectlist, handleToggleSelect } = useSelectList({ list: Array.isArray(defaultValue) ? defaultValue : [], name })
-    const { isFirstSelect, isSelectListEmpty } = useSelector(state => state.selectValidation)
     const isProducUpdate = useSelector(state => state.isProducUpdate)
-    const dispatch = useDispatch()
-
-    const isValidate = (isSelectListEmpty[name] && isFirstSelect[name])
 
     const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectElments = event.target.value
         handleToggleSelect(selectElments)
-        if (!isFirstSelect[name]) {
-            dispatch(setIsFirstSelect({ key: name, value: true }))
-        }
     }
 
-    useEffect(() => {
-        if (isFirstSelect[name]) {
-            dispatch(setIsSelectListEmpty({
-                key: name,
-                value: selectlist.length === 0
-            }))
-
-        }
-    }, [selectlist])
 
     return (
         <div className='flex flex-col gap-2'>
@@ -77,9 +60,17 @@ export default function InputSelect({ data, label, placeholder, variant, name, r
 
             <select
                 name={name}
-                {...register(name, { required: true })}
+                {...register(name, {
+                    required : {value : true, message : `Les ${label} sont obligatoires`},
+                    validate: () => {
+                        if (variant === 'multuple') {
+                            return  selectlist.length !== 0 || `Veillez selectionnez des ${label}`
+                        }
+                    },
+                    
+                })}
                 onChange={handleSelect}
-                className={`px-2 py-3 border-2 ${(errors[name] || isValidate) && 'border-red-300'}  bg-gray-50 text-sm outline-none`} name={name} id="">
+                className={`px-2 py-3 border-2 ${errors[name]?.message && 'border-red-300'}  bg-gray-50 text-sm outline-none`} name={name} id="">
                 {!isProducUpdate && <option value='' selected hidden >--{placeholder}--</option>}
 
                 {
@@ -87,7 +78,7 @@ export default function InputSelect({ data, label, placeholder, variant, name, r
 
                         variant === 'multuple' ?
                             (<option key={index} selected={isProducUpdate && item === defaultValue.at(-1)} disabled={selectlist.includes(item)} value={item} >{item}</option>) :
-                            (<option key={index} selected={isProducUpdate && defaultValue === item} >{item}</option>)
+                            (<option key={index}>{item}</option>)
                     ))
                 }
             </select>
@@ -99,9 +90,10 @@ export default function InputSelect({ data, label, placeholder, variant, name, r
                     handleToggleSelect={handleToggleSelect}
                 />
             }
-            {(errors[name] || isValidate) && <p className='text-red-400 text-sm'>Veillez selectionnez des {label} </p>}
+            {errors[name] && <p className='text-red-400 text-sm'> {errors[name].message} </p>}
 
         </div>
     )
 }
 
+//selected={isProducUpdate && defaultValue === item}

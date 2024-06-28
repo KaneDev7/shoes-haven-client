@@ -5,7 +5,6 @@ import Header from '@/components/admin/Header'
 import { token } from '@/components/admin/InsertProduct'
 import ToggleInput from '@/components/admin/Toggle'
 import useFetch from '@/hooks/useFetch'
-import { validateSelectListForFirstCheckWhileUpdating } from '@/redux/domains/form/SelectValidation.slice'
 import { setSelectCategories } from '@/redux/domains/form/caregories.slice'
 import { setSelectColors } from '@/redux/domains/form/colors.slice'
 import { setIsProducUpdate } from '@/redux/domains/form/isProducUpdate'
@@ -31,7 +30,6 @@ export default function ProductDetail() {
         dispatch(setProductDefaultValue(product))
         dispatch(setSelectCategories(product.category.split(',')))
         dispatch(setSelectColors(product.color.split(',')))
-        dispatch(validateSelectListForFirstCheckWhileUpdating())
         dispatch(setIsProducUpdate(true))
         route.push('/admin/products/edit')
     }

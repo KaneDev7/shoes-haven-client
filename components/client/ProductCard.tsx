@@ -24,7 +24,7 @@ const handleMouseLeave = () => {
   onMouseEnter={handleMouseEnter}
   onMouseLeave={handleMouseLeave}
   href={`/products/${product?._id}`} >
-      <li className='col-span-1 bg-white rounded-md relative'>
+      <li className='col-span-1 bg-white rounded-md shadow-md relative'>
       <div className='w-full h-full flex flex-col justify-between p-2'>
         <Image className='w-full min-h-[100px] object-cover' src={`/uploads/${product?.uri[count]}`} height={300} width={300} alt="" />
         <div className='space-y-2'>

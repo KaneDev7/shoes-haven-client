@@ -8,6 +8,8 @@ import Link from 'next/link';
 import Button from './Button.admin';
 import { addProduct, updateProduct } from '@/api/products';
 import { useRouter } from 'next/navigation';
+import { erorResponseFactory } from '@/utils/errorResponse';
+import Spiner from '../shared/Spiner';
 
 export const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9tYXIga2FuZSIsInVzZXJJZCI6IjY2NTc4OWIxYzU2ZTMyZTRiM2U2NWJiYiIsImlhdCI6MTcxNzE4NjMyNiwiZXhwIjoxNzE3MTg2Mzg2fQ.Mi3pDWTI7RTMhR0Frtysmeq5aPr6BLhwyieuFTRNVzM'
 
@@ -17,28 +19,35 @@ export type imageDataType = {
     onDeletFile?: (uri: string, index: number) => void,
 }
 
-
 export default function InsertProduct() {
 
     const [imageUris, setImageUris] = useState<imageDataType[]>([])
     const [fileError, setFileError] = useState<string>('')
-
+    const [loading, setLoading] = useState(false)
+    const [errorMessageApi, setErrorMessageApi] = useState<string>('')
     const selectCategories = useSelector<any>(state => state.selectCategories)
     const selectColors = useSelector<any>(state => state.selectColors)
     const files: FileList[] = useSelector<any>(state => state.files)
-    const { isSelectListEmpty } = useSelector<any>(state => state.selectValidation)
     const isProducUpdate = useSelector<any>(state => state.isProducUpdate)
     const productDefaultValue = useSelector<any>(state => state.productDefaultValue)
 
-
     let seclectRef: MutableRefObject<HTMLButtonElement | null> = useRef(null);
-
     const route = useRouter()
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm()
+
+    } = useForm({
+        defaultValues: {
+            title: productDefaultValue.title,
+            productId: productDefaultValue.productId,
+            description: productDefaultValue.description,
+            price: productDefaultValue.price,
+            mark: productDefaultValue.mark,
+            size: productDefaultValue.size,
+        }
+    })
 
 
     const clickOtherElement = (element: any) => {
@@ -57,14 +66,6 @@ export default function InsertProduct() {
             return setFileError('Veillez ajouter des images')
         }
 
-        if (isSelectListEmpty.category ||
-            isSelectListEmpty.size ||
-            isSelectListEmpty.category ||
-            isSelectListEmpty.color
-        ) {
-            return
-        }
-
         const form = seclectRef.current?.querySelector('form') as HTMLFormElement
         const formData = new FormData(form);
         formData.append('category', selectCategories);
@@ -75,22 +76,41 @@ export default function InsertProduct() {
                 formData.append('files', file);
             });
         }
+        setLoading(true)
         if (!isProducUpdate) {
             const response = await addProduct(formData, token)
+            const erorResponse = erorResponseFactory(response)
+            if (erorResponse?.error) {
+                setLoading(false)
+                return setErrorMessageApi(erorResponse.message)
+            }
             if (response?.response?.status === 413) {
+                setLoading(false)
                 return setFileError(response.response.data.message)
             }
-        }else{
+        } else {
             await updateProduct(formData, token, productDefaultValue._id)
         }
 
+        setLoading(false)
         route.push('/admin/products')
     }
 
 
     return (
-        <section ref={seclectRef} className='my-10'>
+        <section ref={seclectRef} className='my-10 bg-white relative'>
+            {loading && <Spiner />}
+
+            {
+                errorMessageApi &&
+                <div className='w-full max-w-[60%] px-2 p-4 bg-red-100 rounded-md'>
+                    <p className='ml-5 text-xl text-red-400 font-semibold'> {errorMessageApi} </p>
+                </div>
+            }
+
+
             <div className=' flex bg-white p-5 mt-4'>
+
                 <div className='flex gap-4 w-full flex-col lg:flex-row flex-wrap'>
                     { }
                     <UploadImges

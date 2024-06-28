@@ -4,9 +4,7 @@ import InputText from '@/components/admin/InputText';
 import InputSelect from '@/components/admin/InputSelect.admin';
 import { FieldErrors, FieldValues } from 'react-hook-form';
 import { categories, colors, marks, sizes } from '@/constants/productsMock';
-import InputRadio from './InputRadio';
 import { useSelector } from 'react-redux';
-import { Product } from '@/types/product.type';
 
 type ProductFormType = {
     onSubmit: () => FormEventHandler<HTMLFormElement> | undefined,
@@ -15,17 +13,20 @@ type ProductFormType = {
     errors: FieldErrors<FieldValues>
 }
 
-
+const validationRules = {
+    required: { value: true, message: 'Ce Champ est obligatoire' },
+}
 
 export default function ProductForm({ onSubmit, handleSubmit, register, errors }: ProductFormType) {
+
     const selectCategories = useSelector<any>(state => state.selectCategories)
     const selectColors = useSelector<any>(state => state.selectColors)
-    const productDefaultValue  = useSelector<any>(state => state.productDefaultValue)
-
+    const productDefaultValue = useSelector<any>(state => state.productDefaultValue)
 
     let form: MutableRefObject<HTMLFormElement | undefined> = useRef();
     let submitButton: MutableRefObject<HTMLButtonElement | null> = useRef(null);
-    return ( 
+
+    return (
         <div className='flex-1 border-2 p-4'>
             <form onSubmit={handleSubmit(onSubmit)} ref={form} className='flex flex-col gap-4'>
                 <InputText
@@ -33,9 +34,19 @@ export default function ProductForm({ onSubmit, handleSubmit, register, errors }
                     placeholder='Entrez le nom du produit'
                     type='text'
                     name='title'
-                    defaultValue={productDefaultValue.title}
                     register={register}
                     errors={errors}
+                    validations={{
+                        ...validationRules,
+                        maxLength: {
+                            value: 30,
+                            message: 'Valeur maximim 30 charactères'
+                        },
+                        minLength: {
+                            value: 5,
+                            message: 'Valeur minimum 5 charactères'
+                        }
+                    }}
                 />
 
                 <InputText
@@ -43,9 +54,19 @@ export default function ProductForm({ onSubmit, handleSubmit, register, errors }
                     placeholder='Entrez l’identifiant du produit'
                     type='text'
                     name='productId'
-                    defaultValue={productDefaultValue.productId}
                     register={register}
                     errors={errors}
+                    validations={{
+                        ...validationRules,
+                        maxLength: {
+                            value: 30,
+                            message: 'Valeur maximim 30 charactères'
+                        },
+                        minLength: {
+                            value: 5,
+                            message: 'Valeur minimum 5 charactères'
+                        }
+                    }}
                 />
 
                 <InputSelect
@@ -97,20 +118,42 @@ export default function ProductForm({ onSubmit, handleSubmit, register, errors }
                     placeholder='Entrez la description'
                     type='text'
                     variant='long'
-                    defaultValue={productDefaultValue.description}
                     name='description'
                     register={register}
                     errors={errors}
+                    validations={{
+                        ...validationRules,
+                        maxLength: {
+                            value: 500,
+                            message: 'Valeur maximim 500 charactères'
+                        },
+                        minLength: {
+                            value: 30,
+                            message: 'Valeur minimum 30 charactères'
+                        }
+                    }}
                 />
 
                 <InputText
                     label='Prix'
                     placeholder='Entrez le prix'
-                    defaultValue={productDefaultValue.price}
                     type='number'
                     name='price'
                     register={register}
                     errors={errors}
+                    validations={
+                        {
+                            ...validationRules,
+                            min: {
+                                value: 1000,
+                                message: 'Le prix est trop petit'
+                            },
+                            max: {
+                                value: 2000000,
+                                message: 'Le prix est trop grand'
+                            }
+                        }
+                    }
                 />
 
                 <button

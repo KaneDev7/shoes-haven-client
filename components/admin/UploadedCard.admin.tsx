@@ -3,6 +3,7 @@ import React from 'react'
 import { AiOutlineDelete } from 'react-icons/ai'
 import { imageDataType } from './InsertProduct'
 import { useSelector } from 'react-redux'
+import { troncText } from '@/utils/commun'
 
 export default function UploadedCard({ uri, name, onDeletFile }: imageDataType) {
 
@@ -17,7 +18,7 @@ export default function UploadedCard({ uri, name, onDeletFile }: imageDataType) 
       <div className='flex gap-2'>
         <img className='w-[80px] h-[80px] object-cover' width={100} height={100} src={uri} alt="" />
         <div className='opacity-80'>
-          <p> {name} </p>
+          <p> {troncText(name, 20)} </p>
           <p className=''>482 kb</p>
         </div>
       </div>

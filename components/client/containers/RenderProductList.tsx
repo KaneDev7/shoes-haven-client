@@ -22,7 +22,7 @@ const ProductList = ({ products, gridParamsStyle }: ProductList) => {
     <ul className={`productsGrid grid ${gridParamsStyle} mt-10 gap-4`} >
       {
         products?.map(product => (
-          <ProductCard product={product} />
+         product.onStock && <ProductCard product={product} />
         ))
       }
     </ul>
