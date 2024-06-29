@@ -4,7 +4,7 @@ import Button from '@/components/admin/Button.admin'
 import Header from '@/components/admin/Header'
 import { token } from '@/components/admin/InsertProduct'
 import ToggleInput from '@/components/admin/Toggle'
-import useFetch from '@/hooks/useFetch'
+import useFetchOne from '@/hooks/useFetchOne'
 import { setSelectCategories } from '@/redux/domains/form/caregories.slice'
 import { setSelectColors } from '@/redux/domains/form/colors.slice'
 import { setIsProducUpdate } from '@/redux/domains/form/isProducUpdate'
@@ -18,7 +18,7 @@ import { useDispatch } from 'react-redux'
 
 export default function ProductDetail() {
     const param = useParams()
-    const { data, error, loading } = useFetch(`/products/${param.id}`)
+    const { data, error, loading } = useFetchOne(`/products/${param.id}`)
     const product = data as Product
 
     const [isProductOnStock, setIsProductOnStock] = useState<boolean>()

@@ -4,8 +4,8 @@ import { Order, Product } from '@/types/product.type';
 import  { useEffect, useState } from 'react'
 
 
-const useFetch = (url : string, options: any = {}) => {
-    const [data, setData] = useState<(Product | Order)[]>([]);
+const useFetchOne = (url : string) => {
+    const [data, setData] = useState<Product | Order >();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
   
@@ -15,7 +15,7 @@ const useFetch = (url : string, options: any = {}) => {
       const fetchData = async () => {
         setLoading(true);
         try {
-          const response = await instanceAxios.get(url, options);
+          const response = await instanceAxios.get(url);
           if (isMounted) {
             setData(response.data.data);
             setError(null);
@@ -41,4 +41,4 @@ const useFetch = (url : string, options: any = {}) => {
     return { data, loading, error };
   };
   
-  export default useFetch;
+  export default useFetchOne;

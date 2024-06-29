@@ -137,14 +137,7 @@ export default function InsertProduct() {
                         className={`outline-none min-w-[180px] text-sm px-6 opacity-95 hover:opacity-100 bg-secondaryColor py-2 font-bold rounded-md text-blackColor2`} >
                         Enregistrer
                     </button>
-                    <Link
-                        href='/admin/products'
-                    >
-                        <Button
-                            text='Retour'
-                            style='h-full border-2 bg-transparent border-secondaryColor rounded-md'
-                        />
-                    </Link>
+
                 </div>
             </div>
         </section>

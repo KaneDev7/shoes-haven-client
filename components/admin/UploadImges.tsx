@@ -56,7 +56,7 @@ export default function UploadImges({
             <p className='text-sm'>Ajouter  Images</p>
             <div
                 onClick={() => clickOtherElement(inputFile)}
-                className={`h-[300px] flex flex-col items-center justify-center gap-5 border-2 border-dashed ${fileError ? 'border-red-400' : 'border-black/50'}  opacity-60 `}>
+                className={`h-[300px] flex flex-col items-center justify-center bg-gray-100 gap-5 border-2 border-dashed ${fileError ? 'border-red-400' : 'border-black/50'}  opacity-70 `}>
                 <FaImage size={50} />
                 <p>Cliquer Pour ajouter une image</p>
                 {fileError && <p className='text-red-500'> {fileError}</p>}
