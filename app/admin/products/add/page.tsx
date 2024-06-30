@@ -16,7 +16,7 @@ export default function Products() {
         >
           <Button
             text='Retour'
-            style='h-full border-2 bg-transparent border-secondaryColor rounded-md'
+            style='h-full border-2 bg-transparent border-secondaryColor  '
           />
         </Link>
       </Header>

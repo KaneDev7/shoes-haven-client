@@ -42,7 +42,7 @@ export default function Products() {
           handleClick={handleClick}
           text='Ajouter un Produit'
           icon={<FiPlus size={20} />}
-          style='bg-secondaryColor'
+          style='bg-secondaryColor rounded-md'
         />
       </Header>
       <TableList

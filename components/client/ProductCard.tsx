@@ -25,9 +25,9 @@ const handleMouseLeave = () => {
   onMouseLeave={handleMouseLeave}
   href={`/products/${product?._id}`} >
       <li className='col-span-1 bg-white rounded-md shadow-md relative'>
-      <div className='w-full h-full flex flex-col justify-between p-2'>
-        <Image className='w-full min-h-[100px] object-cover' src={`/uploads/${product?.uri[count]}`} height={300} width={300} alt="" />
-        <div className='space-y-2'>
+      <div className='w-full h-full flex flex-col items-center justify-between p-2'>
+        <Image className='w-[80%] object-contain my-5'  src={`/uploads/${product?.uri[count]}`} height={300} width={300} alt="" />
+        <div className='w-full flex  flex-col space-y-2'>
             <span className='text-sm opacity-45'>{product?.mark.split(' ')[1]} </span>
             <h2 className='font-semibold'>{product?.title} </h2>
             <p className='text-sm font-semibold'>{product?.price} FCFA</p>

@@ -1,7 +1,6 @@
 import { Collections, supports } from '@/constants/links'
 import { FaFacebook, FaTiktok } from "react-icons/fa";
 
-import Link from 'next/link'
 import React from 'react'
 import Input from '../Input'
 import Button from '../buttons'

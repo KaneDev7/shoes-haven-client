@@ -32,10 +32,10 @@ const ProductList = ({ products, gridParamsStyle }: ProductList) => {
 export default function RenderProductList({ products, title, headerRightEl, style, gridParamsStyle, loading }: RenderProductListTypes) {
 
   return (
-    <div className={`${style}`} >
+    <div className={`${style} text-blackColor2`} >
       <div className='globalMaxWidth px-4'>
         <header className='flex justify-between items-center'>
-          <h1 className='text-2xl font-bold'>{title}</h1>
+          <h1 className='text-2xl font-bold '>{title}</h1>
           {headerRightEl}
         </header>
         {

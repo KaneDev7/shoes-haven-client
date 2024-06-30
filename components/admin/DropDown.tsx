@@ -11,10 +11,27 @@ type Dropdowtype = {
     onStatusChange: (value: Status) => void
 }
 
+type DropdownItemType = {
+    status: Status,
+    handleOptionClick: (option: Status) => void,
+    selectedOption: Status
+}
+
+const DropdownItem = ({ status, selectedOption, handleOptionClick }: DropdownItemType) => {
+    const statusText = status === 'deliveried' ? 'Livré' : status === 'pendding' ? 'En cours' : 'Annulé'
+    return <div
+        onClick={() => handleOptionClick(status)}
+        className={`${selectedOption === status ? 'pointer-events-none opacity-50' : 'cursor-pointer'} text-nowrap  px-4 py-2 text-sm hover:bg-gray-100`}
+    >
+        {statusText}
+    </div>
+}
+
+
 export const Dropdown = ({ orderId, status, onStatusChange }: Dropdowtype) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(status);
-    const options = ['pendding', 'deliveried', 'canceled'];
+    const options: Status[] = ['pendding', 'deliveried', 'canceled'];
 
 
     const handleOpen = () => {
@@ -26,7 +43,7 @@ export const Dropdown = ({ orderId, status, onStatusChange }: Dropdowtype) => {
         setIsOpen(false);
     };
 
-    const handleOptionClick = async (option  : Status ) => {
+    const handleOptionClick = async (option: Status) => {
         setSelectedOption(option);
         setIsOpen(false);
         const response = await updateOrder({ orderId, status: option }, token)
@@ -34,8 +51,6 @@ export const Dropdown = ({ orderId, status, onStatusChange }: Dropdowtype) => {
             onStatusChange(option)
         }
     };
-
-
 
     return (
         <div className="relative inline-block text-left">
@@ -54,14 +69,13 @@ export const Dropdown = ({ orderId, status, onStatusChange }: Dropdowtype) => {
                 >
                     <div className="py-1">
                         {options.map((option, index) => (
-                            <div
-                                key={index}
-                                onClick={() => handleOptionClick(option)}
-                                className={`${selectedOption === option ? 'pointer-events-none opacity-50 ' : 'cursor-pointer'}  px-3 py-2 text-sm hover:bg-gray-100`}
-                            >
-                                {option}
-                            </div>
+                            <DropdownItem
+                                status={option}
+                                handleOptionClick={handleOptionClick}
+                                selectedOption={selectedOption}
+                            />
                         ))}
+
                     </div>
                 </div>
             }
