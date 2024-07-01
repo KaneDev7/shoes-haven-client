@@ -17,7 +17,10 @@ export const filesSlice = createSlice({
 
     reducers: {
         setFiles: (state, action): FileType[] => {
-            return action.payload
+            console.log('state', state)
+            console.log('action', action.payload)
+            state = [...state, action.payload]
+            return state
         },
 
         deleteFile: (state, action) => {
@@ -25,7 +28,7 @@ export const filesSlice = createSlice({
             return state
         }
     },
-})
+}) 
 
 // Action creators are generated for each case reducer function
 export const { setFiles, deleteFile } = filesSlice.actions

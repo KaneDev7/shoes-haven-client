@@ -324,9 +324,28 @@ export const ProductsMock : Array<Product> = [
         ],
     },
 ]
-
+// 'Nouveautés',
+// 'Meilleures Ventes',
+// 'Offres Spéciales',
 
 export const categories : string[] =[
+    'Chaussures de Sport',
+    'Chaussures Formelles',
+    'Chaussures Décontractées',
+    'Chaussures de ville',
+    "Mocassins",
+    'Bottines & boots',
+    'Sandales',
+    'Espadrilles & slip-on',
+    'Baskets',
+    'Baskets basses',
+    'Baskets montantes',
+    'Chaussures de ville',
+    'Chaussures Formelles',
+    'Chaussures Décontractées',
+]
+
+export const type : string[] =[
     'Nouveautés',
     'Meilleures Ventes',
     'Offres Spéciales',
@@ -336,6 +355,8 @@ export const categories : string[] =[
 ]
 
 export const marks : string[] =[
+    "LEE COOPER",
+    "KAPPA",
     "Chaussures Puma",
     "Chaussures Asics",
     "Chaussures Guess",

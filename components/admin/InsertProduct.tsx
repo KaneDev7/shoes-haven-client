@@ -1,5 +1,5 @@
 "use client"
-import React, { MutableRefObject, useRef, useState } from 'react'
+import React, { MutableRefObject, createContext, useContext, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useForm } from "react-hook-form"
 import UploadImges from './UploadImges';
@@ -12,6 +12,7 @@ import { erorResponseFactory } from '@/utils/errorResponse';
 import Spiner from '../shared/Spiner';
 
 export const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9tYXIga2FuZSIsInVzZXJJZCI6IjY2NTc4OWIxYzU2ZTMyZTRiM2U2NWJiYiIsImlhdCI6MTcxNzE4NjMyNiwiZXhwIjoxNzE3MTg2Mzg2fQ.Mi3pDWTI7RTMhR0Frtysmeq5aPr6BLhwyieuFTRNVzM'
+export const FilesContext = createContext(null)
 
 export type imageDataType = {
     uri: string,
@@ -23,11 +24,12 @@ export default function InsertProduct() {
 
     const [imageUris, setImageUris] = useState<imageDataType[]>([])
     const [fileError, setFileError] = useState<string>('')
+    const [files, setFiles] = useState([])
     const [loading, setLoading] = useState(false)
     const [errorMessageApi, setErrorMessageApi] = useState<string>('')
     const selectCategories = useSelector<any>(state => state.selectCategories)
     const selectColors = useSelector<any>(state => state.selectColors)
-    const files: FileList[] = useSelector<any>(state => state.files)
+    // const files: FileList[] = useSelector<any>(state => state.files)
     const isProducUpdate = useSelector<any>(state => state.isProducUpdate)
     const productDefaultValue = useSelector<any>(state => state.productDefaultValue)
 
@@ -49,6 +51,8 @@ export default function InsertProduct() {
         }
     })
 
+
+    console.log('filesContext', files)
 
     const clickOtherElement = (element: any) => {
         if (element.current === undefined) return element?.click()
@@ -112,14 +116,16 @@ export default function InsertProduct() {
             <div className=' flex bg-white p-5 mt-4'>
 
                 <div className='flex gap-4 w-full flex-col lg:flex-row flex-wrap'>
-                    { }
-                    <UploadImges
-                        clickOtherElement={clickOtherElement}
-                        setFileError={setFileError}
-                        fileError={fileError}
-                        imageUris={imageUris}
-                        setImageUris={setImageUris}
-                    />
+                    <FilesContext.Provider  value={{setFiles, files}}>
+                        <UploadImges
+                            clickOtherElement={clickOtherElement}
+                            setFileError={setFileError}
+                            fileError={fileError}
+                            imageUris={imageUris}
+                            setImageUris={setImageUris}
+                        />
+                    </FilesContext.Provider>
+
 
                     <ProductForm
                         handleSubmit={handleSubmit}

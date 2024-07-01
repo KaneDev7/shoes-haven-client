@@ -1,16 +1,15 @@
 "use client"
-import React, { MutableRefObject, SetStateAction, useRef } from 'react'
+import React, { MutableRefObject, SetStateAction, useContext, useRef } from 'react'
 import { FaImage } from 'react-icons/fa'
 import UploadedCard from './UploadedCard.admin'
-import { imageDataType } from './InsertProduct'
+import { FilesContext, imageDataType } from './InsertProduct'
 import { Dispatch } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
-import { FileType, deleteFile, setFiles } from '@/redux/domains/form/file.slice'
+import { FileType, deleteFile } from '@/redux/domains/form/file.slice'
 import { createUrl } from '@/utils/uploads'
 
 type UploadImgesType = {
     clickOtherElement: (ref: MutableRefObject<HTMLInputElement | null>) => void,
-    setFiles: () => void,
     setFileError: (error: string) => void,
     setImageUris: Dispatch<SetStateAction<imageDataType[]>>
     fileError: string
@@ -26,11 +25,9 @@ export default function UploadImges({
     fileError,
 }: UploadImgesType) {
 
-    const filesSlice: FileType[] | any = useSelector<any[]>(state => state.files)
     const productDefaultValue = useSelector<any>(state => state.productDefaultValue)
     const isProducUpdate = useSelector<any>(state => state.isProducUpdate)
-
-    const dispattch = useDispatch()
+    const { setFiles } = useContext(FilesContext)
 
     let inputFile: MutableRefObject<HTMLInputElement | null> = useRef(null);
 
@@ -40,11 +37,11 @@ export default function UploadImges({
         setFileError('')
         const uris = createUrl(files)
         setImageUris(prevUri => [...prevUri, ...uris])
-        dispattch(setFiles([...filesSlice, ...Array.from(files)]))
+        setFiles(prevFiles => [...prevFiles, ...Array.from(files)])
     }
 
     const onDeletFile = (uri: string, name: number) => {
-        dispattch(deleteFile(name))
+        setFiles(prevFiles => prevFiles.filter(file => file.name !== name)  )
         const urisUpdate = imageUris.filter(item => item.uri !== uri)
         setImageUris(urisUpdate)
     }
@@ -83,7 +80,6 @@ export default function UploadImges({
                                 <UploadedCard
                                     uri={`/uploads/${uri}`}
                                     name={uri}
-                                    onDeletFile={onDeletFile}
                                 />
                             ))
                         }

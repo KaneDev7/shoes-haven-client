@@ -19,7 +19,11 @@ import { useDispatch } from 'react-redux'
 export default function ProductDetail() {
     const param = useParams()
     const { data, error, loading } = useFetchOne(`/products/${param.id}`)
-    const product = data as Product
+    let product : Product
+    if (!loading) {
+        product = data as Product
+
+    }
 
     const [isProductOnStock, setIsProductOnStock] = useState<boolean>()
 
@@ -34,9 +38,9 @@ export default function ProductDetail() {
         route.push('/admin/products/edit')
     }
 
-    const hadleDeletProduct = async () =>{
+    const hadleDeletProduct = async () => {
         const confirm = window.confirm('Voulez-vous supprimer ce produit ?')
-        if(!confirm) return
+        if (!confirm) return
         await deleteProduct(token, product._id)
         route.push('/admin/products')
     }
@@ -49,8 +53,8 @@ export default function ProductDetail() {
 
     useEffect(() => {
         setIsProductOnStock(product?.onStock)
-        
-    },[product])
+
+    }, [product])
 
     if (!loading)
         return (

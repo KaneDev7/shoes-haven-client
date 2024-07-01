@@ -12,8 +12,10 @@ type AxiosError = {
 }
 
 export const erorResponseFactory = (errorObjetc : AxiosError) => {
-  
-    if(errorObjetc?.response?.status === 500){
+    const okStatus = [500]
+    const responsStatus =  errorObjetc?.response?.status
+
+    if(okStatus.includes(responsStatus)){
         return {
             error : true, 
             message: 'Une erreur est survenue ressayer ultérieurement'}

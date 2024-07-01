@@ -39,7 +39,6 @@ type InputType = {
 
 export default function InputText({ label, placeholder, variant, type, name, register, errors, validations }: InputType) {
 
-    console.log('validations', validations)
     return (
         <div className={`flex flex-col gap-2 `} >
             <label className='text-sm opacity-80'>{label}</label>

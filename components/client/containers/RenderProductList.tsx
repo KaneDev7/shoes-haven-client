@@ -1,7 +1,7 @@
 import React from 'react'
 import { Product } from '@/types/product.type'
 import ProductCard from '../ProductCard'
-import { ProductListSkeleton } from '@/components/ProductListSkeleton'
+import { ProductListSkeleton } from '@/components/client/ProductListSkeleton'
 
 type RenderProductListTypes = {
   products: Array<Product>,
@@ -14,7 +14,6 @@ type RenderProductListTypes = {
 type ProductList = {
   products: Array<Product>,
   gridParamsStyle?: string
-
 }
 
 const ProductList = ({ products, gridParamsStyle }: ProductList) => {
@@ -39,7 +38,7 @@ export default function RenderProductList({ products, title, headerRightEl, styl
           {headerRightEl}
         </header>
         {
-          loading || products.length === 0 ?
+          loading || products?.length === 0 ?
             <ProductListSkeleton /> :
             <ProductList
               products={products}

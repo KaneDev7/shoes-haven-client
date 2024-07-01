@@ -13,6 +13,9 @@ import { sizes } from '@/constants/productsMock';
 import Button from '../admin/Button.admin';
 import ReinsuranceCard from './ReinsuranceCard';
 import { CiDeliveryTruck } from 'react-icons/ci';
+import { getProducts, getSameProducts } from '@/api/products';
+import { token } from '../admin/InsertProduct';
+import { useQuery } from '@tanstack/react-query';
 
 type ProductDetailType = {
     product: Product
@@ -20,28 +23,39 @@ type ProductDetailType = {
 
 type SameTypeProductType = {
     currentProductId: string,
-    sameName: string
+    productId: string
 }
 
-const SameTypeProduct = ({ currentProductId, sameName }: SameTypeProductType) => {
-    const { data, loading, error } = useFetch('/products')
+const SameTypeProduct = ({ currentProductId, productId }: SameTypeProductType) => {
+    const { data, isLoading, error } = useQuery({
+        queryKey: ['product', productId],
+        queryFn: async () => getSameProducts(token, productId)
+    })
+
     const products = data as Product[]
-    return <div className='flex gap-2 flex-wrap'>
-        {
-            products?.map((product) => (
-                product._id !== currentProductId &&
-                <Link href={`/products/${product._id}`}>
-                    <div className={`border border-black/50 rounded-md`} >
-                        <Image
-                            className={`w-[50px] h-[50px]  object-contain rounded-md `}
-                            src={`/uploads/${product.uri[0]}`}
-                            height={200}
-                            width={200} alt="" />
-                    </div>
-                </Link>
-            ))
-        }
+    return <div className='flex flex-col gap-4'>
+        <h2 className='text-[18px] font-semibold'>Les couleurs dusponibles</h2>
+        <div className='flex gap-2 flex-wrap'>
+
+            {
+                products?.map((product) => (
+
+                    <Link href={`/products/${product._id}`}>
+                        <div className={`border border-black/50 rounded-md ${product._id === currentProductId && 'border-secondaryColor'} `} >
+                            <Image
+                                className={`w-[50px] h-[50px]  object-contain rounded-md `}
+                                src={`/uploads/${product.uri[0]}`}
+                                placeholder='blur'
+                                blurDataURL='/placeholder.jpg'
+                                height={200}
+                                width={200} alt="" />
+                        </div>
+                    </Link>
+                ))
+            }
+        </div>
     </div>
+
 }
 
 export default function ProductDetail({ product }: ProductDetailType) {
@@ -57,10 +71,10 @@ export default function ProductDetail({ product }: ProductDetailType) {
     return (
         <div className='globalMaxWidth flex flex-col gap-10 lg:flex-row mt-10 bg-white  '>
 
-            <div className='lg:w-[50%] w-full flex gap-4 flex-col-reverse lg:flex-row items-center  '>
+            <div className='lg:w-[50%] w-full flex gap-4 flex-col-reverse lg:flex-row   '>
 
                 {/* Small images */}
-                <div className='flex flex-row lg:flex-col w-full lg:w-[15%] gap-6'>
+                <div className='flex flex-row lg:flex-col w-full lg:w-[10%] gap-6'>
                     {
                         product?.uri.map((src, index) => (
                             <div className=' '>
@@ -68,6 +82,8 @@ export default function ProductDetail({ product }: ProductDetailType) {
                                     onClick={() => setActiveIndex(index)}
                                     className={`w-full object-cover border-2  ${activeIndex === index ? 'border-secondaryColor' : 'border-transparent'} rounded-md`}
                                     src={`/uploads/${src}`}
+                                    placeholder='blur'
+                                    blurDataURL='/placeholder.jpg'
                                     height={200}
                                     width={200} alt="" />
                             </div>
@@ -76,7 +92,7 @@ export default function ProductDetail({ product }: ProductDetailType) {
                 </div>
 
                 {/* Silddes */}
-                <div className='lg:w-[80%] h-full w-full flex items-center select-none'>
+                <div className='lg:w-[80%] h-full w-full flex items-center lg:items-start        select-none'>
                     <Swiper
                         ref={swiperRef}
                         className='flex items-center'
@@ -88,7 +104,6 @@ export default function ProductDetail({ product }: ProductDetailType) {
                             product?.uri.map(src => (
                                 <SwiperSlide
                                     className='w-full'>
-
                                     <Image
                                         className='w-full h-full object-cover'
                                         src={`/uploads/${src}`}
@@ -109,7 +124,7 @@ export default function ProductDetail({ product }: ProductDetailType) {
                     <h2 className='text-3xl font-semibold'> {product.price?.toLocaleString()} FCFA</h2>
                     <SameTypeProduct
                         currentProductId={product._id}
-                        sameName={product.title}
+                        productId={product.productId}
                     />
                     <div className='flex flex-col gap-4'>
                         <h2 className='text-[18px] font-semibold'>Selectionnez une Taille</h2>
@@ -129,7 +144,6 @@ export default function ProductDetail({ product }: ProductDetailType) {
                         style='h-[60px] lg:w-[70%] flex justify-center items-center  bg-black text-white round rounded-full text-[20px] '
                         icon={<MdShoppingCart
                             size={30}
-
                         />}
                     />
 

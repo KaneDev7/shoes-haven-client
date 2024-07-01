@@ -4,14 +4,24 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-export default function ProductTableList({ products }: { products: Product[] }) {
+type ProductListTableType = { 
+    products: Product[],
+    checkOneItem : () => {id : string, event :any}
+    itemsId : string[]
+}
+
+export default function ProductTableList({ products , itemsId, checkOneItem}: ProductListTableType) {
     return (
         <>
             <tbody>
 
                 {
                     products?.map(product => (
-                        <tr data-popover-target="popover-product-detail" className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <tr data-popover-target="popover-product-detail" className={` ${itemsId.includes(product._id) ? 'bg-gray-50' : 'bg-white'} border-b  hover:bg-gray-50`} >
+                            <td className='px-6 py-4'>
+                                <input type="checkbox" checked={itemsId.includes(product._id)} onChange={(event) => checkOneItem(product._id, event)}/>
+                            
+                            </td>
                             <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 <div className=' flex gap-5 items-center w-[200px] '>
                                     <Image
