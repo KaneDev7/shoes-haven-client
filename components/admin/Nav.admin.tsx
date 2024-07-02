@@ -40,8 +40,8 @@ const NavLink = ({ link }: { link: AdminLink }) => {
     const isMatch = (pathName === link.href || link?.subRoute?.includes(pathName) || link.title === 'Produits' && pathName.startsWith(link.subRoute![1]))
     return (
 
-        <Link href={link.href} className='block'>
-            <li key={link.href} className={`flex items-center gap-2 ${isMatch && navActif} rounded-md  text-blackColor2 py-3 px-4`} >
+        <Link href={link.href} className='block text-xs rounded-md hover:bg-gray-100 '>
+            <li key={link.href} className={`flex items-center  gap-2 ${isMatch && navActif} rounded-md  text-blackColor2 py-3 px-4`} >
                 {getIcons(link.iconName)}
                 <p>{link.title} </p>
             </li>

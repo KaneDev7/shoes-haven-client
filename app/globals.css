@@ -3,51 +3,69 @@
   @tailwind utilities;
 
 
+  @layer components {
+    .globalMaxWidth {
+      @apply max-w-[1500px] w-full mx-auto
+    }
 
-@layer components {
-  .globalMaxWidth {
-     @apply max-w-[1500px] w-full mx-auto
+    .sidebar h2 {
+      @apply font-semibold
+    }
+
+
   }
-  .sidebar h2 {
-    @apply font-semibold
 
+
+  :root {
+    --secondaryColor: #FFBD59,
   }
-}
 
-body{
-  background: #fffdfd;
-}
-
-.trending-slide::-webkit-scrollbar-track{
-  height: 0;
-}
-
-.animOpac{
-  animation: opacAnim cubic-bezier(0.075, 0.82, 0.165, 1) 2s;
-}
-
-.transAnime{
-  animation: .3s transanime forwards ;
-}
-
-@media (max-width : 400px){
-  .productsGrid{
-    grid-template-columns: repeat(1,1fr);
+  body {
+    background: #fffdfd;
   }
-}
 
-
-@media only screen and (max-width: 700px) and (min-width: 400px)  {
-  .productsPage{
-    grid-template-columns: repeat(2,1fr);
+  .trending-slide::-webkit-scrollbar-track {
+    height: 0;
   }
-}
 
-
-@keyframes transanime {
-  to{
-    transform: translateY(0);
-    transform: translateX(-50%);
-    opacity: 1;
+  .animOpac {
+    animation: opacAnim cubic-bezier(0.075, 0.82, 0.165, 1) 2s;
   }
-}
+
+  .transAnime {
+    animation: .3s transanime forwards;
+  }
+
+  /* Swiper */
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: rgba(0, 0, 0, 0.627) !important;
+   font-size: 18px !important;
+  }
+
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+   font-size: 30px !important;
+  }
+
+  @media (max-width : 400px) {
+    .productsGrid {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+
+
+  @media only screen and (max-width: 700px) and (min-width: 400px) {
+    .productsPage {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+
+  @keyframes transanime {
+    to {
+      transform: translateY(0);
+      transform: translateX(-50%);
+      opacity: 1;
+    }
+  }

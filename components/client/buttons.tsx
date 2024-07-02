@@ -1,8 +1,14 @@
 import React from 'react'
 
-export default function Button({ text, style }: { text: string, style? : string }) {
+
+type ButtonType = {
+    text: string,
+    style?: string,
+    type?: 'submit' | any
+}
+export default function Button({ text, style, type }:ButtonType ) {
     return (
-        <button className={`outline-none  text-sm px-4 ${style}`} >
+        <button  type={type}  className={`outline-none  text-sm px-4 ${style}`} >
             {text}
         </button>
     )

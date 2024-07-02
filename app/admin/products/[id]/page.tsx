@@ -68,62 +68,62 @@ export default function ProductDetail() {
                         />
                     </Link>
                 </Header>
-                <div className='grid grid-cols-3 mt-5 bg-white p-4'>
+                <div className='flex gap-4 flex-wrap mt-5 bg-white p-4'>
                     {
                         product?.uri?.map(src => (
                             <Image
                                 src={`/uploads/${src}`}
-                                width={300}
-                                height={300}
+                                width={200}
+                                height={200}
                                 alt=''
-                                className='col-span-1'
+                                className=''
                             />
                         ))
                     }
                 </div>
 
                 <div className='bg-white p-10'>
-                    <div className=''>
-                        <div className=' flex flex-col gap-6 mt-5 '>
-                            <h1 className='text-4xl font-bold'> {product.title} </h1>
-                            <div className='max-w-[70%]'>
-                                <h2 className='text-[20px] font-semibold mb-4'> Description: </h2>
-                                <p>{product.description}</p>
+                    <div className='text-blackColor2'>
+                        <div className=' flex flex-col gap-4 mt-5 '>
+                            <h1 className='text-3xl font-bold'> {product.title} </h1>
+                            <div className='max-w-[70%] text-sm'>
+                                <h2 className='mb-4 font-semibold'> Description: </h2>
+                                <p className='opacity-90'>{product.description}</p>
                             </div>
 
-                            <div className='flex items-center gap-4'>
-                                <h2 className='text-[20px] font-semibold'> Identifiant : </h2>
-                                <p>{product.productId}</p>
+                            <div className='flex text-sm items-center gap-4'>
+                                <h2 className='font-semibold'> Identifiant: </h2>
+                                <p className='opacity-90'>{product.productId}</p>
                             </div>
 
-                            <div className='flex items-center gap-4'>
-                                <h2 className='text-[20px] font-semibold'> Catégories : </h2>
-                                <p>{product.category}</p>
+                            <div className='flex text-sm items-center gap-4'>
+                                <h2 className='font-semibold'> Catégories : </h2>
+                                <p className='opacity-90'>{product.category}</p>
                             </div>
 
-                            <div className='flex items-center gap-4'>
-                                <h2 className='text-[20px] font-semibold'> Marque : </h2>
-                                <p>{product.mark}</p>
+                            <div className='flex text-sm items-center gap-4'>
+                                <h2 className='font-semibold'> Marque : </h2>
+                                <p className='opacity-90'>{product.mark}</p>
                             </div>
 
-                            <div className='flex items-center gap-4'>
-                                <h2 className='text-[20px] font-semibold'> Prix : </h2>
-                                <p>{product.price} FCFA</p>
+                            <div className='flex text-sm items-center gap-4'>
+                                <h2 className='font-semibold'> Prix : </h2>
+                                <p className='opacity-90'>{product.price} FCFA</p>
                             </div>
 
-                            <div className='flex items-center gap-4'>
-                                <h2 className='text-[20px] font-semibold'> Couleurs : </h2>
-                                <p>{product.color}</p>
+                            <div className='flex text-sm items-center gap-4'>
+                                <h2 className='font-semibold'> Couleurs : </h2>
+                                <p className='opacity-90'>{product.color}</p>
                             </div>
 
-                            <div className='flex items-center gap-4'>
-                                <h2 className='text-[20px] font-semibold'> Taille : </h2>
-                                <p>{product.size}</p>
+                            <div className='flex text-sm items-center gap-4'>
+                                <h2 className='font-semibold'> Taille : </h2>
+                                <p className='opacity-90'>{product.size}</p>
                             </div>
 
-                            <div className='flex items-center gap-4'>
-                                <h2 className='text-[20px] font-semibold'> En Stock : </h2>
-                                <p>{product.onStock ? 'Oui' : 'Non'}</p>
+                            <div className='flex text-sm items-center gap-4'>
+                                <h2 className='font-semibold'> En Stock : </h2>
+                                <p className='opacity-90'>{product.onStock ? 'Oui' : 'Non'}</p>
                             </div>
 
                             <div className='w-full flex justify-end items-center mt-4'>

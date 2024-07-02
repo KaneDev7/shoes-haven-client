@@ -7,7 +7,7 @@ import RangeSlider from './RangeSlide'
 
 export default function SideBar() {
     return (
-        <aside className='sidebar min-w-[350px] bg-white rounded-md mb-10 py-10 px-7 shadow-sm '>
+        <aside className='sidebar min-w-[350px] bg-white rounded-md mb-10 py-10 px-7  '>
             <div className=' flex lg:flex-col flex-row flex-wrap gap-20 sticky top-10'>
                 <div className='w-[300px] '>
                     <LinkList

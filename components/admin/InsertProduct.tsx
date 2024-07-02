@@ -35,6 +35,7 @@ export default function InsertProduct() {
 
     let seclectRef: MutableRefObject<HTMLButtonElement | null> = useRef(null);
     const route = useRouter()
+   
     const {
         register,
         handleSubmit,
@@ -52,7 +53,6 @@ export default function InsertProduct() {
     })
 
 
-    console.log('filesContext', files)
 
     const clickOtherElement = (element: any) => {
         if (element.current === undefined) return element?.click()

@@ -1,13 +1,8 @@
 "use client"
 import { Product } from '@/types/product.type'
 import React, { useEffect, useRef, useState } from 'react'
-import { Swiper, SwiperSlide } from 'swiper/react';
 import Image from 'next/image';
 import { MdShoppingCart } from "react-icons/md";
-
-// Import Swiper styles
-import 'swiper/css';
-import useFetch from '@/hooks/useFetch';
 import Link from 'next/link';
 import { sizes } from '@/constants/productsMock';
 import Button from '../admin/Button.admin';
@@ -16,6 +11,15 @@ import { CiDeliveryTruck } from 'react-icons/ci';
 import { getProducts, getSameProducts } from '@/api/products';
 import { token } from '../admin/InsertProduct';
 import { useQuery } from '@tanstack/react-query';
+
+//Swiper
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules'
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import useWindowResize from '@/hooks/useWindowResize';
 
 type ProductDetailType = {
     product: Product
@@ -60,6 +64,7 @@ const SameTypeProduct = ({ currentProductId, productId }: SameTypeProductType) =
 
 export default function ProductDetail({ product }: ProductDetailType) {
     const [activeIndex, setActiveIndex] = useState(0)
+    const {innerWidth} = useWindowResize()
     const swiperRef = useRef(null);
 
     useEffect(() => {
@@ -68,37 +73,61 @@ export default function ProductDetail({ product }: ProductDetailType) {
         }
     }, [activeIndex])
 
+    const handleAddToPanier = () => {
+
+    }
+
+
     return (
-        <div className='globalMaxWidth flex flex-col gap-10 lg:flex-row mt-10 bg-white  '>
+        <div className='globalMaxWidth flex flex-col gap-10 lg:flex-row mt-10 bg-white'>
 
             <div className='lg:w-[50%] w-full flex gap-4 flex-col-reverse lg:flex-row   '>
 
                 {/* Small images */}
-                <div className='flex flex-row lg:flex-col w-full lg:w-[10%] gap-6'>
-                    {
-                        product?.uri.map((src, index) => (
-                            <div className=' '>
-                                <Image
-                                    onClick={() => setActiveIndex(index)}
-                                    className={`w-full object-cover border-2  ${activeIndex === index ? 'border-secondaryColor' : 'border-transparent'} rounded-md`}
-                                    src={`/uploads/${src}`}
-                                    placeholder='blur'
-                                    blurDataURL='/placeholder.jpg'
-                                    height={200}
-                                    width={200} alt="" />
-                            </div>
-                        ))
-                    }
+                <div className='flex flex-row lg:flex-col w-full h-full lg:h-[570px] lg:w-[70px] gap-6'>
+                    <Swiper
+                        ref={swiperRef}
+                        className='w-full h-full '
+                        spaceBetween={20}
+                        slidesPerView={4}
+                        onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+                        direction={innerWidth <= 1024 ? 'horizontal' : 'vertical'}
+                        breakpoints={{
+                            768: {
+                                slidesPerView: 7,
+                            },
+                        }}
+                    >
+                        {
+                            product?.uri.map((src, index) => (
+                                <SwiperSlide
+                                    className='w-full'>
+                                    <Image
+                                        onClick={() => setActiveIndex(index)}
+                                        className={`w-full object-cover border-2  ${activeIndex === index ? 'border-secondaryColor' : 'border-transparent'} rounded-md`}
+                                        src={`/uploads/${src}`}
+                                        placeholder='blur'
+                                        blurDataURL='/placeholder.jpg'
+                                        height={200}
+                                        width={200} alt="" />
+                                </SwiperSlide>
+
+                            ))
+                        }
+                    </Swiper>
                 </div>
 
+
                 {/* Silddes */}
-                <div className='lg:w-[80%] h-full w-full flex items-center lg:items-start        select-none'>
+                <div className='lg:w-[90%] h-full w-full flex items-center lg:items-start select-none'>
                     <Swiper
                         ref={swiperRef}
                         className='flex items-center'
                         spaceBetween={50}
                         slidesPerView={1}
                         onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+                        navigation={true}
+                        modules={[Navigation]}
                     >
                         {
                             product?.uri.map(src => (
@@ -110,7 +139,6 @@ export default function ProductDetail({ product }: ProductDetailType) {
                                         height={1000}
                                         width={1000} alt="" />
                                 </SwiperSlide>
-
                             ))
                         }
                     </Swiper>
@@ -141,6 +169,7 @@ export default function ProductDetail({ product }: ProductDetailType) {
 
                     <Button
                         text='Ajouter au panier'
+                        handleClick={handleAddToPanier}
                         style='h-[60px] lg:w-[70%] flex justify-center items-center  bg-black text-white round rounded-full text-[20px] '
                         icon={<MdShoppingCart
                             size={30}

@@ -13,21 +13,20 @@ type ProductFormType = {
     errors: FieldErrors<FieldValues>
 }
 
-const validationRules = {
+export const validationRules = {
     required: { value: true, message: 'Ce Champ est obligatoire' },
 }
 
 export default function ProductForm({ onSubmit, handleSubmit, register, errors }: ProductFormType) {
-
     const selectCategories = useSelector<any>(state => state.selectCategories)
     const selectColors = useSelector<any>(state => state.selectColors)
     const productDefaultValue = useSelector<any>(state => state.productDefaultValue)
-
+    
     let form: MutableRefObject<HTMLFormElement | undefined> = useRef();
     let submitButton: MutableRefObject<HTMLButtonElement | null> = useRef(null);
 
     return (
-        <div className='flex-1 border-2 p-4'>
+        <div className='flex-1 border-2 p-4 rounded-md'>
             <form onSubmit={handleSubmit(onSubmit)} ref={form} className='flex flex-col gap-4'>
                 <InputText
                     label='Nom du Produit'

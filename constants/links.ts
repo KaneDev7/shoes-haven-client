@@ -123,6 +123,12 @@ export const adminLink : Link[] =[
     },
 
     {
+        title : 'Catégories',
+        href : '/admin/categories',
+        iconName : 'AiOutlineProduct'
+    },
+
+    {
         title : 'Commandes',
         href : '/admin/orders',
         iconName : 'BsCart2'
