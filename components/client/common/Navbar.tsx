@@ -1,14 +1,45 @@
 'use client'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { IoChevronDownSharp, IoSearch } from "react-icons/io5";
 import { LuUser2 } from "react-icons/lu";
 import { IoBagOutline } from "react-icons/io5";
 import ProductMenu from '../ProductMenu';
+import { AuthContext } from '@/context/RequireAuth';
+import { CartContext } from '@/context/cartContext';
+
+
+const NavbarRightPart = () => {
+    const { auth } = useContext(AuthContext)
+    const {cartQuantities} = useContext(CartContext)
+
+    if (auth) {
+        return <div className='flex justify-between items-center gap-4'>
+            <div className='w-[50px] h-[50px] flex justify-center items-center rounded-full bg-white text-blackColor2 '>
+                <IoSearch size={20} />
+            </div>
+            <div className='w-[50px] h-[50px] flex justify-center items-center rounded-full bg-white text-blackColor2  '>
+                <LuUser2 size={20} />
+
+            </div>
+            <div className='w-[50px] h-[50px] flex justify-center items-center rounded-full bg-white text-blackColor2 relative'>
+                <IoBagOutline size={20} />
+                <span
+                    className='w-[20px] h-[20px] flex justify-center items-center absolute right-[-4px] top-[-4px] rounded-full bg-red-600 text-white font-bold '>
+                    {cartQuantities}
+                </span>
+            </div>
+        </div>
+    } else {
+        return <Link href='/login'>
+            connecter vous
+        </Link>
+    }
+}
+
 
 export default function Navbar() {
     const [isMonseInLink, setIsMonseInLink] = useState(false)
-
     const handleEnableMenu = () => {
         setIsMonseInLink(true)
     }
@@ -38,18 +69,7 @@ export default function Navbar() {
                     <Link href='/'>CONTACT</Link>
                 </nav>
                 <ProductMenu isMonseInLink={isMonseInLink} />
-
-                <div className='flex justify-between items-center gap-4'>
-                    <div className='w-[50px] h-[50px] flex justify-center items-center rounded-full bg-white text-blackColor2 '>
-                        <IoSearch size={20} />
-                    </div>
-                    <div className='w-[50px] h-[50px] flex justify-center items-center rounded-full bg-white text-blackColor2 '>
-                        <LuUser2 size={20} />
-                    </div>
-                    <div className='w-[50px] h-[50px] flex justify-center items-center rounded-full bg-white text-blackColor2 '>
-                        <IoBagOutline size={20} />
-                    </div>
-                </div>
+                <NavbarRightPart />
             </div>
         </section>
     )

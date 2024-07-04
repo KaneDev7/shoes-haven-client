@@ -1,46 +1,39 @@
 "use client"
 import { login } from '@/api/authentification'
+import { getUser } from '@/api/user'
 import InputText from '@/components/admin/InputText'
 import Button from '@/components/client/buttons'
 import Spiner from '@/components/shared/Spiner'
-import { setcurrentUser } from '@/redux/domains/users/currentUser.slice'
 import { handleResponseError } from '@/utils/errorResponse'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 
 export default function Login() {
     const [errorMessage, setErrorMessage] = useState('')
     const [isSubmiting, setIsSubmiting] = useState(false)
     const currentUser = useSelector(state => state.currentUser)
+
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm({
         defaultValues: {
-            username: currentUser.username,
-            password: currentUser.password
+            username: currentUser?.username,
         }
     })
 
-    const router = useRouter()
-    const dispatch = useDispatch()
-
     const onSubmit = async (data) => {
-        console.log('data', data)
         const formData = new FormData()
         formData.append('username', data.username)
         formData.append('password', data.password)
 
         setIsSubmiting(true)
-
         const response = await login(formData)
-        console.log('response', response)
 
         const errorHandeler = handleResponseError(response)
         if (errorHandeler.message) {
@@ -48,10 +41,14 @@ export default function Login() {
             return setErrorMessage(errorHandeler.message)
         }
 
-        dispatch(setcurrentUser(response.data))
-
-        router.push('/')
-
+        try {
+            const userData = await getUser(response?.data?.token)
+            sessionStorage.setItem('session', JSON.stringify(userData))
+            sessionStorage.setItem(`cart_${userData?._id}`, JSON.stringify(userData?.cart))
+            window.location.href = '/'
+        } catch (error) {
+            return setErrorMessage('Quelques chose s\'est mal passée réssayer plus tard ')
+        }
     }
 
     return (
@@ -66,7 +63,7 @@ export default function Login() {
                     {isSubmiting && <Spiner />}
                     <h1 className='text-3xl font-bold mb-10 text-center '>Se connecter </h1>
                     {
-                        currentUser.isNew && <p className='text-sm my-4 bg-green-100 text-green-500 p-4 rounded-md'> Compte crée avec succée </p>
+                        currentUser?.isNew && <p className='text-sm my-4 bg-green-100 text-green-500 p-4 rounded-md'> Compte crée avec succée </p>
                     }
                     {
                         errorMessage && <p className='text-sm my-4 bg-red-100 text-red-500 p-4 rounded-md'> {errorMessage} </p>

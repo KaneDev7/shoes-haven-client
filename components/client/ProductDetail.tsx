@@ -1,6 +1,6 @@
 "use client"
 import { Product } from '@/types/product.type'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import Image from 'next/image';
 import { MdShoppingCart } from "react-icons/md";
 import Link from 'next/link';
@@ -20,6 +20,10 @@ import { Navigation } from 'swiper/modules'
 import 'swiper/css';
 import 'swiper/css/navigation';
 import useWindowResize from '@/hooks/useWindowResize';
+import { useSelector } from 'react-redux';
+import { CartItem, User } from '@/types/user.type';
+import { CartContext } from '@/context/cartContext';
+import { addToCart } from '@/api/cart';
 
 type ProductDetailType = {
     product: Product
@@ -63,9 +67,12 @@ const SameTypeProduct = ({ currentProductId, productId }: SameTypeProductType) =
 }
 
 export default function ProductDetail({ product }: ProductDetailType) {
+    const currentUser : User = useSelector(state => state.currentUser)
+    const {addItemToCart} = useContext(CartContext)
     const [activeIndex, setActiveIndex] = useState(0)
     const {innerWidth} = useWindowResize()
     const swiperRef = useRef(null);
+    
 
     useEffect(() => {
         if (swiperRef.current && swiperRef.current.swiper) {
@@ -73,8 +80,21 @@ export default function ProductDetail({ product }: ProductDetailType) {
         }
     }, [activeIndex])
 
-    const handleAddToPanier = () => {
+    const handleAddToPanier = async () => {
+        console.log('panier', currentUser)
+        const newCart : CartItem= {
+            user_id: currentUser._id as string,
+            item: {
+              productId: product._id,
+              quantity: 1,
+            }
+        }
 
+        addItemToCart({
+            productId: product._id,
+            quantity: 1,
+        }) 
+        await addToCart(newCart, currentUser.token)     
     }
 
 

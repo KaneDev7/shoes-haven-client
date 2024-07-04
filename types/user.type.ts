@@ -1,10 +1,7 @@
 
 export type CartItem = {
-    user_id: string,
-    item: {
-        productId: string,
-        quantity: number,
-    }
+    productId: string,
+    quantity: number,
 }
 
 export interface User {
@@ -15,7 +12,7 @@ export interface User {
     role?: string,
     isActive?: true,
     cart?: CartItem[],
-    isNew? : boolean
+    isNew?: boolean
     __v?: 0,
     token?: string,
     address?: {

@@ -6,6 +6,7 @@ import { filesSlice } from '../domains/form/file.slice'
 import { productDefaultValueSlice } from '../domains/form/productDefaultValue'
 import { isProducUpdateSlice } from '../domains/form/isProducUpdate'
 import { currentUserSlice } from '../domains/users/currentUser.slice'
+import { cartSlice } from '../domains/cart/cart.slice'
 
 export const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ export const store = configureStore({
     files : filesSlice.reducer,
     productDefaultValue: productDefaultValueSlice.reducer,
     isProducUpdate : isProducUpdateSlice.reducer,
-    currentUser : currentUserSlice.reducer
+    currentUser : currentUserSlice.reducer,
+    cart : cartSlice.reducer
   },
 })
 
