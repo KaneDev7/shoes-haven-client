@@ -10,7 +10,7 @@ export const getUser = async (token : string) : Promise<User | any> => {
                 }
             }
         )
-        return response.data.data
+        return response?.data?.data
 
     } catch (error) {
         console.log(error)

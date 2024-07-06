@@ -5,10 +5,9 @@ import Image from 'next/image';
 import { MdShoppingCart } from "react-icons/md";
 import Link from 'next/link';
 import { sizes } from '@/constants/productsMock';
-import Button from '../admin/Button.admin';
 import ReinsuranceCard from './ReinsuranceCard';
 import { CiDeliveryTruck } from 'react-icons/ci';
-import { getProducts, getSameProducts } from '@/api/products';
+import { getSameProducts } from '@/api/products';
 import { token } from '../admin/InsertProduct';
 import { useQuery } from '@tanstack/react-query';
 
@@ -24,6 +23,12 @@ import { useSelector } from 'react-redux';
 import { CartItem, User } from '@/types/user.type';
 import { CartContext } from '@/context/cartContext';
 import { addToCart } from '@/api/cart';
+import { useRouter } from 'next/navigation';
+
+// Toast 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Button from './buttons';
 
 type ProductDetailType = {
     product: Product
@@ -34,14 +39,20 @@ type SameTypeProductType = {
     productId: string
 }
 
+type SizeRenderype = {
+    ProductSize: string,
+    selectSize: string
+    onSelectSizeChange: (size: string) => void
+}
+
 const SameTypeProduct = ({ currentProductId, productId }: SameTypeProductType) => {
     const { data, isLoading, error } = useQuery({
         queryKey: ['product', productId],
-        queryFn: async () => getSameProducts(token, productId)
+        queryFn: async () => getSameProducts(productId)
     })
 
     const products = data as Product[]
-    return <div className='flex flex-col gap-4'>
+    return <div className='flex flex-col gap-4 pb-6 border-b'>
         <h2 className='text-[18px] font-semibold'>Les couleurs dusponibles</h2>
         <div className='flex gap-2 flex-wrap'>
 
@@ -66,40 +77,79 @@ const SameTypeProduct = ({ currentProductId, productId }: SameTypeProductType) =
 
 }
 
+
+const SizeRender = ({ ProductSize, selectSize, onSelectSizeChange }: SizeRenderype) => {
+    const ProductSizeArr = ProductSize?.split(',')
+
+    const isSizeMatch = (size: string) => {
+        return ProductSizeArr.map(item => item.trim()).includes(size)
+    }
+    return <div className='flex gap-2 flex-wrap'>
+        {
+            sizes.map((size) => (
+                <div
+                    onClick={() => onSelectSizeChange(size)}
+                    className={`w-[50px] h-[40px] relative cursor-pointer font-semibold overflow-hidden rounded-lg flex items-center justify-center ${!isSizeMatch(size.toString()) && 'pointer-events-none opacity-70'} ${selectSize === size ? 'bg-secondaryColor' : 'bg-gray-100'}   text-blackColor2`} >
+                    {size}
+                    {
+                        !isSizeMatch(size.toString()) &&
+                        <span className='h-[200%] w-[1px] bg-black opacity-30 absolute right-0 rotate-[50deg] origin-top-right top-0 '></span>
+
+                    }
+                </div>
+            ))
+        }
+    </div>
+}
+
 export default function ProductDetail({ product }: ProductDetailType) {
-    const currentUser : User = useSelector(state => state.currentUser)
-    const {addItemToCart} = useContext(CartContext)
+    const currentUser: User = useSelector(state => state.currentUser)
+    const { updataQuantity } = useContext(CartContext)
     const [activeIndex, setActiveIndex] = useState(0)
-    const {innerWidth} = useWindowResize()
-    const swiperRef = useRef(null);
-    
+    const [selectSize, setSelectSize] = useState(product?.size?.split(',')[0])
+    const [quantity, setQuantity] = useState(1)
+    const { innerWidth } = useWindowResize()
+    const swiperRef = useRef(null)
+    const router = useRouter()
 
     useEffect(() => {
         if (swiperRef.current && swiperRef.current.swiper) {
-            swiperRef.current.swiper.slideTo(activeIndex); // Navigue vers le slide spécifique
+            swiperRef.current.swiper.slideTo(activeIndex);
         }
     }, [activeIndex])
 
-    const handleAddToPanier = async () => {
-        console.log('panier', currentUser)
-        const newCart : CartItem= {
-            user_id: currentUser._id as string,
-            item: {
-              productId: product._id,
-              quantity: 1,
-            }
-        }
-
-        addItemToCart({
-            productId: product._id,
-            quantity: 1,
-        }) 
-        await addToCart(newCart, currentUser.token)     
+    const onSelectSizeChange = (newSelectSize) => {
+        setSelectSize(newSelectSize)
     }
 
+    const addQuantity = () => {
+        setQuantity(v => v + 1)
+    }
+
+    const decreaseQuantity = () => {
+        setQuantity(v => v > 1 ? v - 1 : 1)
+    }
+
+    const handleAddToPanier = async () => {
+        if (!currentUser) return router.push('/login')
+      
+            const newCart: CartItem = {
+            user_id: currentUser._id as string,
+            item: {
+                productId: product._id,
+                quantity,
+                size: selectSize
+            }
+        }
+        
+        updataQuantity(quantity)
+        await addToCart(newCart, currentUser.token)
+        return toast.success("Produit ajouté au panier avec succée", { hideProgressBar: true })
+    }
 
     return (
         <div className='globalMaxWidth flex flex-col gap-10 lg:flex-row mt-10 bg-white'>
+            <ToastContainer />
 
             <div className='lg:w-[50%] w-full flex gap-4 flex-col-reverse lg:flex-row   '>
 
@@ -165,41 +215,55 @@ export default function ProductDetail({ product }: ProductDetailType) {
                 </div>
             </div>
 
-            <div className='flex-1'>
+            <div className='flex-1 text-blackColor2'>
                 <div className='flex flex-col gap-8 text-blackColor2'>
                     <h1 className='text-4xl font-extrabold'> {product.title} </h1>
-                    <p className='lg:max-w-[80%] w-full '> {product.description} </p>
-                    <h2 className='text-3xl font-semibold'> {product.price?.toLocaleString()} FCFA</h2>
+                    <h2 className='text-2xl font-semibold'> {product.price?.toLocaleString()} FCFA</h2>
+
+                    <div className='flex flex-col gap-4 pb-6 border-b'>
+                        <h2 className='text-[18px] font-semibold'>Description</h2>
+                        <p className='lg:max-w-[80%] w-full '> {product.description} </p>
+                    </div>
+
                     <SameTypeProduct
                         currentProductId={product._id}
                         productId={product.productId}
                     />
-                    <div className='flex flex-col gap-4'>
-                        <h2 className='text-[18px] font-semibold'>Selectionnez une Taille</h2>
-                        <div className='flex gap-2 flex-wrap'>
-                            {
-                                sizes.map((size, index) => (
-                                    <div className={`w-[60px] h-[40px] cursor-pointer font-semibold  rounded-lg flex items-center justify-center ${index === 3 ? 'bg-secondaryColor' : 'bg-gray-100'}   text-blackColor2`} >
-                                        {size}
-                                    </div>
-                                ))
-                            }
+
+
+
+                    {/* quantity */}
+                    <div className='flex flex-col gap-4 pb-6 border-b'>
+                        <h2 className='text-[18px] font-semibold'>Choisissez la quantité</h2>
+                        <div className='w-[130px] h-[40px] flex justify-between items-center border font-bold cursor-pointer select-none rounded-md 0 overflow-hidden'>
+                            <div onClick={() => decreaseQuantity()} className='w-full h-full flex justify-center items-center border-r bg-gray-100'>-</div>
+                            <div className='w-full h-full flex justify-center items-center border-l'>{quantity}</div>
+                            <div onClick={() => addQuantity()} className='w-full h-full flex justify-center items-center border-l bg-gray-100'>+</div>
                         </div>
+                    </div>
+
+                    <div className='flex flex-col gap-4 pb-6 border-b'>
+                        <h2 className='text-[18px] font-semibold'>Selectionnez une Taille</h2>
+                        <SizeRender
+                            ProductSize={product?.size}
+                            selectSize={selectSize}
+                            onSelectSizeChange={onSelectSizeChange}
+                        />
                     </div>
 
                     <Button
                         text='Ajouter au panier'
                         handleClick={handleAddToPanier}
-                        style='h-[60px] lg:w-[70%] flex justify-center items-center  bg-black text-white round rounded-full text-[20px] '
-                        icon={<MdShoppingCart
-                            size={30}
-                        />}
+                        icon={<MdShoppingCart size={30} />}
+                        style='h-[60px] lg:w-[70%] flex justify-center items-center gap-2 bg-secondaryColor text-blackColor2 round rounded-md font-bold text-[20px] '
                     />
 
                     <ReinsuranceCard
                         title='Livraison GRATUITE à partir de 125 £'
                         icon={<CiDeliveryTruck size={40} />}
                     />
+
+
                 </div>
             </div>
         </div>

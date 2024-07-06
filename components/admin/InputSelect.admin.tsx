@@ -2,21 +2,18 @@
 import useSelectList from '@/hooks/useSelectList'
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { IoCloseCircleSharp } from "react-icons/io5";
-import { IsSelectListEmpty } from './InsertProduct';
 import { FieldErrors, InputValidationRules, UseFormRegister } from 'react-hook-form';
 import {useSelector } from 'react-redux';
 
 type InputSelectType = {
-    label: string,
-    data: (string | number | null)[]
-    placeholder: string,
+    label?: string,
+    data?: (string | number | null)[]
+    placeholder?: string,
     variant: 'multuple' | 'single',
-    name: 'size' | 'mark' | 'color' | 'category',
+    name: 'size' | 'mark' | 'color' | 'category' | 'city' | 'street',
     defaultValue?: string | number | (string | number | null)[],
-    isSelectListEmpty: IsSelectListEmpty
     errors: FieldErrors<InputValidationRules>
     register: UseFormRegister<InputValidationRules>
-    setIsSelectListEmpty: Dispatch<SetStateAction<IsSelectListEmpty>>
 }
 
 type selectedListElType = {
@@ -77,7 +74,7 @@ export default function InputSelect({ data, label, placeholder, variant, name, r
                     data.map((item, index) => (
 
                         variant === 'multuple' ?
-                            (<option key={index} selected={isProducUpdate && item === defaultValue.at(-1)} disabled={selectlist.includes(item)} value={item} >{item}</option>) :
+                            (<option key={index} selected={isProducUpdate && item === defaultValue.at(-1)} disabled={selectlist.includes(item?.toString())} value={item} >{item}</option>) :
                             (<option key={index}>{item}</option>)
                     ))
                 }

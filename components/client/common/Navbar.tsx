@@ -22,17 +22,19 @@ const NavbarRightPart = () => {
                 <LuUser2 size={20} />
 
             </div>
-            <div className='w-[50px] h-[50px] flex justify-center items-center rounded-full bg-white text-blackColor2 relative'>
+           <Link href='/cart'>
+           <div className='w-[50px] h-[50px] flex justify-center items-center rounded-full bg-white text-blackColor2 relative'>
                 <IoBagOutline size={20} />
                 <span
-                    className='w-[20px] h-[20px] flex justify-center items-center absolute right-[-4px] top-[-4px] rounded-full bg-red-600 text-white font-bold '>
+                    className='w-[20px] h-[20px] flex justify-center items-center absolute right-[-4px] text-[11px]  top-[-4px] rounded-full bg-red-600 text-white font-bold '>
                     {cartQuantities}
                 </span>
             </div>
+           </Link>
         </div>
     } else {
         return <Link href='/login'>
-            connecter vous
+            Connectez vous
         </Link>
     }
 }

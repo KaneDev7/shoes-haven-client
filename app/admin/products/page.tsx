@@ -2,7 +2,6 @@
 import Button from '@/components/admin/Button.admin';
 import Header from '@/components/admin/Header';
 import TableList from '@/components/admin/TableList';
-import ProductListTable from '@/components/admin/TableList';
 import Search from '@/components/admin/Search.admin';
 import useFetch from '@/hooks/useFetch';
 import { setSelectCategories } from '@/redux/domains/form/caregories.slice';
@@ -15,10 +14,15 @@ import React from 'react'
 import { FiPlus } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
 import { productTableHeaderList } from '@/constants/data';
+import { useQuery } from '@tanstack/react-query';
+import { getProducts } from '@/api/products';
 
 
 export default function Products() {
-  const { data, error, loading } = useFetch('/products')
+  const {data : products , isLoading , error} = useQuery({
+    queryKey : ['products'],
+    queryFn :  async () => getProducts()
+} )
 
   const route = useRouter()
   const dispatch = useDispatch()
@@ -47,8 +51,8 @@ export default function Products() {
       </Header>
       <TableList
         headerList={productTableHeaderList}
-        data={data}
-        loading={loading}
+        data={products}
+        loading={isLoading}
         error={error}
         type='products'
       />

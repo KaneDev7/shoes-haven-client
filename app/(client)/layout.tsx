@@ -16,8 +16,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-
-
   return <html lang="en">
     <body className={inter.className}>
       <RequireAuthProvider>
@@ -28,8 +26,6 @@ export default function RootLayout({
           <Footer />
         </LocalCartProvider>
       </RequireAuthProvider>
-
-
     </body>
   </html>
 

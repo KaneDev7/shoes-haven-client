@@ -93,7 +93,7 @@ export default function Login() {
                             register={register}
                             variant='cours'
                             validations={{
-                                required: { value: true, message: "Le nom d’utilsateur est obligatoire" },
+                                required: { value: true, message: "Le mot de passe est obligatoire" },
                             }}
                         />
 

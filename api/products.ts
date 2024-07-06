@@ -1,15 +1,9 @@
 import instanceAxios from "@/lib/axios"
 import { Product } from "@/types/product.type"
 
-export const getProducts = async (token : string) : Promise<Product[] | any> => {
+export const getProducts = async (token? : string) : Promise<Product[] | any> => {
     try {
-        const response = await instanceAxios.get('/products',
-            {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                }
-            }
-        )
+        const response = await instanceAxios.get('/products')
         return response.data.data
 
     } catch (error) {
@@ -19,15 +13,9 @@ export const getProducts = async (token : string) : Promise<Product[] | any> => 
 }
 
 
-export const getSameProducts = async (token : string, productId: string) : Promise<Product[] | any> => {
+export const getSameProducts = async (productId: string) : Promise<Product[] | any> => {
     try {
-        const response = await instanceAxios.get(`/products?productId=${productId} `,
-            {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                }
-            }
-        )
+        const response = await instanceAxios.get(`/products?productId=${productId}`)
         return response.data.data
 
     } catch (error) {
@@ -36,15 +24,9 @@ export const getSameProducts = async (token : string, productId: string) : Promi
     }
 }
 
-export const getOneProduct = async (token : string, productId : string) : Promise<Product | any> => {
+export const getOneProduct = async (productId : string) : Promise<Product | any> => {
     try {
-        const response = await instanceAxios.get(`/products/${productId}`,
-            {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                }
-            }
-        )
+        const response = await instanceAxios.get(`/products/${productId}`)
         return response.data.data
 
     } catch (error) {
@@ -52,7 +34,6 @@ export const getOneProduct = async (token : string, productId : string) : Promis
         return error
     }
 }
-
 
 
 export const addProduct = async (formData : FormData, token : string) : Promise<any> => {

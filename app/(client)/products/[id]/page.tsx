@@ -15,7 +15,7 @@ export default function page() {
 
     const {data , isLoading, error} = useQuery({
         queryKey : ['product', productId],
-        queryFn :  async () => getOneProduct(token, productId)
+        queryFn :  async () => getOneProduct(productId)
     })
 
     const product = data as Product

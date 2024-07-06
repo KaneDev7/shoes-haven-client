@@ -3,6 +3,7 @@ import { createUser } from '@/api/authentification'
 import InputText from '@/components/admin/InputText'
 import Button from '@/components/client/buttons'
 import Spiner from '@/components/shared/Spiner'
+import { emailValidationRegex } from '@/constants/validation'
 import { setcurrentUser } from '@/redux/domains/users/currentUser.slice'
 import { handleResponseError } from '@/utils/errorResponse'
 import Image from 'next/image'
@@ -12,7 +13,6 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 
-const emailValidationRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
 export default function Register() {
   const [errorMessage, setErrorMessage] = useState('')
@@ -36,7 +36,6 @@ export default function Register() {
     formData.append('email', data.email)
     formData.append('password', data.password)
 
-    console.log('verfify', formData.has('username'))
     setIsSubmiting(true)
 
     const response = await createUser(formData)

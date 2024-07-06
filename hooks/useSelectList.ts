@@ -2,7 +2,8 @@
 
 import { setSelectCategories } from '@/redux/domains/form/caregories.slice'
 import { setSelectColors } from '@/redux/domains/form/colors.slice'
-import React, {useState } from 'react'
+import { setSelectSize } from '@/redux/domains/form/size.slice'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 type SelectListType = {
@@ -11,7 +12,7 @@ type SelectListType = {
 }
 
 export default function useSelectList({ list, name }: SelectListType) {
-    const [selectlist, setSelectlist] = useState<(string | number | null )[]>(list)
+    const [selectlist, setSelectlist] = useState<(string | number | null)[]>(list)
     const dispatch = useDispatch()
 
     const setDataToRedux = (selectlistUpdated: (string | number | null)[]) => {
@@ -21,6 +22,9 @@ export default function useSelectList({ list, name }: SelectListType) {
                 break;
             case 'color':
                 dispatch(setSelectColors(selectlistUpdated))
+                break;
+            case 'size':
+                dispatch(setSelectSize(selectlistUpdated))
                 break;
             default:
                 break;

@@ -6,7 +6,7 @@ export interface Product {
     category: string,
     price: number | null,
     onStock: boolean,
-    size: number | null,
+    size: string,
     color: string,
     mark: string,
     uri: string[],

@@ -19,9 +19,10 @@ export const validationRules = {
 
 export default function ProductForm({ onSubmit, handleSubmit, register, errors }: ProductFormType) {
     const selectCategories = useSelector<any>(state => state.selectCategories)
+    const selectSizes = useSelector<any>(state => state.selectSizes)
     const selectColors = useSelector<any>(state => state.selectColors)
     const productDefaultValue = useSelector<any>(state => state.productDefaultValue)
-    
+
     let form: MutableRefObject<HTMLFormElement | undefined> = useRef();
     let submitButton: MutableRefObject<HTMLButtonElement | null> = useRef(null);
 
@@ -94,8 +95,8 @@ export default function ProductForm({ onSubmit, handleSubmit, register, errors }
                     label='Tailles'
                     placeholder='Selectionner la taille'
                     data={sizes}
-                    defaultValue={productDefaultValue.size}
-                    variant='single'
+                    defaultValue={selectSizes}
+                    variant='multuple'
                     name='size'
                     register={register}
                     errors={errors}

@@ -19,3 +19,21 @@ export const addToCart = async (formData: any, token :string | undefined): Promi
         return error
     }
 }
+
+
+export const getCart = async (token :string | undefined): Promise<any> => {
+    try {
+        const response = await instanceAxios.get('/cart',
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                }
+            }
+        )
+        return response.data.data
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}

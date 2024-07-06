@@ -1,5 +1,5 @@
 "use client"
-import { deleteProduct, toggleStock } from '@/api/products'
+import { deleteProduct, getOneProduct, toggleStock } from '@/api/products'
 import Button from '@/components/admin/Button.admin'
 import Header from '@/components/admin/Header'
 import { token } from '@/components/admin/InsertProduct'
@@ -9,7 +9,9 @@ import { setSelectCategories } from '@/redux/domains/form/caregories.slice'
 import { setSelectColors } from '@/redux/domains/form/colors.slice'
 import { setIsProducUpdate } from '@/redux/domains/form/isProducUpdate'
 import { setProductDefaultValue } from '@/redux/domains/form/productDefaultValue'
+import { setSelectSize } from '@/redux/domains/form/size.slice'
 import { Product } from '@/types/product.type'
+import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
@@ -17,13 +19,13 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 export default function ProductDetail() {
-    const param = useParams()
-    const { data, error, loading } = useFetchOne(`/products/${param.id}`)
-    let product : Product
-    if (!loading) {
-        product = data as Product
+    const productId = useParams().id as string
+   
+    const {data : product , isLoading, error} = useQuery({
+        queryKey : ['product', productId],
+        queryFn :  async () => getOneProduct(token, productId)
+    })
 
-    }
 
     const [isProductOnStock, setIsProductOnStock] = useState<boolean>()
 
@@ -34,6 +36,7 @@ export default function ProductDetail() {
         dispatch(setProductDefaultValue(product))
         dispatch(setSelectCategories(product.category.split(',')))
         dispatch(setSelectColors(product.color.split(',')))
+        dispatch(setSelectSize(product.size.split(',')))
         dispatch(setIsProducUpdate(true))
         route.push('/admin/products/edit')
     }
@@ -56,7 +59,7 @@ export default function ProductDetail() {
 
     }, [product])
 
-    if (!loading)
+    if (!isLoading)
         return (
             <div className='mb-4'>
                 <Header title={product.title}  >

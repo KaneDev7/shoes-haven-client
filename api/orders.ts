@@ -17,3 +17,22 @@ export const updateOrder = async (data : {orderId : string, status : string}, to
         return error
     }
 }
+
+
+export const getOrders = async (token : string) : Promise<Product[] | any> => {
+    try {
+        const response = await instanceAxios.get(`/orders`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            }
+        )
+        
+        return response.data.data
+
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}

@@ -7,17 +7,19 @@ import { productDefaultValueSlice } from '../domains/form/productDefaultValue'
 import { isProducUpdateSlice } from '../domains/form/isProducUpdate'
 import { currentUserSlice } from '../domains/users/currentUser.slice'
 import { cartSlice } from '../domains/cart/cart.slice'
+import { selectSizesSlice } from '../domains/form/size.slice'
 
 export const store = configureStore({
   reducer: {
     selectCategories : selectCategoriesSlice.reducer,
     selectColors : selectColorsSlice.reducer,
+    selectSize : selectSizesSlice.reducer,
     selectValidation : selectValidationSlice.reducer,
     files : filesSlice.reducer,
     productDefaultValue: productDefaultValueSlice.reducer,
     isProducUpdate : isProducUpdateSlice.reducer,
     currentUser : currentUserSlice.reducer,
-    cart : cartSlice.reducer
+    cart : cartSlice.reducer,
   },
 })
 
