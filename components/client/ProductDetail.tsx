@@ -105,6 +105,7 @@ const SizeRender = ({ ProductSize, selectSize, onSelectSizeChange }: SizeRendery
 export default function ProductDetail({ product }: ProductDetailType) {
     const currentUser: User = useSelector(state => state.currentUser)
     const { updataQuantity } = useContext(CartContext)
+    const {onUpdateTotalPrice} = useContext(CartContext)
     const [activeIndex, setActiveIndex] = useState(0)
     const [selectSize, setSelectSize] = useState(product?.size?.split(',')[0])
     const [quantity, setQuantity] = useState(1)
@@ -141,9 +142,9 @@ export default function ProductDetail({ product }: ProductDetailType) {
                 size: selectSize
             }
         }
-        
-        updataQuantity(quantity)
         await addToCart(newCart, currentUser.token)
+        updataQuantity(quantity)
+        onUpdateTotalPrice(product?.price * quantity)
         return toast.success("Produit ajouté au panier avec succée", { hideProgressBar: true })
     }
 

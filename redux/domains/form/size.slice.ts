@@ -6,7 +6,7 @@ export type SelectType = (string | number | null) []
 const initialState:  SelectType = []
 
 export const selectSizesSlice = createSlice({
-  name: 'selectSize',
+  name: 'selectSizes',
   initialState,
   reducers: {
 

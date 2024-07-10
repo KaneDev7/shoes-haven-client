@@ -25,7 +25,7 @@ export default function InsertProduct() {
     const [isSubmiting, setIsSubmiting] = useState(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
     const selectCategories = useSelector<any>(state => state.selectCategories)
-    const selectSize = useSelector<any>(state => state.selectSize)
+    const selectSizes = useSelector<any>(state => state.selectSizes)
     const selectColors = useSelector<any>(state => state.selectColors)
 
     const isProducUpdate = useSelector<any>(state => state.isProducUpdate)
@@ -96,7 +96,7 @@ export default function InsertProduct() {
         const formData = new FormData(form);
         formData.append('category', selectCategories);
         formData.append('color', selectColors);
-        formData.append('size', selectSize);
+        formData.append('size', selectSizes);
 
         if (files && !isProducUpdate) {
             files.forEach((file: any) =>formData.append('files', file));

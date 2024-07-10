@@ -13,7 +13,6 @@ export interface Product {
     __v?: number
 }
 
-
 export interface Order {
     _id: string,
     user_id: string,
@@ -35,6 +34,17 @@ export interface Order {
     order_date: string,
     delivery_date? : string
     __v?: 0
+}
+
+export interface QueryParams  {
+    category ?: string,
+    productId? : string,
+    size? : string,
+    color ?: string,
+    price_lte? : string,
+    price_gte? : string,
+    mark? : string,
+    onStock? : string
 }
 
 export  type Status = 'pendding' | 'deliveried' | 'canceled'

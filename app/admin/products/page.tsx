@@ -3,7 +3,6 @@ import Button from '@/components/admin/Button.admin';
 import Header from '@/components/admin/Header';
 import TableList from '@/components/admin/TableList';
 import Search from '@/components/admin/Search.admin';
-import useFetch from '@/hooks/useFetch';
 import { setSelectCategories } from '@/redux/domains/form/caregories.slice';
 import { setSelectColors } from '@/redux/domains/form/colors.slice';
 import { setFiles } from '@/redux/domains/form/file.slice';
@@ -16,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { productTableHeaderList } from '@/constants/data';
 import { useQuery } from '@tanstack/react-query';
 import { getProducts } from '@/api/products';
+import { setSelectSize } from '@/redux/domains/form/size.slice';
 
 
 export default function Products() {
@@ -30,6 +30,7 @@ export default function Products() {
   const handleClick = () => {
     dispatch(setSelectCategories([]))
     dispatch(setSelectColors([]))
+    dispatch(setSelectSize([]))
     dispatch(setProductDefaultValue(initialStateProductDefaultValue))
     dispatch(setIsProducUpdate(false))
     dispatch(setFiles([]))

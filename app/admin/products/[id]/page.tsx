@@ -4,13 +4,11 @@ import Button from '@/components/admin/Button.admin'
 import Header from '@/components/admin/Header'
 import { token } from '@/components/admin/InsertProduct'
 import ToggleInput from '@/components/admin/Toggle'
-import useFetchOne from '@/hooks/useFetchOne'
 import { setSelectCategories } from '@/redux/domains/form/caregories.slice'
 import { setSelectColors } from '@/redux/domains/form/colors.slice'
 import { setIsProducUpdate } from '@/redux/domains/form/isProducUpdate'
 import { setProductDefaultValue } from '@/redux/domains/form/productDefaultValue'
 import { setSelectSize } from '@/redux/domains/form/size.slice'
-import { Product } from '@/types/product.type'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -23,9 +21,8 @@ export default function ProductDetail() {
    
     const {data : product , isLoading, error} = useQuery({
         queryKey : ['product', productId],
-        queryFn :  async () => getOneProduct(token, productId)
+        queryFn :  async () => getOneProduct(productId)
     })
-
 
     const [isProductOnStock, setIsProductOnStock] = useState<boolean>()
 
@@ -67,7 +64,6 @@ export default function ProductDetail() {
                         <Button
                             text='Retour'
                             style='bg-transparent border-2 border-secondaryColor'
-
                         />
                     </Link>
                 </Header>

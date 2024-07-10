@@ -3,15 +3,17 @@
 import { setSelectCategories } from '@/redux/domains/form/caregories.slice'
 import { setSelectColors } from '@/redux/domains/form/colors.slice'
 import { setSelectSize } from '@/redux/domains/form/size.slice'
+import { setQueryParams } from '@/redux/domains/products/queryParams.slice'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 type SelectListType = {
     list: (string | number | null)[],
-    name: string
+    name?: string,
+    isClient?: boolean
 }
 
-export default function useSelectList({ list, name }: SelectListType) {
+export default function useSelectList({ list, name, isClient }: SelectListType) {
     const [selectlist, setSelectlist] = useState<(string | number | null)[]>(list)
     const dispatch = useDispatch()
 
@@ -19,12 +21,15 @@ export default function useSelectList({ list, name }: SelectListType) {
         switch (name) {
             case 'category':
                 dispatch(setSelectCategories(selectlistUpdated))
+                if (isClient) dispatch(setQueryParams(['category', selectlistUpdated.join(',')]))
                 break;
             case 'color':
                 dispatch(setSelectColors(selectlistUpdated))
+                if (isClient) dispatch(setQueryParams(['color', selectlistUpdated.join(',')]))
                 break;
             case 'size':
                 dispatch(setSelectSize(selectlistUpdated))
+                if (isClient) dispatch(setQueryParams(['size', selectlistUpdated.join(',')]))
                 break;
             default:
                 break;
@@ -37,7 +42,7 @@ export default function useSelectList({ list, name }: SelectListType) {
             setDataToRedux(selectlistUpdated)
             return setSelectlist(selectlistUpdated)
         }
-        const selectlistUpdated = [...selectlist, selected]
+        const selectlistUpdated = [...selectlist,selected]
         setSelectlist(selectlistUpdated)
         setDataToRedux(selectlistUpdated)
     }

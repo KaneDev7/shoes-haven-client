@@ -10,12 +10,12 @@ type SizeProps = {
 
 export default function Sizes({ sizes, style }: SizeProps) {
 
-    const { handleToggleSelect, selectlist } = useSelectList({ list: [43]})
+    const { handleToggleSelect, selectlist } = useSelectList({ list: [], name : 'size', isClient : true})
 
     const handleToggleSelectSize = (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
         const element = event.target as HTMLLIElement
-        const sizeSelected: number = Number(element.id)
-        handleToggleSelect(sizeSelected)
+        const sizeSelected = element.id
+        handleToggleSelect(sizeSelected.trim())
     }
 
     return (
@@ -25,7 +25,7 @@ export default function Sizes({ sizes, style }: SizeProps) {
                     <span
                         onClick={handleToggleSelectSize}
                         id={size.toString()}
-                        className={`w-[30px] h-[30px] cursor-pointer flex justify-center items-center  text-xs rounded-full border-2 ${selectlist.includes(size) && 'bg-blackColor2 text-white'}`} >
+                        className={`w-[30px] h-[30px] cursor-pointer flex justify-center items-center  text-xs rounded-full border-2 ${selectlist.includes(size.toString().trim()) && 'bg-blackColor2 text-white'}`} >
                         {size}
                     </span>
                 ))

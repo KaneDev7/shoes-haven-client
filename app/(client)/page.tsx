@@ -1,3 +1,4 @@
+"use client"
 import BannerHome from "@/components/client/containers/BannerHome";
 import Categories from "@/components/client/containers/Categories";
 import Trending from "@/components/client/containers/Trending";
@@ -5,16 +6,22 @@ import { ProductsMock } from "@/constants/productsMock";
 import Button from "@/components/client/buttons";
 import RenderProductList from "@/components/client/containers/RenderProductList";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+import { getProducts } from "@/api/products";
 
 
 export default function Home() {
-
+  const {data : products , isLoading, error} = useQuery({
+    queryKey : ['products'],
+    queryFn :  async () => getProducts()
+} )
   return (
     <>
       <BannerHome />
       <Trending />
       <RenderProductList
-        products={ProductsMock}
+        products={products}
+        loading={isLoading}
         title="NOS CHAUSSURES"
         style="mt-20"
         headerRightEl={

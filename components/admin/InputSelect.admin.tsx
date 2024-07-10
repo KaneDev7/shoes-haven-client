@@ -3,7 +3,7 @@ import useSelectList from '@/hooks/useSelectList'
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { IoCloseCircleSharp } from "react-icons/io5";
 import { FieldErrors, InputValidationRules, UseFormRegister } from 'react-hook-form';
-import {useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 type InputSelectType = {
     label?: string,
@@ -42,7 +42,7 @@ const RenderListEl = ({ selectlist, handleToggleSelect }: selectedListElType) =>
 
 
 export default function InputSelect({ data, label, placeholder, variant, name, register, errors, defaultValue }: InputSelectType) {
-    const { selectlist, handleToggleSelect } = useSelectList({ list: Array.isArray(defaultValue) ? defaultValue : [], name })
+    const { selectlist, handleToggleSelect } = useSelectList({ list: Array.isArray(defaultValue) ? defaultValue : [], name, isClient: false })
     const isProducUpdate = useSelector(state => state.isProducUpdate)
 
     const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -58,13 +58,13 @@ export default function InputSelect({ data, label, placeholder, variant, name, r
             <select
                 name={name}
                 {...register(name, {
-                    required : {value : true, message : `Les ${label} sont obligatoires`},
+                    required: { value: true, message: `Les ${label} sont obligatoires` },
                     validate: () => {
                         if (variant === 'multuple') {
-                            return  selectlist.length !== 0 || `Veillez selectionnez des ${label}`
+                            return selectlist.length !== 0 || `Veillez selectionnez des ${label}`
                         }
                     },
-                    
+
                 })}
                 onChange={handleSelect}
                 className={`px-2 py-3 border-2 ${errors[name]?.message && 'border-red-300'} rounded-md  bg-gray-50/50 text-sm outline-none`} name={name} id="">
@@ -74,7 +74,7 @@ export default function InputSelect({ data, label, placeholder, variant, name, r
                     data.map((item, index) => (
 
                         variant === 'multuple' ?
-                            (<option key={index} selected={isProducUpdate && item === defaultValue.at(-1)} disabled={selectlist.includes(item?.toString())} value={item} >{item}</option>) :
+                            (<option key={index} selected={isProducUpdate && item === defaultValue.at(-1)} disabled={selectlist.includes(item)} value={item} >{item}</option>) :
                             (<option key={index}>{item}</option>)
                     ))
                 }

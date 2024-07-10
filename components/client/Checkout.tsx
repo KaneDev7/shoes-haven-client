@@ -1,9 +1,16 @@
-import React, { FormEventHandler } from 'react'
+import React, { FormEventHandler, useContext, useEffect, useRef, useState } from 'react'
 import InputSelect from '../admin/InputSelect.admin'
 import { FieldErrors, FieldValues, useForm } from 'react-hook-form'
 import InputText from '../admin/InputText'
 import Button from './buttons'
 import { emailValidationRegex } from '@/constants/validation'
+import { useSelector } from 'react-redux'
+import { creatUserContactAdress } from '@/api/user'
+import { CartItem } from '@/types/user.type'
+import { CartContext } from '@/context/cartContext'
+import { createOrder } from '@/api/orders'
+import { useRouter } from 'next/navigation'
+import { deleteAllItemFromCart } from '@/api/cart'
 
 const ExpeditionData: ExpeditionCardType[] = [
     {
@@ -34,6 +41,8 @@ const ExpeditionCard = ({ text, number }: ExpeditionCardType) => {
         <p>{number && number} </p>
     </div>
 }
+
+
 type ProductFormType = {
     onSubmit: () => FormEventHandler<HTMLFormElement> | undefined,
     handleSubmit: (data: any) => void,
@@ -42,7 +51,11 @@ type ProductFormType = {
 }
 
 
-export default function Checkout() {
+export default function Checkout({ cart }: { cart: CartItem }) {
+    const currentUser = useSelector(state => state.currentUser)
+    const { totalPrice, resetQuantity } = useContext(CartContext)
+
+    const router = useRouter()
 
     const {
         register,
@@ -51,21 +64,64 @@ export default function Checkout() {
 
     } = useForm({
         defaultValues: {
-
+            city: currentUser?.address?.city,
+            street: currentUser?.address?.street,
+            phoneNum: currentUser?.phoneNum,
+            email: currentUser.email
         }
     })
 
-    const onSubmit = async () => {
+    const checkoutRef = useRef()
 
+    const onSubmit = async (data) => {
+        if (!currentUser?.address) {
+            const userContactAdress = {
+                user_id: currentUser._id,
+                phoneNum: data.phoneNum,
+                address: {
+                    street: data.street,
+                    city: data.city
+                }
+            }
+            try {
+                await creatUserContactAdress(currentUser.token, userContactAdress)
+                console.log('ok')
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        const userOrder = {
+            user_id: currentUser._id,
+            username: currentUser.username,
+            email: currentUser.email,
+            items: cart,
+            total_price: totalPrice,
+            status: 'pendding',
+            payment_method: 'Cash',
+            order_date: new Date().toLocaleDateString()
+        }
+
+            await createOrder(userOrder, currentUser?.token)
+            await deleteAllItemFromCart(currentUser?.token)
+            resetQuantity()
+            router.push('/orders')
     }
 
+    useEffect(() => {
+        const prices = checkoutRef.current.parentElement?.querySelector('.priceEl')
+
+        console.log('prices', prices)
+    }, [])
+
     return (
-        <div className='col-span-1 p-10 border'>
-            <header className='space-y-3 pb-4 border-b'>
+        <div ref={checkoutRef} className='col-span-1 p-10 border'>
+
+            <header className='priceEl space-y-3 pb-4 border-b'>
                 <h1 className='text-2xl font-bold '>CART TOTAL</h1>
                 <div className='flex justify-between font-semibold'>
                     <p>TOTAL</p>
-                    <p>45 000 FCFA</p>
+                    <p>{totalPrice?.toLocaleString()} FCFA</p>
                 </div>
             </header>
 
@@ -93,11 +149,9 @@ export default function Checkout() {
                             name='city'
                             errors={errors}
                             register={register}
-                            validations={
-                                {
-                                    required: { value: true, message: 'Séléctionner d\'abord la ville ou département' }
-                                }
-                            }
+                            validations={{
+                                required: { value: true, message: 'Séléctionner d\'abord la ville ou département' }
+                            }}
                         />
 
                         <InputText
@@ -117,6 +171,7 @@ export default function Checkout() {
 
                     <div className='space-y-2 mt-5'>
                         <h2 className='font-bold text-xl'> Contact </h2>
+
                         <InputText
                             placeholder='Votre email'
                             name='email'
@@ -126,10 +181,10 @@ export default function Checkout() {
                             validations={{
                                 required: { value: true, message: "L'email est obligatoire" },
                                 pattern: {
-                                  value: emailValidationRegex,
-                                  message: "Entrez un email valide"
+                                    value: emailValidationRegex,
+                                    message: "Entrez un email valide"
                                 },
-                              }}
+                            }}
                         />
 
                         <InputText

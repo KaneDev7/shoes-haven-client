@@ -37,14 +37,17 @@ export default function RenderProductList({ products, title, headerRightEl, styl
           <h1 className='text-2xl font-bold '>{title}</h1>
           {headerRightEl}
         </header>
+        <p className='mt-2'> {products?.length}  Produit{products?.length > 1 && "s"} Trouvé{products?.length > 1 && "s"}  </p>
+
         {
-          loading || products?.length === 0 ?
+          loading ?
             <ProductListSkeleton /> :
             <ProductList
               products={products}
               gridParamsStyle={gridParamsStyle}
             />
         }
+
       </div>
     </div>
   )

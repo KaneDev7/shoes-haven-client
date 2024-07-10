@@ -1,6 +1,7 @@
 "use client"
 
 import useSelectList from '@/hooks/useSelectList'
+import { setQueryParams } from '@/redux/domains/products/queryParams.slice'
 import React, { useState } from 'react'
 
 type ColorListType = {
@@ -17,12 +18,13 @@ const CheckCage = () => {
 }
 
 export default function ColorList() {
-  const { handleToggleSelect, selectlist } = useSelectList({ list: ['Noir'] })
+  const { handleToggleSelect, selectlist } = useSelectList({ list: [] , name :'color', isClient : true})
 
   const handleToggleColor = (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+   
     const element = event.target as HTMLLIElement
     const colorCliked = element.id
-    handleToggleSelect(colorCliked)
+    handleToggleSelect(colorCliked.trim())
   }
 
   return (

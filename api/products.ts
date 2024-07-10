@@ -1,9 +1,11 @@
 import instanceAxios from "@/lib/axios"
 import { Product } from "@/types/product.type"
+import { createUrlParams } from "@/utils/commun"
 
-export const getProducts = async (token? : string) : Promise<Product[] | any> => {
+export const getProducts = async (queryObject : any = {}) : Promise<Product[] | any> => {
+   const querys =  createUrlParams(queryObject)
     try {
-        const response = await instanceAxios.get('/products')
+        const response = await instanceAxios.get(`/products?${querys}`)
         return response.data.data
 
     } catch (error) {

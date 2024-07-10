@@ -1,5 +1,5 @@
 "use client"
-import { getOneProduct } from '@/api/products'
+import { getOneProduct, getProducts } from '@/api/products'
 import { token } from '@/components/admin/InsertProduct'
 import ProductDeatilSkeleton from '@/components/client/ProductDeatilSkeleton'
 import ProductDetail from '@/components/client/ProductDetail'
@@ -12,6 +12,11 @@ import React from 'react'
 export default function page() {
     const param = useParams()
     const productId = param.id as string
+
+    const {data : similarProducts , isLoading : similarProductsLoding} = useQuery({
+        queryKey : ['products'],
+        queryFn :  async () => getProducts(token)
+    } )
 
     const {data , isLoading, error} = useQuery({
         queryKey : ['product', productId],
@@ -28,12 +33,12 @@ export default function page() {
                     product={product}
                 />
                 <div className='flex-1 mt-40'>
-                    {/* <RenderProductList
+                    <RenderProductList
                         products={similarProducts}
                         loading={similarProductsLoding}
                         title="PRODUITS SIMILAIRES"
                         gridParamsStyle='productsPage sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5'
-                    /> */}
+                    />
                 </div>
             </div>
         )
