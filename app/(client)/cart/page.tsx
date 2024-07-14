@@ -1,7 +1,7 @@
 "use client"
 import Image from 'next/image'
 import { AiFillCloseCircle } from "react-icons/ai";
-import React  from 'react'
+import React, { useContext }  from 'react'
 import Checkout from '@/components/client/Checkout';
 import { Product } from '@/types/product.type';
 import { CartItem as CartType } from '@/types/user.type';
@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation';
 import { MdRemoveShoppingCart } from "react-icons/md";
 import { useSelector } from 'react-redux';
 import Button from '@/components/client/buttons';
+import { CartContext } from '@/context/cartContext';
 
 
 const CartItem = ({ cart, refetch }: { cart: CartType,refetch : any }) => {
@@ -24,22 +25,22 @@ const CartItem = ({ cart, refetch }: { cart: CartType,refetch : any }) => {
         queryFn: async () => getOneProduct(productId)
     })
 
+
     const { mutate } = useMutation({        
         mutationFn: async () => {
             const data: { user_id: string, productId: string, size :string } = { user_id: currentUser._id, size : cart.size , productId}
             await deleteItemFromCart(currentUser.token, data)
         },
+
         onError: (err) => {
             console.log(err)
         },
+        
         onSuccess : () =>{
             refetch()
         }
     })
 
-    const handleClick = async () => {
-        mutate()
-    }
 
     const product = data as Product
 
@@ -65,7 +66,7 @@ const CartItem = ({ cart, refetch }: { cart: CartType,refetch : any }) => {
             <p className='flex-1 flex items-center  mr-4'>{cart.quantity} </p>
             <p className='w-[70px]'>
                 <AiFillCloseCircle
-                    onClick={handleClick}
+                    onClick={() =>  mutate()}
                     className='absolute right-5 top-[50%] translate-y-[-50%] text-[22px] md:text-[25px]' color='red' />
             </p>
         </div>
@@ -74,14 +75,20 @@ const CartItem = ({ cart, refetch }: { cart: CartType,refetch : any }) => {
 export default function Cart() {
     const router = useRouter()
     const currentUser = useSelector(state => state.currentUser)
+    const {setCart, setTotalPrice} = useContext(CartContext)
+
     if (!currentUser) return router.push('/login')
 
     const token = currentUser.token
     const { data, isLoading, error, refetch } = useQuery({
         queryKey: ['cart'],
         queryFn: async () => getCart(token)
-    })
+    },)
+
     const cart = data?.items
+    const total = data?.total
+    setCart(cart)
+    setTotalPrice(total)
 
     if (!isLoading)
         return (

@@ -9,6 +9,7 @@ import { currentUserSlice } from '../domains/users/currentUser.slice'
 import { cartSlice } from '../domains/cart/cart.slice'
 import { selectSizesSlice } from '../domains/form/size.slice'
 import { queryParamsSlice } from '../domains/products/queryParams.slice'
+import { selectedFilterSlice } from '../domains/products/SelectedFilter.slice'
 
 export const store = configureStore({
   reducer: {
@@ -21,7 +22,8 @@ export const store = configureStore({
     isProducUpdate : isProducUpdateSlice.reducer,
     currentUser : currentUserSlice.reducer,
     cart : cartSlice.reducer,
-    queryParams: queryParamsSlice.reducer
+    queryParams: queryParamsSlice.reducer,
+    selectedFilter : selectedFilterSlice.reducer
   },
 })
 

@@ -1,5 +1,3 @@
-
-
 "use client"
 import React, { ReactNode, createContext, useEffect, useState } from 'react'
 import { User } from '@/types/user.type'
@@ -19,9 +17,10 @@ export default function LocalCartProvider({ children }: { children: ReactNode })
             return acc += item.quantity
         }, 0)
         setCartQuantities(totalItems)
+
     }, [cart])
 
-    const onUpdateTotalPrice = (prix: number) => {
+    const updateTotalPrice = (prix: number) => {
         setTotalPrice(v => v + prix)
     }
 
@@ -29,8 +28,8 @@ export default function LocalCartProvider({ children }: { children: ReactNode })
         setCartQuantities(v => v + quantity)
     }
 
-    const resetQuantity = () => {
-        setCartQuantities(0)
+    const resetQuantity = (value = 0) => {
+        setCartQuantities(value)
     }
 
     useEffect(() => {
@@ -39,7 +38,6 @@ export default function LocalCartProvider({ children }: { children: ReactNode })
             const cart = await getCart(session?.token)
             sessionStorage.setItem(`cart_${session?._id}`, JSON.stringify(cart?.items))
             setCart(cart?.items)
-            console.log('context', cart)
             setTotalPrice(cart?.total)
             setIsLoading(false)
         }
@@ -47,7 +45,16 @@ export default function LocalCartProvider({ children }: { children: ReactNode })
         fetchtData()
     }, [isLoading])
 
-    return <CartContext.Provider value={{ cart, cartQuantities, resetQuantity, totalPrice, onUpdateTotalPrice, updataQuantity}}>
+    return <CartContext.Provider value={{
+        cart,
+        cartQuantities,
+        totalPrice,
+        setTotalPrice,
+        setCart,
+        resetQuantity,
+        updateTotalPrice,
+        updataQuantity
+    }}>
         {children}
     </CartContext.Provider>
 

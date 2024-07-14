@@ -105,7 +105,7 @@ const SizeRender = ({ ProductSize, selectSize, onSelectSizeChange }: SizeRendery
 export default function ProductDetail({ product }: ProductDetailType) {
     const currentUser: User = useSelector(state => state.currentUser)
     const { updataQuantity } = useContext(CartContext)
-    const {onUpdateTotalPrice} = useContext(CartContext)
+    const {updateTotalPrice} = useContext(CartContext)
     const [activeIndex, setActiveIndex] = useState(0)
     const [selectSize, setSelectSize] = useState(product?.size?.split(',')[0])
     const [quantity, setQuantity] = useState(1)
@@ -144,7 +144,7 @@ export default function ProductDetail({ product }: ProductDetailType) {
         }
         await addToCart(newCart, currentUser.token)
         updataQuantity(quantity)
-        onUpdateTotalPrice(product?.price * quantity)
+        updateTotalPrice(product?.price * quantity)
         return toast.success("Produit ajouté au panier avec succée", { hideProgressBar: true })
     }
 
@@ -152,13 +152,13 @@ export default function ProductDetail({ product }: ProductDetailType) {
         <div className='globalMaxWidth flex flex-col gap-10 lg:flex-row mt-10 bg-white'>
             <ToastContainer />
 
-            <div className='lg:w-[50%] w-full flex gap-4 flex-col-reverse lg:flex-row   '>
+            <div className='lg:w-[50%] w-full flex gap-4 flex-col-reverse lg:flex-row  '>
 
                 {/* Small images */}
-                <div className='flex flex-row lg:flex-col w-full h-full lg:h-[570px] lg:w-[70px] gap-6'>
+                <div className='flex flex-row lg:flex-col w-full h-full lg:h-[570px] lg:w-[70px] gap-6 '>
                     <Swiper
                         ref={swiperRef}
-                        className='w-full h-full '
+                        className='w-full h-full'
                         spaceBetween={20}
                         slidesPerView={4}
                         onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}

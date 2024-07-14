@@ -102,9 +102,6 @@ export default function InsertProduct() {
             files.forEach((file: any) =>formData.append('files', file));
         }
 
-        console.log('size', formData.get('size'))
-        console.log('color', formData.get('color'))
-
         await insertProduct(formData)
     }
 
@@ -118,7 +115,6 @@ export default function InsertProduct() {
                     <p className='ml-5 text-sm text-red-900 '> {errorMessage} </p>
                 </div>
             }
-
 
             <div className=' flex bg-white p-5 mt-4'>
 

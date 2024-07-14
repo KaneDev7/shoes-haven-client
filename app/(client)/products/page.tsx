@@ -4,35 +4,44 @@ import SideBar from '@/components/client/SideBar'
 import RenderProductList from '@/components/client/containers/RenderProductList'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { setSelectedFilter } from '@/redux/domains/products/SelectedFilter.slice';
+import Spiner from '@/components/shared/Spiner'
 
 export default function Products() {
     const queryParams = useSelector(state => state.queryParams)
-    const [selectedFilter, setSelectedFilter] = useState([])
+    const selectColors = useSelector(state => state.selectColors)
+    const selectSizes = useSelector(state => state.selectSizes)
 
-    const { data: products, isLoading, error, refetch } = useQuery({
+    const dispatch = useDispatch()
+
+    const { data: products, isLoading, error, isFetching, refetch } = useQuery({
         queryKey: ['products'],
         queryFn: async () => getProducts(queryParams)
     })
 
-    console.log('queryParams', queryParams)
-
     useEffect(() => {
-        const selectedFilterFactory = () => {
-            let querySelected = ''
+        const selectedFilterFn = () => {
+            let querySelected = []
             if (queryParams.color) {
-                querySelected += `${queryParams.color}`
+                querySelected.push({
+                    type: 'color',
+                    value: selectColors
+                })
             }
             if (queryParams.size) {
-                querySelected += `,${queryParams.size}`
+                querySelected.push({
+                    type: 'size',
+                    value: selectSizes
+                })
             }
-            setSelectedFilter(querySelected.split(','))
+
+            dispatch(setSelectedFilter(querySelected))
             refetch()
         }
-        selectedFilterFactory()
-    }, [queryParams])
-
+        selectedFilterFn()
+    }, [queryParams, selectColors])
 
 
     return (
@@ -49,15 +58,8 @@ export default function Products() {
             <section className='mt-20 '>
                 <div className='globalMaxWidth lg:flex sm:block gap-5 relative'>
                     <SideBar />
-                    <div className='flex-1'>
-                        <div className='flex items-center gap-4  mb-5'>
-                            {
-                                selectedFilter.length > 0 &&
-                                selectedFilter.map(item => (
-                                    <div className='px-4 bg-secondaryColor text-sm text-blackColor2 font-semibold rounded-full'> {item} </div>
-                                ))
-                            }
-                        </div>
+                    <div className='flex-1 relative'>
+                        {isFetching && <Spiner />}
                         <RenderProductList
                             products={products}
                             loading={isLoading}

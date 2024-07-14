@@ -1,3 +1,4 @@
+import { setQueryParamsThunk } from '@/redux/thunk'
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
@@ -14,10 +15,22 @@ export const selectColorsSlice = createSlice({
             state = action.payload
             return state
         },
+
+        toggleSelectColor: (state, action: PayloadAction<SelectType>) => {
+            if (state.includes(action.payload)) {
+                const selectLisColortUpdated = state.filter(item => item !== action.payload)                
+                state =  [...selectLisColortUpdated]
+            }else{
+                const selectLisColortUpdated = [...state, action.payload]
+                state =  [...selectLisColortUpdated]
+            }
+            return state 
+        }
     },
+
 })
 
 // Action creators are generated for each case reducer function
-export const { setSelectColors } = selectColorsSlice.actions
+export const { setSelectColors, toggleSelectColor  } = selectColorsSlice.actions
 
 export default selectColorsSlice.reducer

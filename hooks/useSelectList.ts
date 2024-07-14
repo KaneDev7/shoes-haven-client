@@ -1,5 +1,4 @@
 "use client"
-
 import { setSelectCategories } from '@/redux/domains/form/caregories.slice'
 import { setSelectColors } from '@/redux/domains/form/colors.slice'
 import { setSelectSize } from '@/redux/domains/form/size.slice'
@@ -17,8 +16,8 @@ export default function useSelectList({ list, name, isClient }: SelectListType) 
     const [selectlist, setSelectlist] = useState<(string | number | null)[]>(list)
     const dispatch = useDispatch()
 
-    const setDataToRedux = (selectlistUpdated: (string | number | null)[]) => {
-        switch (name) {
+    const setDataToRedux = (selectlistUpdated: (string | number | null)[], type : string | undefined = name) => {
+        switch (type) {
             case 'category':
                 dispatch(setSelectCategories(selectlistUpdated))
                 if (isClient) dispatch(setQueryParams(['category', selectlistUpdated.join(',')]))
@@ -36,15 +35,17 @@ export default function useSelectList({ list, name, isClient }: SelectListType) 
         }
     }
 
-    const handleToggleSelect = (selected: string | number | null) => {
+    const handleToggleSelect = (selected: string | number | null, type? : string | undefined ) => {
+       
         if (selectlist.includes(selected)) {
             const selectlistUpdated = selectlist.filter(item => item !== selected)
-            setDataToRedux(selectlistUpdated)
+            setDataToRedux(selectlistUpdated, type)
             return setSelectlist(selectlistUpdated)
         }
+
         const selectlistUpdated = [...selectlist,selected]
         setSelectlist(selectlistUpdated)
-        setDataToRedux(selectlistUpdated)
+        setDataToRedux(selectlistUpdated, type)
     }
     return { selectlist, handleToggleSelect }
 }

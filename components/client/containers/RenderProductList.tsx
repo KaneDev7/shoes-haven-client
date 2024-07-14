@@ -2,6 +2,7 @@ import React from 'react'
 import { Product } from '@/types/product.type'
 import ProductCard from '../ProductCard'
 import { ProductListSkeleton } from '@/components/client/ProductListSkeleton'
+import RenderSelectedFilter from '../common/RenderSelectedFilter'
 
 type RenderProductListTypes = {
   products: Array<Product>,
@@ -37,6 +38,7 @@ export default function RenderProductList({ products, title, headerRightEl, styl
           <h1 className='text-2xl font-bold '>{title}</h1>
           {headerRightEl}
         </header>
+        <RenderSelectedFilter />
         <p className='mt-2'> {products?.length}  Produit{products?.length > 1 && "s"} Trouvé{products?.length > 1 && "s"}  </p>
 
         {

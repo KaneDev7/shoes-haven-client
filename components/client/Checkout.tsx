@@ -1,5 +1,4 @@
-import React, { FormEventHandler, useContext, useEffect, useRef, useState } from 'react'
-import InputSelect from '../admin/InputSelect.admin'
+import React, { FormEventHandler, useContext, useRef } from 'react'
 import { FieldErrors, FieldValues, useForm } from 'react-hook-form'
 import InputText from '../admin/InputText'
 import Button from './buttons'
@@ -85,7 +84,6 @@ export default function Checkout({ cart }: { cart: CartItem }) {
             }
             try {
                 await creatUserContactAdress(currentUser.token, userContactAdress)
-                console.log('ok')
             } catch (error) {
                 console.log(error)
             }
@@ -108,11 +106,6 @@ export default function Checkout({ cart }: { cart: CartItem }) {
             router.push('/orders')
     }
 
-    useEffect(() => {
-        const prices = checkoutRef.current.parentElement?.querySelector('.priceEl')
-
-        console.log('prices', prices)
-    }, [])
 
     return (
         <div ref={checkoutRef} className='col-span-1 p-10 border'>
@@ -140,7 +133,6 @@ export default function Checkout({ cart }: { cart: CartItem }) {
             </div>
 
             <div className='mt-10'>
-
                 <form action="" onSubmit={handleSubmit(onSubmit)} >
                     <div className='space-y-2 mt-5'>
                         <h2 className='font-bold text-xl'> Adress de livraison </h2>
