@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { IoChevronDownSharp, IoSearch } from "react-icons/io5";
 import { LuUser2 } from "react-icons/lu";
 import { IoBagOutline } from "react-icons/io5";
-import ProductMenu from '../ProductMenu';
+import ProductMenu from '../navbar/ProductMenu';
 import { AuthContext } from '@/context/RequireAuth';
 import { CartContext } from '@/context/cartContext';
 

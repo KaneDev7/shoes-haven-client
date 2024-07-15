@@ -1,19 +1,20 @@
 "use client"
 import { getProducts } from '@/api/products'
-import SideBar from '@/components/client/SideBar'
+import SideBar from '@/components/client/sidebar/SideBar'
 import RenderProductList from '@/components/client/containers/RenderProductList'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setSelectedFilter } from '@/redux/domains/products/SelectedFilter.slice';
-import Spiner from '@/components/shared/Spiner'
+import Spiner from '@/components/client/shared/Spiner'
 
 export default function Products() {
     const queryParams = useSelector(state => state.queryParams)
     const selectColors = useSelector(state => state.selectColors)
     const selectSizes = useSelector(state => state.selectSizes)
 
+    console.log('queryParams',queryParams)
     const dispatch = useDispatch()
 
     const { data: products, isLoading, error, isFetching, refetch } = useQuery({
@@ -21,6 +22,7 @@ export default function Products() {
         queryFn: async () => getProducts(queryParams)
     })
 
+    
     useEffect(() => {
         const selectedFilterFn = () => {
             let querySelected = []
@@ -36,12 +38,18 @@ export default function Products() {
                     value: selectSizes
                 })
             }
+            if (queryParams.price_lte) {
+                querySelected.push({
+                    type: 'size',
+                    value: selectSizes
+                })
+            }
 
             dispatch(setSelectedFilter(querySelected))
             refetch()
         }
         selectedFilterFn()
-    }, [queryParams, selectColors])
+    }, [queryParams, selectColors, selectSizes])
 
 
     return (

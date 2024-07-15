@@ -1,9 +1,9 @@
 "use client"
 import { deleteProduct, getOneProduct, toggleStock } from '@/api/products'
-import Button from '@/components/admin/Button.admin'
-import Header from '@/components/admin/Header'
-import { token } from '@/components/admin/InsertProduct'
-import ToggleInput from '@/components/admin/Toggle'
+import Button from '@/components/admin/shared/Button.admin'
+import Header from '@/components/admin/shared/Header'
+import { token } from '@/components/admin/form/InsertProduct'
+import ToggleInput from '@/components/admin/productDetail/Toggle'
 import { setSelectCategories } from '@/redux/domains/form/caregories.slice'
 import { setSelectColors } from '@/redux/domains/form/colors.slice'
 import { setIsProducUpdate } from '@/redux/domains/form/isProducUpdate'

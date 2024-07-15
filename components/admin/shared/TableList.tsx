@@ -1,10 +1,10 @@
 import React, { ReactNode, useState } from 'react'
-import ProductSkeleton from './ProductSkeleton'
+import ProductSkeleton from '../products/ProductSkeleton'
 import { Order, Product } from '@/types/product.type'
-import ProductTableList from './ProductTableList'
-import OrderTableList from './OrderTableList'
+import ProductTableList from '../products/ProductTableList'
+import OrderTableList from '../orders/OrderTableList'
 import { deleteProduct } from '@/api/products'
-import { token } from './InsertProduct'
+import { token } from '../form/InsertProduct'
 import { useParams, useRouter } from 'next/navigation'
 
 type TableListType = {

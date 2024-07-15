@@ -1,8 +1,8 @@
 "use client"
 import { getOneProduct, getProducts } from '@/api/products'
-import { token } from '@/components/admin/InsertProduct'
-import ProductDeatilSkeleton from '@/components/client/ProductDeatilSkeleton'
-import ProductDetail from '@/components/client/ProductDetail'
+import { token } from '@/components/admin/form/InsertProduct'
+import ProductDeatilSkeleton from '@/components/client/products/ProductDeatilSkeleton'
+import ProductDetail from '@/components/client/productDetails/ProductDetail'
 import RenderProductList from '@/components/client/containers/RenderProductList'
 import { Product } from '@/types/product.type'
 import { useQuery } from '@tanstack/react-query'

@@ -1,5 +1,5 @@
 import React from 'react'
-import LinkList from './LinkList'
+import LinkList from '../footer/LinkList'
 import { Collections } from '@/constants/links'
 import ColorList from './ColorList'
 import Sizes from './Sizes'

@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from './buttons'
+import Button from '../shared/buttons'
 import Image from 'next/image'
 
 export default function CatCard({style, imgSrc}:{style : string, imgSrc : string}) {

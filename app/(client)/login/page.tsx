@@ -1,9 +1,9 @@
 "use client"
 import { login } from '@/api/authentification'
 import { getUser } from '@/api/user'
-import InputText from '@/components/admin/InputText'
-import Button from '@/components/client/buttons'
-import Spiner from '@/components/shared/Spiner'
+import InputText from '@/components/admin/form/InputText'
+import Button from '@/components/client/shared/buttons'
+import Spiner from '@/components/client/shared/Spiner'
 import { handleResponseError } from '@/utils/errorResponse'
 import Image from 'next/image'
 import Link from 'next/link'

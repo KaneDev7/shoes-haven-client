@@ -20,7 +20,6 @@ export default function ProductTableList({ products , itemsId, checkOneItem}: Pr
                         <tr data-popover-target="popover-product-detail" className={` ${itemsId.includes(product._id) ? 'bg-gray-50' : 'bg-white'} border-b  hover:bg-gray-50`} >
                             <td className='px-6 py-4'>
                                 <input type="checkbox" checked={itemsId.includes(product._id)} onChange={(event) => checkOneItem(product._id, event)}/>
-                            
                             </td>
                             <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 <div className=' flex gap-5 items-center w-[200px] '>
@@ -44,7 +43,6 @@ export default function ProductTableList({ products , itemsId, checkOneItem}: Pr
                                     className="font-semibold text-secondaryColor hover:underline"
                                 >
                                     Details
-
                                 </Link>
 
                             </td>

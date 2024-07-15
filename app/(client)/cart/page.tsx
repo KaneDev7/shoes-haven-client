@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import { AiFillCloseCircle } from "react-icons/ai";
 import React, { useContext }  from 'react'
-import Checkout from '@/components/client/Checkout';
+import Checkout from '@/components/client/cart/Checkout';
 import { Product } from '@/types/product.type';
 import { CartItem as CartType } from '@/types/user.type';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -12,7 +12,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MdRemoveShoppingCart } from "react-icons/md";
 import { useSelector } from 'react-redux';
-import Button from '@/components/client/buttons';
+import Button from '@/components/client/shared/buttons';
 import { CartContext } from '@/context/cartContext';
 
 

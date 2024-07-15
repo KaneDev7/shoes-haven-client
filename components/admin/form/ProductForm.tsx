@@ -1,7 +1,7 @@
 "use client"
 import React, { FormEventHandler, MutableRefObject, useRef } from 'react'
-import InputText from '@/components/admin/InputText';
-import InputSelect from '@/components/admin/InputSelect.admin';
+import InputText from '@/components/admin/form/InputText';
+import InputSelect from '@/components/admin/form/InputSelect.admin';
 import { FieldErrors, FieldValues } from 'react-hook-form';
 import { categories, colors, marks, sizes } from '@/constants/productsMock';
 import { useSelector } from 'react-redux';

@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import React from 'react'
-import TrCard from '../TrCard'
+import TrCard from '../trending/TrCard'
 import { JetBrains_Mono } from "next/font/google";
-import NavSlide from '../NavSlide';
+import NavSlide from '../banner/NavSlide';
 
 const jetBrains_Mono = JetBrains_Mono({ weight: ['700'], subsets: ['latin'] });
 

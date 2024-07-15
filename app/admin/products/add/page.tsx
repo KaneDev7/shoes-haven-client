@@ -1,7 +1,7 @@
 "use client"
-import Button from '@/components/admin/Button.admin';
-import Header from '@/components/admin/Header';
-import InsertProduct from '@/components/admin/InsertProduct';
+import Button from '@/components/admin/shared/Button.admin';
+import Header from '@/components/admin/shared/Header';
+import InsertProduct from '@/components/admin/form/InsertProduct';
 import Link from 'next/link';
 import React from 'react'
 

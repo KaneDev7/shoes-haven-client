@@ -1,7 +1,7 @@
 "use client"
 import { Collections, Marks } from '@/constants/links'
 import React, { useEffect, useState } from 'react'
-import LinkList from './LinkList'
+import LinkList from '../footer/LinkList'
 import Image from 'next/image'
 
 type ProductMenuType = {

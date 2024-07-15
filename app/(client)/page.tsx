@@ -3,7 +3,7 @@ import BannerHome from "@/components/client/containers/BannerHome";
 import Categories from "@/components/client/containers/Categories";
 import Trending from "@/components/client/containers/Trending";
 import { ProductsMock } from "@/constants/productsMock";
-import Button from "@/components/client/buttons";
+import Button from "@/components/client/shared/buttons";
 import RenderProductList from "@/components/client/containers/RenderProductList";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";

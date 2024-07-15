@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { Saira_Extra_Condensed } from "next/font/google";
-import NavSlide from '../NavSlide';
+import NavSlide from '../banner/NavSlide';
 import Image from 'next/image';
 
 const saira_Extra_Condensed = Saira_Extra_Condensed({ weight: ['800'], subsets: ['latin'] });

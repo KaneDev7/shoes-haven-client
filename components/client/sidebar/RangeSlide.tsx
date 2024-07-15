@@ -1,15 +1,18 @@
 "use client";
 
+import { setQueryParams } from '@/redux/domains/products/queryParams.slice';
 import React, { useState, useEffect, ChangeEvent, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 
 const RangeSlider: React.FC = () => {
-    const [minPrice, setMinPrice] = useState<number>(2500);
-    const [maxPrice, setMaxPrice] = useState<number>(7500);
+    const [minPrice, setMinPrice] = useState<number>(5000);
+    const [maxPrice, setMaxPrice] = useState<number>(20000);
     const minRangeRef = useRef<HTMLInputElement>(null);
     const maxRangeRef = useRef<HTMLInputElement>(null);
     const progressRef = useRef<HTMLDivElement>(null);
+    const dispatch = useDispatch()
 
-    const priceGap = 1000;
+    const priceGap = 500;
 
     useEffect(() => {
         const handlePriceInput = (e: Event) => {
@@ -66,22 +69,33 @@ const RangeSlider: React.FC = () => {
                 setMinPrice(minVal);
                 setMaxPrice(maxVal);
                 if (progressRef.current) {
-                    progressRef.current.style.left = ((minVal / parseInt(minRangeRef.current?.max || '10000')) * 100) + '%';
-                    progressRef.current.style.right = 100 - ((maxVal / parseInt(maxRangeRef.current?.max || '10000')) * 100) + '%';
+                    progressRef.current.style.left = ((minVal / parseInt(minRangeRef.current?.max || '5000')) * 100) + '%';
+                    progressRef.current.style.right = 100 - ((maxVal / parseInt(maxRangeRef.current?.max || '20000')) * 100) + '%';
                 }
             }
         };
 
+        const handleFetch = () => {
+            const minVal = parseInt((document.querySelector('.range-min') as HTMLInputElement).value);
+            const maxVal = parseInt((document.querySelector('.range-max') as HTMLInputElement).value);
+
+            dispatch(setQueryParams(['price_lte', maxVal.toString()]))
+            dispatch(setQueryParams(['price_gte', minVal.toString()]))
+        }
+
         const rangeInputs = document.querySelectorAll('.range-input input');
         rangeInputs.forEach(input => {
             input.addEventListener('input', handleRangeInput);
+            input.addEventListener('change', handleFetch);
         });
 
         return () => {
             rangeInputs.forEach(input => {
                 input.removeEventListener('input', handleRangeInput);
+                input.removeEventListener('change', handleFetch);
             });
         };
+
     }, [minPrice, maxPrice]);
 
     return (
@@ -94,8 +108,8 @@ const RangeSlider: React.FC = () => {
                 <input
                     type="range"
                     className="range-min"
-                    min="0"
-                    max="10000"
+                    min="500"
+                    max="50000"
                     value={minPrice}
                     step="100"
                     ref={minRangeRef}
@@ -104,15 +118,15 @@ const RangeSlider: React.FC = () => {
                 <input
                     type="range"
                     className="range-max"
-                    min="0"
-                    max="10000"
+                    min="500"
+                    max="50000"
                     value={maxPrice}
                     step="100"
                     ref={maxRangeRef}
                     onChange={(e) => setMaxPrice(parseInt(e.target.value))}
                 />
             </div>
-            <div className='flex items-center gap-5 mt-7 text-sm'> 
+            <div className='flex items-center gap-5 mt-7 text-sm'>
                 <p>Range : </p>
                 <p className='font-semibold'> {`${minPrice} FCFA - ${maxPrice} FCFA `} </p>
             </div>

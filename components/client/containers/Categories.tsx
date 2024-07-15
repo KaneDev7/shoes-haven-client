@@ -1,5 +1,5 @@
 import React from 'react'
-import CatCard from '../CatCard'
+import CatCard from '../categories/CatCard'
 
 export default function Categories() {
   return (

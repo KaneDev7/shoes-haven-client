@@ -1,9 +1,10 @@
+"use client"
 import { Order, Status } from '@/types/product.type'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { FaUserCircle } from "react-icons/fa";
-import { Dropdown } from './DropDown'
-
+import { Dropdown } from '../categories/DropDown'
+import { OrderContext } from '@/app/admin/orders/page';
 
 
 type OrderListTableType = {
@@ -30,8 +31,10 @@ const OrderStatus = ({ status }: { status: Status, }) => {
 const OrderTableRow = ({ checkOneItem, itemsId, order }: OrderTableRowType) => {
     const [status, setStatus] = useState<Status>(order.status)
 
+    const {refetch} =  useContext(OrderContext)
     const onStatusChange = (value: Status) => {
         setStatus(value)
+        refetch()
     }
 
     return <tr data-popover-target="popover-order-detail" className={` ${itemsId.includes(order._id) ? 'bg-gray-50' : 'bg-white'} border-b  hover:bg-gray-50`}>

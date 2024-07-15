@@ -1,5 +1,6 @@
 import useSelectList from '@/hooks/useSelectList'
 import { toggleSelectColor } from '@/redux/domains/form/colors.slice'
+import { toggleSelectSize } from '@/redux/domains/form/size.slice'
 import { setQueryParams } from '@/redux/domains/products/queryParams.slice'
 import React, { useState } from 'react'
 import { IoMdCloseCircleOutline } from 'react-icons/io'
@@ -12,16 +13,34 @@ type RenderSelectedFilterType = {
 export default function RenderSelectedFilter() {
   const selectedFilter = useSelector(state => state.selectedFilter)
   const selectColors = useSelector(state => state.selectColors)
+  const selectSizes = useSelector(state => state.selectSizes)
+
   const dispatch = useDispatch()
 
   const handleClick = (type, value) => {
-    dispatch(toggleSelectColor(value))
-    if (selectColors.includes(value)) {
-      const selectFilterUpdated = selectColors.filter(item => item !== value)
-      return dispatch(setQueryParams([type, selectFilterUpdated.join(',')]))
+    switch (type) {
+      case 'color':
+        dispatch(toggleSelectColor(value))
+        if (selectColors.includes(value)) {
+          const selectFilterColorUpdated = selectColors.filter(item => item !== value)
+          return dispatch(setQueryParams([type, selectFilterColorUpdated.join(',')]))
+        }
+        const selectFilterColorUpdated = [...selectColors, value]
+        return dispatch(setQueryParams([type, selectFilterColorUpdated.join(',')]))
+        
+        case 'size':
+          dispatch(toggleSelectSize(value))
+          if (selectSizes.includes(value)) {
+            const selectFilterSizeUpdated = selectSizes.filter(item => item !== value)
+            return dispatch(setQueryParams([type, selectFilterSizeUpdated.join(',')]))
+          }
+          const selectFilterSizeUpdated = [...selectSizes, value]
+          return dispatch(setQueryParams([type, selectFilterSizeUpdated.join(',')]))
+
+      default:
+        break;
     }
-    const selectFilterUpdated = [...selectColors, value]
-    return dispatch(setQueryParams([type, selectFilterUpdated.join(',')]))
+
   }
 
   if (selectedFilter.length > 0)

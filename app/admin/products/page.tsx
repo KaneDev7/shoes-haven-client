@@ -1,8 +1,8 @@
 "use client"
-import Button from '@/components/admin/Button.admin';
-import Header from '@/components/admin/Header';
-import TableList from '@/components/admin/TableList';
-import Search from '@/components/admin/Search.admin';
+import Button from '@/components/admin/shared/Button.admin';
+import Header from '@/components/admin/shared/Header';
+import TableList from '@/components/admin/shared/TableList';
+import Search from '@/components/admin/shared/Search.admin';
 import { setSelectCategories } from '@/redux/domains/form/caregories.slice';
 import { setSelectColors } from '@/redux/domains/form/colors.slice';
 import { setFiles } from '@/redux/domains/form/file.slice';

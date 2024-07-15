@@ -1,8 +1,8 @@
 import React from 'react'
 import { Product } from '@/types/product.type'
-import ProductCard from '../ProductCard'
-import { ProductListSkeleton } from '@/components/client/ProductListSkeleton'
-import RenderSelectedFilter from '../common/RenderSelectedFilter'
+import ProductCard from '../products/ProductCard'
+import { ProductListSkeleton } from '@/components/client/products/ProductListSkeleton'
+import RenderSelectedFilter from '../products/RenderSelectedFilter'
 
 type RenderProductListTypes = {
   products: Array<Product>,

@@ -1,8 +1,8 @@
 "use client"
 import { createUser } from '@/api/authentification'
-import InputText from '@/components/admin/InputText'
-import Button from '@/components/client/buttons'
-import Spiner from '@/components/shared/Spiner'
+import InputText from '@/components/admin/form/InputText'
+import Button from '@/components/client/shared/buttons'
+import Spiner from '@/components/client/shared/Spiner'
 import { emailValidationRegex } from '@/constants/validation'
 import { setcurrentUser } from '@/redux/domains/users/currentUser.slice'
 import { handleResponseError } from '@/utils/errorResponse'

@@ -2,11 +2,11 @@ import { Collections, supports } from '@/constants/links'
 import { FaFacebook, FaTiktok } from "react-icons/fa";
 
 import React from 'react'
-import Input from '../Input'
-import Button from '../buttons'
+import Input from '../shared/Input'
+import Button from '../shared/buttons'
 import { RiInstagramFill } from 'react-icons/ri';
 import { SiTwitter } from 'react-icons/si';
-import LinkList from '../LinkList';
+import LinkList from '../footer/LinkList';
 
 
 export default function Footer() {

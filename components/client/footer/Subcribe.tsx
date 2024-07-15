@@ -1,6 +1,6 @@
 import React from 'react'
-import Input from './Input'
-import Button from './buttons'
+import Input from '../shared/Input'
+import Button from '../shared/buttons'
 
 export default function Subcribe() {
     return (
