@@ -20,7 +20,7 @@ export default function RootLayoutAdmin({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex gap-20 globalMaxWidth">
+        <div className="flex gap-20 globalMaxWidth relative">
           <SideBarAdmin />
           <div className="flex-1 ">
             {children}

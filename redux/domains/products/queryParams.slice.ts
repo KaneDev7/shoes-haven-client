@@ -12,10 +12,17 @@ export const queryParamsSlice = createSlice({
     setQueryParams: (state, action: PayloadAction<string[]>) => {
       state = state[action.payload[0]] = action.payload[1]
     },
+
+    initQueryParams : (state) => {
+      state = {} 
+      return state
+    }
+    
   },
+
 })
 
 // Action creators are generated for each case reducer function
-export const { setQueryParams } = queryParamsSlice.actions
+export const { setQueryParams, initQueryParams } = queryParamsSlice.actions
 
 export default queryParamsSlice.reducer

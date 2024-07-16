@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <>
       <BannerHome />
-      <Trending />
+      <Categories />
       <RenderProductList
         products={products}
         loading={isLoading}
@@ -31,7 +31,8 @@ export default function Home() {
         }
         gridParamsStyle="grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
       />
-      <Categories />
+      {/* <Trending /> */}
+
     </>
 
   );

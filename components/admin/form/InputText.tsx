@@ -48,7 +48,7 @@ export default function InputText({ label, placeholder, variant, type, name, reg
                         name={name}
                         {...register(name, validations)}
                         placeholder={placeholder}
-                        className={`min-h-[100px] px-2 py-3 border-2 ${errors[name] && 'border-red-200'} bg-gray-50/50 rounded-md  text-sm outline-none resize-none`}
+                        className={`min-h-[100px] px-2 py-3 border-2 ${errors[name] && 'border-red-200'} focus:border-secondaryColor  bg-gray-50/50 rounded-md  text-sm outline-none resize-none`}
                     >
                     </textarea> :
                     <input
@@ -56,7 +56,7 @@ export default function InputText({ label, placeholder, variant, type, name, reg
                         {...register(name, validations)}
                         type={type}
                         placeholder={placeholder}
-                        className={`px-2 py-3 border-2 ${errors[name] && 'border-red-200'} bg-gray-50/50 text-sm  rounded-md outline-none`}
+                        className={`px-2 py-3 border-2 ${errors[name] && 'border-red-200'} focus:border-secondaryColor  bg-gray-50/50 text-sm  rounded-md outline-none`}
                     />
             }
             {errors[name] && <p className='text-red-400 text-sm'> {errors[name]?.message } </p>}

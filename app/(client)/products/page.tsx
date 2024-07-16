@@ -14,7 +14,7 @@ export default function Products() {
     const selectColors = useSelector(state => state.selectColors)
     const selectSizes = useSelector(state => state.selectSizes)
 
-    console.log('queryParams',queryParams)
+    console.log('queryParams', queryParams)
     const dispatch = useDispatch()
 
     const { data: products, isLoading, error, isFetching, refetch } = useQuery({
@@ -22,7 +22,7 @@ export default function Products() {
         queryFn: async () => getProducts(queryParams)
     })
 
-    
+
     useEffect(() => {
         const selectedFilterFn = () => {
             let querySelected = []
@@ -33,12 +33,6 @@ export default function Products() {
                 })
             }
             if (queryParams.size) {
-                querySelected.push({
-                    type: 'size',
-                    value: selectSizes
-                })
-            }
-            if (queryParams.price_lte) {
                 querySelected.push({
                     type: 'size',
                     value: selectSizes

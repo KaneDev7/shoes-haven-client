@@ -67,7 +67,7 @@ export default function InputSelect({ data, label, placeholder, variant, name, r
 
                 })}
                 onChange={handleSelect}
-                className={`px-2 py-3 border-2 ${errors[name]?.message && 'border-red-300'} rounded-md  bg-gray-50/50 text-sm outline-none`} name={name} id="">
+                className={`px-2 py-3 border-2 focus:border-secondaryColor  ${errors[name]?.message && 'border-red-300'} rounded-md  bg-gray-50/50 text-sm outline-none`} name={name} id="">
                 {!isProducUpdate && <option value='' selected={selectlist.length === 0} hidden >--{placeholder}--</option>}
 
                 {

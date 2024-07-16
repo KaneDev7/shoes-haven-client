@@ -7,11 +7,12 @@ import { IoBagOutline } from "react-icons/io5";
 import ProductMenu from '../navbar/ProductMenu';
 import { AuthContext } from '@/context/RequireAuth';
 import { CartContext } from '@/context/cartContext';
+import Button from '../shared/buttons';
 
 
 const NavbarRightPart = () => {
     const { auth } = useContext(AuthContext)
-    const {cartQuantities} = useContext(CartContext)
+    const { cartQuantities } = useContext(CartContext)
 
     if (auth) {
         return <div className='flex justify-between items-center gap-4'>
@@ -22,20 +23,32 @@ const NavbarRightPart = () => {
                 <LuUser2 size={20} />
 
             </div>
-           <Link href='/cart'>
-           <div className='w-[50px] h-[50px] flex justify-center items-center rounded-full bg-white text-blackColor2 relative'>
-                <IoBagOutline size={20} />
-                <span
-                    className='w-[20px] h-[20px] flex justify-center items-center absolute right-[-4px] text-[11px]  top-[-4px] rounded-full bg-red-600 text-white font-bold '>
-                    {cartQuantities}
-                </span>
-            </div>
-           </Link>
+            <Link href='/cart'>
+                <div className='w-[50px] h-[50px] flex justify-center items-center rounded-full bg-white text-blackColor2 relative'>
+                    <IoBagOutline size={20} />
+                    <span
+                        className='w-[20px] h-[20px] flex justify-center items-center absolute right-[-4px] text-[11px]  top-[-4px] rounded-full bg-red-600 text-white font-bold '>
+                        {cartQuantities}
+                    </span>
+                </div>
+            </Link>
         </div>
     } else {
-        return <Link href='/login'>
-            Connectez vous
-        </Link>
+        return <div className='flex items-center gap-4 '>
+            <Link href='/register'>
+                <Button
+                    text="S'inscrire"
+                    style='w-full h-[40px]  bg-black text-white/85 font-bold rounded-md'
+                />
+            </Link>
+            <Link href='/login'>
+                <Button
+                    text="Se connecter"
+                    style='w-full h-[40px]  bg-secondaryColor text-blackColor2 font-bold rounded-md'
+                />
+            </Link>
+        </div>
+
     }
 }
 

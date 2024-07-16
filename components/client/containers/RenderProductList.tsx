@@ -12,12 +12,14 @@ type RenderProductListTypes = {
   style?: string,
   gridParamsStyle?: string
 }
+
 type ProductList = {
   products: Array<Product>,
   gridParamsStyle?: string
 }
 
 const ProductList = ({ products, gridParamsStyle }: ProductList) => {
+  if(!products) return <p>Quelques chose s'est mal passé</p>
   return (
     <ul className={`productsGrid grid ${gridParamsStyle} mt-10 gap-4`} >
       {

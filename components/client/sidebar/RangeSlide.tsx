@@ -1,8 +1,9 @@
 "use client";
 
+import { setSelectedFilter } from '@/redux/domains/products/SelectedFilter.slice';
 import { setQueryParams } from '@/redux/domains/products/queryParams.slice';
 import React, { useState, useEffect, ChangeEvent, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const RangeSlider: React.FC = () => {
     const [minPrice, setMinPrice] = useState<number>(5000);
@@ -10,6 +11,8 @@ const RangeSlider: React.FC = () => {
     const minRangeRef = useRef<HTMLInputElement>(null);
     const maxRangeRef = useRef<HTMLInputElement>(null);
     const progressRef = useRef<HTMLDivElement>(null);
+    const selectedFilter = useSelector(state => state.selectedFilter)
+
     const dispatch = useDispatch()
 
     const priceGap = 500;
@@ -81,6 +84,8 @@ const RangeSlider: React.FC = () => {
 
             dispatch(setQueryParams(['price_lte', maxVal.toString()]))
             dispatch(setQueryParams(['price_gte', minVal.toString()]))
+            dispatch(setSelectedFilter([...selectedFilter,{type: 'price', value: `${minVal} - ${maxVal}`}]))
+
         }
 
         const rangeInputs = document.querySelectorAll('.range-input input');

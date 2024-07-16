@@ -1,4 +1,4 @@
-import React, { FormEventHandler, useContext, useRef } from 'react'
+import React, { FormEventHandler, useContext, useRef, useState } from 'react'
 import { FieldErrors, FieldValues, useForm } from 'react-hook-form'
 import InputText from '../../admin/form/InputText'
 import Button from '../shared/buttons'
@@ -10,6 +10,10 @@ import { CartContext } from '@/context/cartContext'
 import { createOrder } from '@/api/orders'
 import { useRouter } from 'next/navigation'
 import { deleteAllItemFromCart } from '@/api/cart'
+import Modal from '../modal/modal'
+import Link from 'next/link'
+import { useMutation } from '@tanstack/react-query'
+import Spiner from '../shared/Spiner'
 
 const ExpeditionData: ExpeditionCardType[] = [
     {
@@ -49,12 +53,15 @@ type ProductFormType = {
     errors: FieldErrors<FieldValues>
 }
 
+type CheckOutType = {
+    cart: CartItem,
+    refetch: () => void
+}
 
-export default function Checkout({ cart }: { cart: CartItem }) {
+export default function Checkout({ cart, refetch }: CheckOutType) {
     const currentUser = useSelector(state => state.currentUser)
     const { totalPrice, resetQuantity } = useContext(CartContext)
-
-    const router = useRouter()
+    const [status, setStatus] = useState<'pending' | 'success' | 'error'>()
 
     const {
         register,
@@ -70,9 +77,68 @@ export default function Checkout({ cart }: { cart: CartItem }) {
         }
     })
 
+    const userOrder = {
+        user_id: currentUser._id,
+        username: currentUser.username,
+        email: currentUser.email,
+        items: cart,
+        total_price: totalPrice,
+        status: 'pendding',
+        payment_method: 'Cash',
+        order_date: new Date().toLocaleDateString()
+    }
+
+    const {
+        mutate: mutateCart, isError: isErrorCart } = useMutation({
+            mutationFn: async () => {
+                return await deleteAllItemFromCart(currentUser?.token)
+            },
+            onSuccess: () => {
+                resetQuantity()
+                refetch()
+                setStatus('success')
+            },
+        })
+
+    const {
+        mutate: mutateOrder, isError: IsErrorOrder } = useMutation({
+            mutationFn: async (userOrder) => {
+                return await createOrder(userOrder, currentUser.token)
+            },
+
+            onSettled: (data, error, context) => {
+                if (data?.status === 201) {
+                    mutateCart()
+                }else{
+                    setStatus('error')
+                }
+            },
+        })
+
+    const {
+        mutate: mutateAdress, isError: isErrorAdress } = useMutation({
+            mutationFn: async (userContactAdress) => {
+                return await creatUserContactAdress(currentUser.token, userContactAdress)
+            },
+
+            onSuccess: () => {
+            },
+
+            onSettled: (data, error, context) => {
+                if (data?.status === 201) {
+                    mutateOrder(userOrder)
+                }else{
+                    setStatus('error')
+                }
+            },
+        })
+
+
     const checkoutRef = useRef()
 
     const onSubmit = async (data) => {
+
+        setStatus('pending')
         if (!currentUser?.address) {
             const userContactAdress = {
                 user_id: currentUser._id,
@@ -82,33 +148,45 @@ export default function Checkout({ cart }: { cart: CartItem }) {
                     city: data.city
                 }
             }
-            try {
-                await creatUserContactAdress(currentUser.token, userContactAdress)
-            } catch (error) {
-                console.log(error)
-            }
+            mutateAdress(userContactAdress)
+        } else {
+            mutateOrder(userOrder)
         }
-
-        const userOrder = {
-            user_id: currentUser._id,
-            username: currentUser.username,
-            email: currentUser.email,
-            items: cart,
-            total_price: totalPrice,
-            status: 'pendding',
-            payment_method: 'Cash',
-            order_date: new Date().toLocaleDateString()
-        }
-
-            await createOrder(userOrder, currentUser?.token)
-            await deleteAllItemFromCart(currentUser?.token)
-            resetQuantity()
-            router.push('/orders')
     }
 
 
     return (
-        <div ref={checkoutRef} className='col-span-1 p-10 border'>
+        <div ref={checkoutRef} className='col-span-1 p-10 border relative'>
+
+            {/* LOADING */}
+            {
+                status === 'pending' &&
+                <Spiner />
+            }
+
+            {/* SUCCESS COMMAND */}
+            {status === 'success' &&
+                <Modal title='Commande effectuée'>
+                    <div className='space-y-4'>
+                        <p> Votre commande est effectuée avec succée. Nous vous enverrons bientot un email. </p>
+                        <Link href='/orders'>
+                            <Button
+                                text="Acceder à mes commandes"
+                                style='w-full  h-[55px] mt-5 bg-secondaryColor text-blackColor2 font-bold rounded-md'
+                            />
+                        </Link>
+                    </div>
+                </Modal>
+            }
+
+            {/* ERROR COMMAND */}
+            {status === 'error' &&
+                <Modal title='Commande échouée' status='error'>
+                    <div className='space-y-4'>
+                        <p> Quelques choses s'est mal passer. Réssayer ultérieurement </p>
+                    </div>
+                </Modal>
+            }
 
             <header className='priceEl space-y-3 pb-4 border-b'>
                 <h1 className='text-2xl font-bold '>CART TOTAL</h1>
@@ -154,7 +232,7 @@ export default function Checkout({ cart }: { cart: CartItem }) {
                             register={register}
                             validations={
                                 {
-                                    required: { value: true, message: 'Séléctionner d\'abord la Quartier ou nous vous livrons le produit' }
+                                    required: { value: true, message: 'Séléctionner d\'abord la Quartier ou nous devons vous livrer votre commande' }
                                 }
                             }
                         />
@@ -195,7 +273,7 @@ export default function Checkout({ cart }: { cart: CartItem }) {
                     <Button
                         text="Passer la commande"
                         type='submit'
-                        style='w-full h-[55px] mt-10 bg-secondaryColor text-blackColor2 font-bold rounded-md'
+                        style={`w-full h-[55px] mt-10 bg-secondaryColor text-blackColor2 font-bold rounded-md  ${totalPrice === 0 && ' pointer-events-none opacity-50'}  `}
                     />
                 </form>
 

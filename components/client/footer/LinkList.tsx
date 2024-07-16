@@ -27,7 +27,7 @@ export default function LinkList({ title, linksList, titleStyle, linkStyle, icon
             <ul className='leading-8 text-sm '>
                 {
                     linksList.map(link => (
-                        <li className={`${linkStyle} flex items-center gap-2 opacity-80 hover:opacity-100 duration-300 text-nowrap`} >
+                        <li className={`${linkStyle} flex items-center gap-2 opacity-90 hover:opacity-100 duration-300 text-nowrap`} >
                             <Link href={link.href}>{link.title}</Link>
                             {getIcons(icon)}
                         </li>

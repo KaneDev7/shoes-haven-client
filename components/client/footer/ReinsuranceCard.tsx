@@ -9,12 +9,9 @@ type ReinsuranceCardType = {
 
 export default function ReinsuranceCard({ icon, title, text, style }: ReinsuranceCardType) {
     return (
-        <li className={`flex gap-4 tems-start `} >
+        <li className={`flex flex-col items-center gap-4 tems-start uppercase `} >
             {icon}
-            <div className='flex flex-col justify-center'>
-                <h1 className='font-bold'>{title}</h1>
-                <p className=''>{text} </p>
-            </div>
+                <h1 className='text-center'>{title}</h1>
         </li>
     )
 }
