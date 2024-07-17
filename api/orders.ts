@@ -54,3 +54,21 @@ export const getOrders = async (token : string) : Promise<Product[] | any> => {
         return error
     }
 }
+
+export const DeleteOrder = async (token : string, id : string) : Promise<Product[] | any> => {
+    try {
+        const response = await instanceAxios.delete(`/orders/${id} `,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            }
+        )
+        
+        return response.data.data
+
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}

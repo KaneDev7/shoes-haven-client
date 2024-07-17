@@ -29,6 +29,7 @@ export default function Orders() {
           headerList={orderTableHeaderList}
           data={orders}
           loading={isLoading}
+          refetch={refetch}
           error={error}
           type='orders'
         />

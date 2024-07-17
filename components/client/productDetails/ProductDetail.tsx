@@ -94,7 +94,6 @@ const SizeRender = ({ ProductSize, selectSize, onSelectSizeChange }: SizeRendery
                     {
                         !isSizeMatch(size.toString()) &&
                         <span className='h-[200%] w-[1px] bg-black opacity-30 absolute right-0 rotate-[50deg] origin-top-right top-0 '></span>
-
                     }
                 </div>
             ))

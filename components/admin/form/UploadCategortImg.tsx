@@ -6,6 +6,7 @@ import { FilesContext, imageDataType } from './InsertProduct'
 import { Dispatch } from '@reduxjs/toolkit'
 import {useSelector } from 'react-redux'
 import { createUrl } from '@/utils/uploads'
+import { FilesCategoryContext } from './InsertCategory'
 
 type UploadImgesType = {
     clickOtherElement: (ref: MutableRefObject<HTMLInputElement | null>) => void,
@@ -15,7 +16,8 @@ type UploadImgesType = {
     imageUris: imageDataType[]
 }
 
-export default function UploadImges({
+
+export default function UploadCategortImg({
     clickOtherElement,
     setImageUris,
     setFileError,
@@ -25,7 +27,7 @@ export default function UploadImges({
 
     const productDefaultValue = useSelector<any>(state => state.productDefaultValue)
     const isProducUpdate = useSelector<any>(state => state.isProducUpdate)
-    const { setFiles } = useContext(FilesContext)
+    const { setFiles } = useContext(FilesCategoryContext)
 
     let inputFile: MutableRefObject<HTMLInputElement | null> = useRef(null);
 
@@ -47,15 +49,15 @@ export default function UploadImges({
     return (
 
         <div
-            className={`flex-1 p-4 space-y-4 cursor-pointer border-2 ${isProducUpdate && 'opacity-50 pointer-events-none'} `} >
+            className={`flex-1 p-4 space-y-4 cursor-pointer border-2 ${isProducUpdate  && 'opacity-50 pointer-events-none'} `} >
             <p className='text-sm'>Ajouter  Images</p>
             <div
                 onClick={() => clickOtherElement(inputFile)}
-                className={`h-[300px] flex flex-col items-center justify-center rounded-md bg-gray-50 gap-5 border-2 border-dashed ${fileError ? 'border-red-400' : 'border-black/50'}  opacity-70 `}>
+                className={`h-[300px] flex flex-col items-center justify-center rounded-md bg-gray-50 gap-5 border-2 border-dashed ${fileError ? 'border-red-400' : 'border-black/50'}   ${imageUris.length > 0 ? 'opacity-50 pointer-events-none' :'opacity-70' }`}>
                 <FaImage size={50} />
                 <p>Cliquer Pour ajouter une image</p>
                 {fileError && <p className='text-red-500'> {fileError}</p>}
-                <input type="file" hidden ref={inputFile} multiple onChange={handleUploads} />
+                <input type="file" hidden ref={inputFile} onChange={handleUploads} />
             </div>
 
             {

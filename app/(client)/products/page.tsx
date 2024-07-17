@@ -14,7 +14,6 @@ export default function Products() {
     const selectColors = useSelector(state => state.selectColors)
     const selectSizes = useSelector(state => state.selectSizes)
 
-    console.log('queryParams', queryParams)
     const dispatch = useDispatch()
 
     const { data: products, isLoading, error, isFetching, refetch } = useQuery({

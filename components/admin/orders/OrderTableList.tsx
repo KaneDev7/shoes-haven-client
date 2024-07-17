@@ -6,6 +6,9 @@ import { FaUserCircle } from "react-icons/fa";
 import { Dropdown } from '../categories/DropDown'
 import { OrderContext } from '@/app/admin/orders/page';
 
+// Toast 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type OrderListTableType = {
     orders: Order[]
@@ -31,7 +34,7 @@ const OrderStatus = ({ status }: { status: Status, }) => {
 const OrderTableRow = ({ checkOneItem, itemsId, order }: OrderTableRowType) => {
     const [status, setStatus] = useState<Status>(order.status)
 
-    const {refetch} =  useContext(OrderContext)
+    const { refetch } = useContext(OrderContext)
     const onStatusChange = (value: Status) => {
         setStatus(value)
         refetch()

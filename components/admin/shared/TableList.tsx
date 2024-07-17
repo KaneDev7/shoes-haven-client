@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useContext, useState } from 'react'
 import ProductSkeleton from '../products/ProductSkeleton'
 import { Order, Product } from '@/types/product.type'
 import ProductTableList from '../products/ProductTableList'
@@ -6,18 +6,47 @@ import OrderTableList from '../orders/OrderTableList'
 import { deleteProduct } from '@/api/products'
 import { token } from '../form/InsertProduct'
 import { useParams, useRouter } from 'next/navigation'
+import { useMutation } from '@tanstack/react-query'
+import { DeleteOrder } from '@/api/orders'
+import { OrderContext } from '@/app/admin/orders/page'
+import { ProductContext } from '@/app/admin/products/page'
+
+// Toast 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type TableListType = {
     type: string
     headerList: string[],
     data: (Product | Order | any)[]
     loading: boolean
-    error: any
+    error: any,
+    refetch : () => void
 }
 
-export default function TableList({ headerList, data, error, loading, type }: TableListType) {
+export default function TableList({ headerList, data, error, loading, type, refetch }: TableListType) {
     const [itemsId, setItemsId] = useState([])
     const router = useRouter()
+
+    const { mutate: mutateProducts } = useMutation({
+        mutationFn: async (id) => {
+            await deleteProduct(token, id)
+        },
+        
+        onSuccess: () => {
+            refetch()
+        }
+    })
+
+    const { mutate: mutateOrders } = useMutation({
+        mutationFn: async (id) => {
+            await DeleteOrder(token, id)
+        },
+        onSuccess: () => {
+            refetch()
+            return toast.success("Une commande a été suprimer", { hideProgressBar: true })
+        }
+    })
 
     const checkOneItem = (id, event) => {
         if (event.target.checked) {
@@ -39,12 +68,12 @@ export default function TableList({ headerList, data, error, loading, type }: Ta
     const deleteData = async () => {
         for (const id of itemsId) {
             if (type === 'products') {
-                await deleteProduct(token, id)
+                mutateProducts(id)
+            } else {
+                mutateOrders(id)
             }
             setItemsId([])
-            router.push('/admin/products')
         }
-
     }
 
     if (loading) {
@@ -56,6 +85,7 @@ export default function TableList({ headerList, data, error, loading, type }: Ta
     }
     return (
         <section className='my-10'>
+            <ToastContainer />
             {
                 itemsId.length !== 0 &&
                 <div className='flex items-center gap-4 mt-10'>

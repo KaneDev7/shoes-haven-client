@@ -9,7 +9,7 @@ import { setFiles } from '@/redux/domains/form/file.slice';
 import { setIsProducUpdate } from '@/redux/domains/form/isProducUpdate';
 import { initialStateProductDefaultValue, setProductDefaultValue } from '@/redux/domains/form/productDefaultValue';
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import React, { createContext } from 'react'
 import { FiPlus } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
 import { productTableHeaderList } from '@/constants/data';
@@ -18,8 +18,11 @@ import { getProducts } from '@/api/products';
 import { setSelectSize } from '@/redux/domains/form/size.slice';
 
 
+export const ProductContext = createContext(null)
+
+
 export default function Products() {
-  const {data : products , isLoading , error} = useQuery({
+  const {data : products , isLoading , error, refetch } = useQuery({
     queryKey : ['products'],
     queryFn :  async () => getProducts()
 } )
@@ -38,6 +41,7 @@ export default function Products() {
     route.push('/admin/products/add')
   }
   return (
+    <ProductContext.Provider value={refetch} >
     <div className='w-full'>
       <Header>
         <Search
@@ -55,9 +59,10 @@ export default function Products() {
         data={products}
         loading={isLoading}
         error={error}
+        refetch={refetch}
         type='products'
       />
     </div>
-
+    </ProductContext.Provider>
   )
 }
