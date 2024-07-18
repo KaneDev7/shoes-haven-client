@@ -1,20 +1,24 @@
 "use client"
-import React, { MutableRefObject, createContext, useRef, useState } from 'react'
-import { useSelector } from 'react-redux';
+import React, { MutableRefObject, createContext, useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from "react-hook-form"
-import { addProduct, updateProduct } from '@/api/products';
+import { updateProduct } from '@/api/products';
 import { useRouter } from 'next/navigation';
 import { handleResponseError } from '@/utils/errorResponse';
 import Spiner from '../../client/shared/Spiner';
 import CategoryForm from './CategoryForm';
 import UploadCategortImg from './UploadCategortImg';
-import { useMutation, useQueries, useQuery } from '@tanstack/react-query';
-import { addCategory, getCategories } from '@/api/categories';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { addCategory, getCategories, updateCategory } from '@/api/categories';
 import { Category } from '@/types/category.type';
 import Categories from '../categories/Categories';
+import { setCategorytDefaultValue } from '@/redux/domains/form/categoryDefaultValue';
+import { setIsCategoryUpdate } from '@/redux/domains/form/isCategoryUpdate';
 
 export const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9tYXIga2FuZSIsInVzZXJJZCI6IjY2NTc4OWIxYzU2ZTMyZTRiM2U2NWJiYiIsImlhdCI6MTcxNzE4NjMyNiwiZXhwIjoxNzE3MTg2Mzg2fQ.Mi3pDWTI7RTMhR0Frtysmeq5aPr6BLhwyieuFTRNVzM'
 export const FilesCategoryContext = createContext(null)
+export const DefaultValueCategoryContext = createContext(null)
+
 
 export type imageDataType = {
     uri: string,
@@ -28,7 +32,21 @@ export default function InsertCategory() {
     const [files, setFiles] = useState([])
     const [isSubmiting, setIsSubmiting] = useState(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
-    const [isProducUpdate, setIsProducUpdate] = useState(false)
+
+    const isCategoryUpdate = useSelector<any>(state => state.isCategoryUpdate)
+    const categoryDefaultValue = useSelector<any>(state => state.categoryDefaultValue)
+
+    let seclectRef: MutableRefObject<HTMLButtonElement | null> = useRef(null);
+    const route = useRouter()
+    const dispatch = useDispatch()
+
+    const {
+        register,
+        handleSubmit,
+        reset,
+        setValue,
+        formState: { errors },
+    } = useForm()
 
     const { data, isLoading, error, isFetching, refetch } = useQuery({
         queryKey: ['categories'],
@@ -36,20 +54,16 @@ export default function InsertCategory() {
     })
 
     const categories: Category[] = data
-    
-    const { mutate } = useMutation({
+
+    const { mutate: mutateAddCategory } = useMutation({
         mutationFn: async (formData) => {
             return await addCategory(formData, token)
-        },
-
-        onSuccess: () => {
         },
 
         onSettled: (data, error, context) => {
             if (data?.status === 201) {
                 setIsSubmiting(false)
-                const form = seclectRef.current?.querySelector('form') as HTMLFormElement
-                form.reset()
+                reset()
                 setImageUris([])
                 setFiles([])
                 refetch()
@@ -58,21 +72,25 @@ export default function InsertCategory() {
             }
         },
     })
-    // const isProducUpdate = useSelector<any>(state => state.isProducUpdate)
-    // const productDefaultValue = useSelector<any>(state => state.productDefaultValue)
 
-    let seclectRef: MutableRefObject<HTMLButtonElement | null> = useRef(null);
-    const route = useRouter()
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm({
-        // defaultValues: {
-        //     name: productDefaultValue.title,
-        //     description: productDefaultValue.description,
-        // }
+    const { mutate: mutateUpdateCategory } = useMutation({
+        mutationFn: async (formData) => {
+            return await updateCategory(formData, token, categoryDefaultValue._id)
+        },
+
+        onSettled: (data, error, context) => {
+            if (data?.status === 201) {
+
+                setIsSubmiting(false)
+                reset()
+                setImageUris([])
+                setFiles([])
+                refetch()
+            } else {
+                console.log('fileld')
+            }
+        },
     })
 
     const clickOtherElement = (element: any) => {
@@ -81,50 +99,36 @@ export default function InsertCategory() {
         element?.click()
     }
 
-    const handleClick = () => {
-        const submitButton = seclectRef.current?.querySelector('#submitButton')
-        clickOtherElement(submitButton)
-    }
-
-    const insertProduct = async (formData: FormData) => {
-        setIsSubmiting(true)
-
-        if (!isProducUpdate) {
-            const response = await addCategory(formData, token)
-            const errorHandeler = handleResponseError(response)
-
-            if (errorHandeler.message) {
-                setIsSubmiting(false)
-                return setErrorMessage(errorHandeler.message)
-            }
-            if (response?.response?.status === 413) {
-                setIsSubmiting(false)
-                return setFileError(response.response.data.message)
-            }
-        } else {
-            const response = await updateProduct(formData, token, productDefaultValue._id)
-            const errorHandeler = handleResponseError(response)
-
-            if (errorHandeler.message) {
-                setIsSubmiting(false)
-                return setErrorMessage(errorHandeler.message)
-            }
-        }
-        route.push('/admin/products')
+    const onReset = () => {
+        reset()
+        dispatch(setCategorytDefaultValue({}))
+        dispatch(setIsCategoryUpdate(false))
+        setImageUris([])
     }
 
     const onSubmit = async (data) => {
-
-        if (imageUris.length === 0 && !isProducUpdate) {
+        console.log('up',data)
+        if (imageUris.length === 0 && !isCategoryUpdate) {
             return setFileError('Veillez ajouter une image')
         }
+
         setIsSubmiting(true)
         const formData = new FormData()
         formData.append('name', data.name)
         formData.append('description', data.description)
-        formData.append('file', files[0])
-        mutate(formData)
+
+        if (!isCategoryUpdate) {
+            formData.append('file', files[0])
+            mutateAddCategory(formData)
+        } else {
+            mutateUpdateCategory(data)
+        }
     }
+
+
+    useEffect(() => {
+        onReset()
+    },[])
 
     return (
         <section ref={seclectRef} className='my-10 bg-white relative'>
@@ -154,17 +158,19 @@ export default function InsertCategory() {
                             handleSubmit={handleSubmit}
                             onSubmit={onSubmit}
                             register={register}
+                            onReset={onReset}
                             errors={errors}
                         />
                     </div>
 
                     <div className='flex-1 '>
-                        <Categories
-                            categories={categories}
-                            isLoading={isLoading}
-                            isFetching={isFetching}
-                            refetch={refetch}
-                        />
+                        <DefaultValueCategoryContext.Provider value={{setValue, refetch}}>
+                            <Categories
+                                categories={categories}
+                                isLoading={isLoading}
+                                isFetching={isFetching}
+                            />
+                        </DefaultValueCategoryContext.Provider>
                     </div>
                 </div>
             </div>

@@ -8,7 +8,6 @@ import { creatUserContactAdress } from '@/api/user'
 import { CartItem } from '@/types/user.type'
 import { CartContext } from '@/context/cartContext'
 import { createOrder } from '@/api/orders'
-import { useRouter } from 'next/navigation'
 import { deleteAllItemFromCart } from '@/api/cart'
 import Modal from '../modal/modal'
 import Link from 'next/link'
@@ -85,7 +84,7 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
         total_price: totalPrice,
         status: 'pendding',
         payment_method: 'Cash',
-        order_date: new Date().toLocaleDateString()
+        order_date: Date.now()
     }
 
     const {

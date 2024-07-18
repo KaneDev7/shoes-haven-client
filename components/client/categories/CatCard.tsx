@@ -9,7 +9,7 @@ type CatCardType = {
   style: string
 }
 
-export default function CatCard({ style, category }: CatCardType) {
+export default function CatCard({ style, category } : CatCardType) {
   return (
     <div className={`${style} h-[400px] rounded-lg overflow-hidden relative`} >
       <div className='w-full flex items-end absolute inset-0 z-[1] bg-gradient-to-t from-black/80 to-black/5'>

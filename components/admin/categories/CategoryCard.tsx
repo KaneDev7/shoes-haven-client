@@ -2,19 +2,24 @@ import { Category } from '@/types/category.type'
 import Button from '@/components/client/shared/buttons'
 import { useMutation } from '@tanstack/react-query'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { deleteCategory } from '@/api/categories'
 import { token } from '../form/InsertProduct'
 import Spiner from '@/components/client/shared/Spiner'
+import { setCategorytDefaultValue } from '@/redux/domains/form/categoryDefaultValue'
+import { useDispatch } from 'react-redux'
+import { setIsCategoryUpdate } from '@/redux/domains/form/isCategoryUpdate'
+import { DefaultValueCategoryContext } from '../form/InsertCategory'
 
 type CategoryCardType = {
     category: Category,
-    refetch: () => void
 }
 
-export default function CategoryCard({ category, refetch }: CategoryCardType) {
-
+export default function CategoryCard({ category }: CategoryCardType) {
+    const {name,description} = category
+    const {setValue, refetch} = useContext(DefaultValueCategoryContext)
     const [isDeleting, setIsDeleting] = useState(false)
+    const dispatch = useDispatch()
 
     const { mutate } = useMutation({
         mutationFn: async () => {
@@ -30,8 +35,11 @@ export default function CategoryCard({ category, refetch }: CategoryCardType) {
         },
     })
 
-    const handleEdit = () => {
-
+    const handleEditCategory = () => {
+        dispatch(setCategorytDefaultValue(category))
+        setValue('name', name , {shouldValidate: true})
+        setValue('description', description, { shouldValidate: true })
+        dispatch(setIsCategoryUpdate(true))
     }
 
     const hendleDeleteCategory = () => {
@@ -59,7 +67,7 @@ export default function CategoryCard({ category, refetch }: CategoryCardType) {
             <div className='flex items-center justify-end mt-4'>
                 <div className='flex gap-4 '>
                     <Button
-                        handleClick={handleEdit}
+                        handleClick={handleEditCategory}
                         text='Modifier'
                         style='border-2 border-secondaryColor text-xs px-6 py-2 font-bold rounded-md text-blackColor2'
                     />

@@ -8,9 +8,8 @@ type CategoriesType = {
     categories: Category[]
     isLoading: boolean
     isFetching: boolean
-    refetch: () => void
 }
-export default function Categories({ categories, isLoading, isFetching, refetch }: CategoriesType) {
+export default function Categories({ categories, isLoading, isFetching }: CategoriesType) {
     if (!isLoading)
         return (
             <ul className='space-y-10 relative '>
@@ -20,7 +19,6 @@ export default function Categories({ categories, isLoading, isFetching, refetch 
                         <CategoryCard
                             key={category._id}
                             category={category}
-                            refetch={refetch}
                         />
                     ))
                 }

@@ -19,6 +19,24 @@ export const addCategory = async (formData: FormData, token: string): Promise<an
     }
 }
 
+export const updateCategory = async (formData: FormData, token: string, id : string): Promise<any> => {
+    try {
+        const response = await instanceAxios.put(`/categories/${id}`,
+            formData,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            }
+        )
+        return response
+
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}
+
 
 export const getCategories = async (): Promise<any> => {
     try {

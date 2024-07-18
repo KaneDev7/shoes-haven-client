@@ -57,7 +57,7 @@ const OrderTableRow = ({ checkOneItem, itemsId, order }: OrderTableRowType) => {
         </td>
         <td className="px-6 py-4 capitalize "> {new Date(order?.order_date).toLocaleDateString()}</td>
         <td className="px-6 py-4 capitalize "> {order.items.length} </td>
-        <td className="px-6 py-4 capitalize "> {order.total_price} </td>
+        <td className="px-6 py-4 capitalize "> {order.total_price} FCFA </td>
         <td className="px-6 py-4 capitalize "> {order.payment_method} </td>
         <td className="px-6 py-4  ">
             <div className='flex items-center  gap-2'>

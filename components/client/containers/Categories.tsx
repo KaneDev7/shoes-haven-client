@@ -12,7 +12,6 @@ export default function Categories() {
 
   const categories: Category[] = data
 
-
   if (!isLoading)
     return (
       <div className='w-full p-5 mt-10'>

@@ -2,9 +2,9 @@
 import React, { MutableRefObject, SetStateAction, useContext, useRef } from 'react'
 import { FaImage } from 'react-icons/fa'
 import UploadedCard from './UploadedCard.admin'
-import { FilesContext, imageDataType } from './InsertProduct'
+import { imageDataType } from './InsertProduct'
 import { Dispatch } from '@reduxjs/toolkit'
-import {useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { createUrl } from '@/utils/uploads'
 import { FilesCategoryContext } from './InsertCategory'
 
@@ -25,8 +25,8 @@ export default function UploadCategortImg({
     fileError,
 }: UploadImgesType) {
 
-    const productDefaultValue = useSelector<any>(state => state.productDefaultValue)
-    const isProducUpdate = useSelector<any>(state => state.isProducUpdate)
+    const categoryDefaultValue = useSelector<any>(state => state.categoryDefaultValue)
+    const isCategoryUpdate = useSelector<any>(state => state.isCategoryUpdate)
     const { setFiles } = useContext(FilesCategoryContext)
 
     let inputFile: MutableRefObject<HTMLInputElement | null> = useRef(null);
@@ -41,7 +41,7 @@ export default function UploadCategortImg({
     }
 
     const onDeletFile = (uri: string, name: number) => {
-        setFiles(prevFiles => prevFiles.filter(file => file.name !== name)  )
+        setFiles(prevFiles => prevFiles.filter(file => file.name !== name))
         const urisUpdate = imageUris.filter(item => item.uri !== uri)
         setImageUris(urisUpdate)
     }
@@ -49,11 +49,11 @@ export default function UploadCategortImg({
     return (
 
         <div
-            className={`flex-1 p-4 space-y-4 cursor-pointer border-2 ${isProducUpdate  && 'opacity-50 pointer-events-none'} `} >
+            className={`flex-1 p-4 space-y-4 cursor-pointer border-2 ${isCategoryUpdate && 'opacity-50 pointer-events-none'} `} >
             <p className='text-sm'>Ajouter  Images</p>
             <div
                 onClick={() => clickOtherElement(inputFile)}
-                className={`h-[300px] flex flex-col items-center justify-center rounded-md bg-gray-50 gap-5 border-2 border-dashed ${fileError ? 'border-red-400' : 'border-black/50'}   ${imageUris.length > 0 ? 'opacity-50 pointer-events-none' :'opacity-70' }`}>
+                className={`h-[300px] flex flex-col items-center justify-center rounded-md bg-gray-50 gap-5 border-2 border-dashed ${fileError ? 'border-red-400' : 'border-black/50'}   ${imageUris.length > 0 ? 'opacity-50 pointer-events-none' : 'opacity-70'}`}>
                 <FaImage size={50} />
                 <p>Cliquer Pour ajouter une image</p>
                 {fileError && <p className='text-red-500'> {fileError}</p>}
@@ -61,7 +61,7 @@ export default function UploadCategortImg({
             </div>
 
             {
-                !isProducUpdate ?
+                !isCategoryUpdate ?
                     <ul className='flex-1 space-y-2'>
                         {
                             imageUris.map((item, index) => (
@@ -75,14 +75,10 @@ export default function UploadCategortImg({
                     </ul> :
 
                     <ul className='flex-1 space-y-2'>
-                        {
-                            productDefaultValue.uri.map((uri, index) => (
-                                <UploadedCard
-                                    uri={`/uploads/${uri}`}
-                                    name={uri}
-                                />
-                            ))
-                        }
+                        <UploadedCard
+                            uri={`/uploads/categories/${categoryDefaultValue?.uri}`}
+                            name={categoryDefaultValue?.uri}
+                        />
                     </ul>
             }
 

@@ -53,7 +53,7 @@ const SameTypeProduct = ({ currentProductId, productId }: SameTypeProductType) =
 
     const products = data as Product[]
     return <div className='flex flex-col gap-4 pb-6 border-b'>
-        <h2 className='text-[18px] font-semibold'>Les couleurs dusponibles</h2>
+        <h2 className='text-[18px] font-semibold'>Les couleurs disponibles</h2>
         <div className='flex gap-2 flex-wrap'>
 
             {
@@ -216,12 +216,11 @@ export default function ProductDetail({ product }: ProductDetailType) {
             </div>
 
             <div className='flex-1 text-blackColor2'>
-                <div className='flex flex-col gap-8 text-blackColor2'>
+                <div className='flex flex-col gap-4 text-blackColor2'>
                     <h1 className='text-4xl font-extrabold'> {product.title} </h1>
                     <h2 className='text-2xl font-semibold'> {product.price?.toLocaleString()} FCFA</h2>
 
                     <div className='flex flex-col gap-4 pb-6 border-b'>
-                        <h2 className='text-[18px] font-semibold'>Description</h2>
                         <p className='lg:max-w-[80%] w-full '> {product.description} </p>
                     </div>
 
@@ -257,13 +256,6 @@ export default function ProductDetail({ product }: ProductDetailType) {
                         icon={<MdShoppingCart size={30} />}
                         style='h-[60px] lg:w-[70%] flex justify-center items-center gap-2 bg-secondaryColor text-blackColor2 round rounded-md font-bold text-[20px] '
                     />
-
-                    <ReinsuranceCard
-                        title='Livraison GRATUITE à partir de 125 £'
-                        icon={<CiDeliveryTruck size={40} />}
-                    />
-
-
                 </div>
             </div>
         </div>

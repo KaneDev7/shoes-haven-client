@@ -3,21 +3,25 @@ import React, { FormEventHandler, MutableRefObject, useRef } from 'react'
 import InputText from '@/components/admin/form/InputText';
 import { FieldErrors, FieldValues } from 'react-hook-form';
 import Button from '../shared/Button.admin';
+import { useSelector } from 'react-redux';
 
 type ProductFormType = {
     onSubmit: () => FormEventHandler<HTMLFormElement> | undefined,
     handleSubmit: (data: any) => void,
     register: () => void
     errors: FieldErrors<FieldValues>
+    onReset: () => void
 }
 
 export const validationRules = {
     required: { value: true, message: 'Ce Champ est obligatoire' },
 }
 
-export default function CategoryForm({ onSubmit, handleSubmit, register, errors }: ProductFormType) {
+export default function CategoryForm({ onSubmit, handleSubmit, register, onReset, errors }: ProductFormType) {
 
     let form: MutableRefObject<HTMLFormElement | undefined> = useRef();
+    const isCategoryUpdate: boolean = useSelector<any>(state => state.isCategoryUpdate)
+
 
     return (
         <div className='flex-1 border-2 p-4 rounded-md '>
@@ -62,12 +66,22 @@ export default function CategoryForm({ onSubmit, handleSubmit, register, errors 
                         }
                     }}
                 />
+
                 <Button
                     text="Enregistrer"
                     type='submit'
-                    style='w-full h-[55px] flex justify-center items-center mt-5 bg-secondaryColor text-blackColor2 font-bold rounded-md'
+                    style='w-full h-[55px] flex justify-center items-center mt-2 bg-secondaryColor text-blackColor2 font-bold rounded-md'
                 />
             </form>
+            {
+                isCategoryUpdate &&
+                <Button
+                    handleClick={() => onReset()}
+                    text="Annuler"
+                    style='w-full h-[55px] flex justify-center items-center mt-5 bg-gray-200 text-blackColor2 font-bold rounded-md'
+                />
+            }
+
         </div>
     )
 }
