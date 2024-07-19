@@ -1,10 +1,13 @@
 "use client"
-import React, { FormEventHandler, MutableRefObject, useRef } from 'react'
+import React, { FormEventHandler, MutableRefObject, useEffect, useRef, useState } from 'react'
 import InputText from '@/components/admin/form/InputText';
 import InputSelect from '@/components/admin/form/InputSelect.admin';
 import { FieldErrors, FieldValues } from 'react-hook-form';
-import { categories, colors, marks, sizes } from '@/constants/productsMock';
+import { colors, marks, sizes } from '@/constants/productsMock';
 import { useSelector } from 'react-redux';
+import { useQuery } from '@tanstack/react-query';
+import { getCategories } from '@/api/categories';
+import useCategoryList from '@/hooks/useCategoryList';
 
 type ProductFormType = {
     onSubmit: () => FormEventHandler<HTMLFormElement> | undefined,
@@ -22,6 +25,7 @@ export default function ProductForm({ onSubmit, handleSubmit, register, errors }
     const selectSizes = useSelector<any>(state => state.selectSizes)
     const selectColors = useSelector<any>(state => state.selectColors)
     const productDefaultValue = useSelector<any>(state => state.productDefaultValue)
+    const { categories } = useCategoryList()
 
     let form: MutableRefObject<HTMLFormElement | undefined> = useRef();
     let submitButton: MutableRefObject<HTMLButtonElement | null> = useRef(null);
@@ -69,16 +73,6 @@ export default function ProductForm({ onSubmit, handleSubmit, register, errors }
                     }}
                 />
 
-                <InputSelect
-                    label='Catégories'
-                    placeholder='Choisissez le nom du catégorie'
-                    data={categories}
-                    defaultValue={selectCategories}
-                    variant='multuple'
-                    name='category'
-                    register={register}
-                    errors={errors}
-                />
 
                 <InputSelect
                     label='Marques'
@@ -90,6 +84,18 @@ export default function ProductForm({ onSubmit, handleSubmit, register, errors }
                     register={register}
                     errors={errors}
                 />
+                
+                <InputSelect
+                    label='Catégories'
+                    placeholder='Choisissez le nom du catégorie'
+                    data={categories}
+                    defaultValue={selectCategories}
+                    variant='multuple'
+                    name='category'
+                    register={register}
+                    errors={errors}
+                />
+
 
                 <InputSelect
                     label='Tailles'

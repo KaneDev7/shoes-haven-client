@@ -95,10 +95,11 @@ export default function InsertProduct() {
 
         const form = seclectRef.current?.querySelector('form') as HTMLFormElement
         const formData = new FormData(form);
-        formData.append('category', selectCategories);
-        formData.append('color', selectColors);
-        formData.append('size', selectSizes);
+        formData.append('category', selectCategories.join(','));
+        formData.append('color', selectColors.join(','));
+        formData.append('size', selectSizes.join(','));
 
+        console.log("size",  JSON.stringify(selectSizes.join(',')))
         if (files && !isProducUpdate) {
             files.forEach((file: any) => formData.append('files', file));
         }

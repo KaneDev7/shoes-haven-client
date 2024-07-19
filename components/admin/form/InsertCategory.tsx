@@ -2,9 +2,7 @@
 import React, { MutableRefObject, createContext, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from "react-hook-form"
-import { updateProduct } from '@/api/products';
 import { useRouter } from 'next/navigation';
-import { handleResponseError } from '@/utils/errorResponse';
 import Spiner from '../../client/shared/Spiner';
 import CategoryForm from './CategoryForm';
 import UploadCategortImg from './UploadCategortImg';
@@ -107,7 +105,6 @@ export default function InsertCategory() {
     }
 
     const onSubmit = async (data) => {
-        console.log('up',data)
         if (imageUris.length === 0 && !isCategoryUpdate) {
             return setFileError('Veillez ajouter une image')
         }

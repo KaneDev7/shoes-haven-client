@@ -14,7 +14,7 @@ export const queryParamsSlice = createSlice({
     },
 
     initQueryParams : (state) => {
-      state = {} 
+      state = {category : state.category}       
       return state
     }
     

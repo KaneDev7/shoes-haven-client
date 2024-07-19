@@ -4,6 +4,8 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { IoCloseCircleSharp } from "react-icons/io5";
 import { FieldErrors, InputValidationRules, UseFormRegister } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import { IoIosAddCircle } from 'react-icons/io';
+import Link from 'next/link';
 
 type InputSelectType = {
     label?: string,
@@ -50,6 +52,7 @@ export default function InputSelect({ data, label, placeholder, variant, name, r
         handleToggleSelect(selectElments)
     }
 
+    console.log('selectlist', selectlist)
 
     return (
         <div className='flex flex-col gap-2'>
@@ -58,7 +61,6 @@ export default function InputSelect({ data, label, placeholder, variant, name, r
             <select
                 name={name}
                 {...register(name, {
-                    required: { value: true, message: `Les ${label} sont obligatoires` },
                     validate: () => {
                         if (variant === 'multuple') {
                             return selectlist.length !== 0 || `Veillez selectionnez des ${label}`
@@ -87,10 +89,18 @@ export default function InputSelect({ data, label, placeholder, variant, name, r
                     handleToggleSelect={handleToggleSelect}
                 />
             }
+
+            {
+                name === 'category' &&
+
+                <Link href='/admin/categories' className='flex items-center gap-2'>
+                    <IoIosAddCircle className='text-secondaryColor' size={25} />
+                    <p className='text-sm'>Ajouter une nouvelles Catégories</p>
+                </Link>
+            }
+
             {errors[name] && <p className='text-red-400 text-sm'> {errors[name].message} </p>}
 
         </div>
     )
 }
-
-//selected={isProducUpdate && defaultValue === item}

@@ -328,7 +328,7 @@ export const ProductsMock : Array<Product> = [
 // 'Meilleures Ventes',
 // 'Offres Spéciales',
 
-export const categories : string[] =[
+export const categories : string[] = [
     'Chaussures de Sport',
     'Chaussures Formelles',
     'Chaussures Décontractées',

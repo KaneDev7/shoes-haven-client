@@ -55,7 +55,6 @@ export default function CategoryForm({ onSubmit, handleSubmit, register, onReset
                     register={register}
                     errors={errors}
                     validations={{
-                        ...validationRules,
                         maxLength: {
                             value: 500,
                             message: 'Valeur maximim 500 charactères'

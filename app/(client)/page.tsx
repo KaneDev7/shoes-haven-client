@@ -8,13 +8,25 @@ import RenderProductList from "@/components/client/containers/RenderProductList"
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "@/api/products";
+import { initQueryParams } from "@/redux/domains/products/queryParams.slice";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
 
 
 export default function Home() {
-  const {data : products , isLoading, error} = useQuery({
-    queryKey : ['products'],
-    queryFn :  async () => getProducts()
-} )
+  const { data: products, isLoading, error } = useQuery({
+    queryKey: ['products'],
+    queryFn: async () => getProducts()
+  })
+
+  const router = useRouter()
+  const dispatch = useDispatch()
+
+  const handleClick = () => {
+    dispatch(initQueryParams())
+    router.push(`/products`)
+  }
+
   return (
     <>
       <BannerHome />
@@ -25,14 +37,10 @@ export default function Home() {
         title="NOS CHAUSSURES"
         style="mt-20"
         headerRightEl={
-          <Link href='/products'>
-            <Button text='Voir plus' style='bg-black text-white py-2 px-10 rounded-full' />
-          </Link>
+          <Button handleClick={handleClick} text='Voir plus' style='bg-black text-white py-2 px-10 rounded-full' />
         }
         gridParamsStyle="grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
       />
-      {/* <Trending /> */}
-
     </>
 
   );

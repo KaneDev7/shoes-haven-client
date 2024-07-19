@@ -14,9 +14,6 @@ export default function RenderSelectedFilter() {
   const selectedFilter = useSelector(state => state.selectedFilter)
   const selectColors = useSelector(state => state.selectColors)
   const selectSizes = useSelector(state => state.selectSizes)
-
-
-  console.log('selectedFilter', selectedFilter)
   const dispatch = useDispatch()
 
   const handleClick = (type, value) => {

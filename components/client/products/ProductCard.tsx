@@ -20,6 +20,7 @@ export default function ProductCard({ product }: Productsype) {
   const handleMouseLeave = () => {
     setCount(0)
   }
+
   return (
     <Link
       onMouseEnter={handleMouseEnter}

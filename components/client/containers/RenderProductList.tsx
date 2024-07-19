@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Product } from '@/types/product.type'
 import ProductCard from '../products/ProductCard'
 import { ProductListSkeleton } from '@/components/client/products/ProductListSkeleton'
@@ -37,7 +37,7 @@ export default function RenderProductList({ products, title, headerRightEl, styl
     <div className={`${style} text-blackColor2`} >
       <div className='globalMaxWidth px-4'>
         <header className='flex justify-between items-center'>
-          <h1 className='text-2xl font-bold '>{title}</h1>
+          <h1 className='text-2xl font-bold uppercase '>{title}</h1>
           {headerRightEl}
         </header>
         <RenderSelectedFilter />

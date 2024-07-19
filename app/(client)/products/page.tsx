@@ -13,14 +13,13 @@ export default function Products() {
     const queryParams = useSelector(state => state.queryParams)
     const selectColors = useSelector(state => state.selectColors)
     const selectSizes = useSelector(state => state.selectSizes)
-
     const dispatch = useDispatch()
+
 
     const { data: products, isLoading, error, isFetching, refetch } = useQuery({
         queryKey: ['products'],
         queryFn: async () => getProducts(queryParams)
     })
-
 
     useEffect(() => {
         const selectedFilterFn = () => {
@@ -64,7 +63,7 @@ export default function Products() {
                         <RenderProductList
                             products={products}
                             loading={isLoading}
-                            title="CHAUSSURE DE SPORT"
+                            title={(queryParams.category && queryParams.category !== 'all' ) ? queryParams.category : 'TOUS LES PRODUITS'}
                             gridParamsStyle='productsPage sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '
                             headerRightEl={
                                 <select className='p-2'>
