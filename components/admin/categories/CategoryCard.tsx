@@ -4,12 +4,12 @@ import { useMutation } from '@tanstack/react-query'
 import Image from 'next/image'
 import React, { useContext, useState } from 'react'
 import { deleteCategory } from '@/api/categories'
-import { token } from '../form/InsertProduct'
+import { token } from '../form/product/InsertProduct'
 import Spiner from '@/components/client/shared/Spiner'
-import { setCategorytDefaultValue } from '@/redux/domains/form/categoryDefaultValue'
+import { setCategorytDefaultValue } from '@/redux/domains/form/category/categoryDefaultValue'
 import { useDispatch } from 'react-redux'
-import { setIsCategoryUpdate } from '@/redux/domains/form/isCategoryUpdate'
-import { DefaultValueCategoryContext } from '../form/InsertCategory'
+import { setIsCategoryUpdate } from '@/redux/domains/form/category/isCategoryUpdate'
+import { DefaultValueCategoryContext } from '../form/category/InsertCategory'
 
 type CategoryCardType = {
     category: Category,
@@ -43,7 +43,7 @@ export default function CategoryCard({ category }: CategoryCardType) {
     }
 
     const hendleDeleteCategory = () => {
-        const confirm = window.confirm('Voulez vous vraiment supprimer continuer')
+        const confirm = window.confirm('Voulez vous vraimen continuer')
         if (!confirm) return
         setIsDeleting(true)
         mutate()
@@ -54,7 +54,7 @@ export default function CategoryCard({ category }: CategoryCardType) {
             {isDeleting && <Spiner/>}
             <div className='flex gap-5'>
                 <Image
-                    src={`/uploads/categories/${category.uri}`}
+                    src={`/uploads/categories/${category.uri}` }
                     width={150} height={150}
                     className='rounded-md w-[120px] h-[120px] object-cover '
                     alt='' />

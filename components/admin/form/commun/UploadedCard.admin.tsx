@@ -1,7 +1,7 @@
 "use client"
 import React from 'react'
 import { AiOutlineDelete } from 'react-icons/ai'
-import { imageDataType } from './InsertProduct'
+import { imageDataType } from '../product/InsertProduct'
 import { troncText } from '@/utils/commun'
 
 export default function UploadedCard({ uri, name, onDeletFile }: imageDataType) {

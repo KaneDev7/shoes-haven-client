@@ -8,21 +8,34 @@ import ProductMenu from '../navbar/ProductMenu';
 import { AuthContext } from '@/context/RequireAuth';
 import { CartContext } from '@/context/cartContext';
 import Button from '../shared/buttons';
+import UserInfos from '../navbar/UserInfos';
 
 
 const NavbarRightPart = () => {
     const { auth } = useContext(AuthContext)
     const { cartQuantities } = useContext(CartContext)
 
+    const [isMonseInLink, setIsMonseInLink] = useState(false)
+    const handleEnableMenu = () => {
+        setIsMonseInLink(true)
+    }
+
+    const handleDesableMenu = () => {
+        setIsMonseInLink(false)
+    }
+
     if (auth) {
-        return <div className='flex justify-between items-center gap-4'>
+        return <div className='flex justify-between items-center gap-4 '>
             <div className='w-[50px] h-[50px] flex justify-center items-center rounded-full bg-white text-blackColor2 '>
                 <IoSearch size={20} />
             </div>
-            <div className='w-[50px] h-[50px] flex justify-center items-center rounded-full bg-white text-blackColor2  '>
-                <LuUser2 size={20} />
-
+            <div
+                onMouseEnter={handleEnableMenu}
+                onMouseLeave={handleDesableMenu}
+                className='w-[50px] h-[50px] flex justify-center items-center rounded-full bg-white text-blackColor2  '>
+                <LuUser2 size={20} className='h-[200px]' />
             </div>
+
             <Link href='/cart'>
                 <div className='w-[50px] h-[50px] flex justify-center items-center rounded-full bg-white text-blackColor2 relative'>
                     <IoBagOutline size={20} />
@@ -32,6 +45,7 @@ const NavbarRightPart = () => {
                     </span>
                 </div>
             </Link>
+            <UserInfos isMonseInLink={isMonseInLink} />
         </div>
     } else {
         return <div className='flex items-center gap-4 '>
@@ -82,8 +96,8 @@ export default function Navbar() {
                     </Link>
                     <Link href='/'>A PROPOS</Link>
                     <Link href='/'>CONTACT</Link>
+                    <ProductMenu isMonseInLink={isMonseInLink} />
                 </nav>
-                <ProductMenu isMonseInLink={isMonseInLink} />
                 <NavbarRightPart />
             </div>
         </section>

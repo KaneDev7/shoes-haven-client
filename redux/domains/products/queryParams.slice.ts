@@ -2,7 +2,6 @@ import {QueryParams } from '@/types/product.type'
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
-
 const initialState: QueryParams = {}
 
 export const queryParamsSlice = createSlice({
@@ -10,7 +9,11 @@ export const queryParamsSlice = createSlice({
   initialState,
   reducers: {
     setQueryParams: (state, action: PayloadAction<string[]>) => {
-      state = state[action.payload[0]] = action.payload[1]
+      if(action.payload[0] && !action.payload[1]){
+        delete  state[action.payload[0]]
+      }else{
+        state = state[action.payload[0]] = action.payload[1]
+      }
     },
 
     initQueryParams : (state) => {

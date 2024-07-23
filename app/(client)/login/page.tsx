@@ -1,7 +1,7 @@
 "use client"
 import { login } from '@/api/authentification'
 import { getUser } from '@/api/user'
-import InputText from '@/components/admin/form/InputText'
+import InputText from '@/components/admin/form/product/InputText'
 import Button from '@/components/client/shared/buttons'
 import Spiner from '@/components/client/shared/Spiner'
 import { handleResponseError } from '@/utils/errorResponse'

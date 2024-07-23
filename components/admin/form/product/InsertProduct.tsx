@@ -7,8 +7,8 @@ import ProductForm from './ProductForm';
 import { addProduct, updateProduct } from '@/api/products';
 import { useRouter } from 'next/navigation';
 import { handleResponseError } from '@/utils/errorResponse';
-import Spiner from '../../client/shared/Spiner';
-import Button from '../shared/Button.admin';
+import Spiner from '../../../client/shared/Spiner';
+import Button from '../../shared/Button.admin';
 
 export const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9tYXIga2FuZSIsInVzZXJJZCI6IjY2NTc4OWIxYzU2ZTMyZTRiM2U2NWJiYiIsImlhdCI6MTcxNzE4NjMyNiwiZXhwIjoxNzE3MTg2Mzg2fQ.Mi3pDWTI7RTMhR0Frtysmeq5aPr6BLhwyieuFTRNVzM'
 export const FilesContext = createContext(null)
@@ -88,18 +88,23 @@ export default function InsertProduct() {
     }
 
 
-    const onSubmit = async () => {
+    const onSubmit = async (data) => {
+
         if (imageUris.length === 0 && !isProducUpdate) {
             return setFileError('Veillez ajouter des images')
         }
 
-        const form = seclectRef.current?.querySelector('form') as HTMLFormElement
-        const formData = new FormData(form);
+        const formData = new FormData();
+
+        formData.append('title', data.title);
+        formData.append('productId', data.productId);
+        formData.append('description', data.description);
+        formData.append('mark', data.mark);
+        formData.append('price', data.price);
         formData.append('category', selectCategories.join(','));
         formData.append('color', selectColors.join(','));
         formData.append('size', selectSizes.join(','));
 
-        console.log("size",  JSON.stringify(selectSizes.join(',')))
         if (files && !isProducUpdate) {
             files.forEach((file: any) => formData.append('files', file));
         }

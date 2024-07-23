@@ -48,8 +48,12 @@ export default function InputSelect({ data, label, placeholder, variant, name, r
     const isProducUpdate = useSelector(state => state.isProducUpdate)
 
     const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectElments = event.target.value
-        handleToggleSelect(selectElments)
+        if (variant === 'multuple') {
+            const selectElments = event.target.value
+            console.log('selectElments', selectElments)
+            handleToggleSelect(selectElments)
+        }
+
     }
 
     console.log('selectlist', selectlist)
@@ -70,14 +74,17 @@ export default function InputSelect({ data, label, placeholder, variant, name, r
                 })}
                 onChange={handleSelect}
                 className={`px-2 py-3 border-2 focus:border-secondaryColor  ${errors[name]?.message && 'border-red-300'} rounded-md  bg-gray-50/50 text-sm outline-none`} name={name} id="">
-                {!isProducUpdate && <option value='' selected={selectlist.length === 0} hidden >--{placeholder}--</option>}
+                {
+                    !isProducUpdate &&
+                    <option value='' selected={selectlist.length === 0} hidden >--{placeholder}--</option>
+                }
 
                 {
                     data.map((item, index) => (
 
                         variant === 'multuple' ?
                             (<option key={index} selected={isProducUpdate && item === defaultValue.at(-1)} disabled={selectlist.includes(item)} value={item} >{item}</option>) :
-                            (<option key={index}>{item}</option>)
+                            (<option selected={defaultValue === item} key={index}>{item}</option>)
                     ))
                 }
             </select>
@@ -92,10 +99,17 @@ export default function InputSelect({ data, label, placeholder, variant, name, r
 
             {
                 name === 'category' &&
-
                 <Link href='/admin/categories' className='flex items-center gap-2'>
                     <IoIosAddCircle className='text-secondaryColor' size={25} />
                     <p className='text-sm'>Ajouter une nouvelles Catégories</p>
+                </Link>
+            }
+
+            {
+                name === 'mark' &&
+                <Link href='/admin/marks' className='flex items-center gap-2'>
+                    <IoIosAddCircle className='text-secondaryColor' size={25} />
+                    <p className='text-sm'>Ajouter un nouveau Marque</p>
                 </Link>
             }
 

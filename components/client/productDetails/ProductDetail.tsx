@@ -8,7 +8,7 @@ import { sizes } from '@/constants/productsMock';
 import ReinsuranceCard from '../footer/ReinsuranceCard';
 import { CiDeliveryTruck } from 'react-icons/ci';
 import { getSameProducts } from '@/api/products';
-import { token } from '../../admin/form/InsertProduct';
+import { token } from '../../admin/form/product/InsertProduct';
 import { useQuery } from '@tanstack/react-query';
 
 //Swiper

@@ -1,8 +1,8 @@
 "use client"
 import React, { FormEventHandler, MutableRefObject, useRef } from 'react'
-import InputText from '@/components/admin/form/InputText';
+import InputText from '@/components/admin/form/product/InputText';
 import { FieldErrors, FieldValues } from 'react-hook-form';
-import Button from '../shared/Button.admin';
+import Button from '../../shared/Button.admin';
 import { useSelector } from 'react-redux';
 
 type ProductFormType = {
@@ -21,7 +21,6 @@ export default function CategoryForm({ onSubmit, handleSubmit, register, onReset
 
     let form: MutableRefObject<HTMLFormElement | undefined> = useRef();
     const isCategoryUpdate: boolean = useSelector<any>(state => state.isCategoryUpdate)
-
 
     return (
         <div className='flex-1 border-2 p-4 rounded-md '>

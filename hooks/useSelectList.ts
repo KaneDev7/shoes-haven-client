@@ -1,7 +1,7 @@
 "use client"
-import { setSelectCategories } from '@/redux/domains/form/caregories.slice'
-import { setSelectColors } from '@/redux/domains/form/colors.slice'
-import { setSelectSize } from '@/redux/domains/form/size.slice'
+import { setSelectCategories } from '@/redux/domains/form/category/categories.slice'
+import { setSelectColors } from '@/redux/domains/form/product/colors.slice'
+import { setSelectSize } from '@/redux/domains/form/product/size.slice'
 import { setQueryParams } from '@/redux/domains/products/queryParams.slice'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'

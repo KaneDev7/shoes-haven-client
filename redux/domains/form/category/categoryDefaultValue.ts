@@ -1,13 +1,12 @@
 import { Category } from '@/types/category.type'
-import { Product } from '@/types/product.type'
 import { createSlice } from '@reduxjs/toolkit'
 
 
 export const initialStateCategoryDefaultValue: Category = {
-    _id: '669848d9cfd97a29e0ff915a',
-    name: 'CHAUSSURES FORMELLES',
-    description: "Faites une impression durable avec nos chaussures formelles, où le luxe rencontre l'innovation pour un confort inégalé",
-    uri: '1721256153944.jpg',
+    _id: '',
+    name: '',
+    description: "",
+    uri: '',
 }
 
 export const categoryDefaultValueSlice = createSlice({
@@ -23,5 +22,4 @@ export const categoryDefaultValueSlice = createSlice({
 })
 
 export const { setCategorytDefaultValue } = categoryDefaultValueSlice.actions
-
 export default categoryDefaultValueSlice.reducer

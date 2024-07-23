@@ -1,6 +1,6 @@
 "use client"
 import { getOneProduct, getProducts } from '@/api/products'
-import { token } from '@/components/admin/form/InsertProduct'
+import { token } from '@/components/admin/form/product/InsertProduct'
 import ProductDeatilSkeleton from '@/components/client/products/ProductDeatilSkeleton'
 import ProductDetail from '@/components/client/productDetails/ProductDetail'
 import RenderProductList from '@/components/client/containers/RenderProductList'

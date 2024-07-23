@@ -2,7 +2,7 @@
 import { updateOrder } from '@/api/orders';
 import React, { useState } from 'react'
 import { LuChevronsLeftRight } from "react-icons/lu";
-import { token } from '../form/InsertProduct';
+import { token } from '../form/product/InsertProduct';
 import { Status } from '@/types/product.type';
 
 type Dropdowtype = {

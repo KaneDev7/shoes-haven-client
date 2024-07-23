@@ -1,6 +1,6 @@
 "use client"
 import { createUser } from '@/api/authentification'
-import InputText from '@/components/admin/form/InputText'
+import InputText from '@/components/admin/form/product/InputText'
 import Button from '@/components/client/shared/buttons'
 import Spiner from '@/components/client/shared/Spiner'
 import { emailValidationRegex } from '@/constants/validation'

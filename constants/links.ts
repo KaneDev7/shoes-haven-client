@@ -2,35 +2,35 @@ import { Link } from "@/types/link.type"
 
 
 
-export const Collections : Link[] =[
+export const Collections: Link[] = [
     {
-        title : 'Nouveautés',
-        href : '#'
+        title: 'Nouveautés',
+        href: '#'
     },
     {
-        title : 'Meilleures Ventes',
-        href : '#'
+        title: 'Meilleures Ventes',
+        href: '#'
     },
     {
-        title : 'Offres Spéciales',
-        href : '/produc'
+        title: 'Offres Spéciales',
+        href: '/produc'
     },
     {
-        title : 'Chaussures de Sport',
-        href : '#'
+        title: 'Chaussures de Sport',
+        href: '#'
     },
     {
-        title : ' Chaussures Formelles',
-        href : '#'
+        title: ' Chaussures Formelles',
+        href: '#'
     },
     {
-        title : 'Chaussures Décontractées',
-        href : '#'
+        title: 'Chaussures Décontractées',
+        href: '#'
     }
 ]
 
 
-export const Marks : Link[] = [
+export const Marks: Link[] = [
     {
         title: 'Chaussures Puma',
         href: '#'
@@ -79,70 +79,102 @@ export const Marks : Link[] = [
 
 
 
-export const supports : Link[] =[
+export const supports: Link[] = [
     {
-        title : 'Termes',
-        href : '#'
+        title: 'Termes',
+        href: '#'
     },
     {
-        title : 'Confidentialité',
-        href : '#'
+        title: 'Confidentialité',
+        href: '#'
     },
     {
-        title : 'Livraison',
-        href : '#'
+        title: 'Livraison',
+        href: '#'
     },
     {
-        title : 'Politique de remboursement',
-        href : '#'
+        title: 'Politique de remboursement',
+        href: '#'
     },
     {
-        title : 'FAQ',
-        href : '#'
+        title: 'FAQ',
+        href: '#'
     },
     {
-        title : 'Contactez-nous',
-        href : '#'
+        title: 'Contactez-nous',
+        href: '#'
     }
 ]
 
 // Admin
 
-export const adminLink : Link[] =[
+export const adminLink: Link[] = [
     {
-        title : 'Dashboard',
-        href : '/admin',
-        iconName : 'MdOutlineDashboard'
-    },
-    
-    {
-        title : 'Produits',
-        href : '/admin/products',
-        subRoute : ['/admin/products/add', '/admin/products/'],
-        iconName : 'AiOutlineProduct'
+        title: 'Dashboard',
+        href: '/admin',
+        iconName: 'MdOutlineDashboard'
     },
 
     {
-        title : 'Catégories',
-        href : '/admin/categories',
-        iconName : 'AiOutlineProduct'
+        title: 'Produits',
+        href: '/admin/products',
+        subRoute: [
+            '/admin/products/add',
+            '/admin/products/',
+            '/admin/categories',
+            '/admin/marks'
+        ],
+        iconName: 'AiOutlineProduct'
+    },
+
+    // {
+    //     title : 'Catégories',
+    //     href : '/admin/categories',
+    //     iconName : 'AiOutlineProduct'
+    // },
+
+    {
+        title: 'Commandes',
+        href: '/admin/orders',
+        iconName: 'BsCart2'
     },
 
     {
-        title : 'Commandes',
-        href : '/admin/orders',
-        iconName : 'BsCart2'
+        title: 'Utulisateurs',
+        href: '/admin/users',
+        iconName: 'FiUser'
     },
 
     {
-        title : 'Utulisateurs',
-        href : '/admin/users',
-        iconName : 'FiUser'
-    },
-
-    {
-        title : 'Paramètres',
-        href : '/admin/settings',
-        iconName : 'IoSettingsOutline'
+        title: 'Paramètres',
+        href: '/admin/settings',
+        iconName: 'IoSettingsOutline'
     }
+]
+
+
+export const productAdminLink: Link[] = [
+    {
+        title: 'Produits',
+        href: '/admin/products',
+        iconName: 'MdOutlineDashboard',
+        subRoute: [
+            '/admin/products/',
+        ],
+    },
+
+    {
+        title: 'Catégories',
+        href: '/admin/categories',
+        iconName: 'AiOutlineProduct'
+    },
+
+
+    {
+        title: 'Marques',
+        href: '/admin/marks',
+        iconName: 'MdOutlineDashboard'
+    },
+
+
 ]

@@ -1,13 +1,12 @@
 "use client"
 import React, { FormEventHandler, MutableRefObject, useEffect, useRef, useState } from 'react'
-import InputText from '@/components/admin/form/InputText';
-import InputSelect from '@/components/admin/form/InputSelect.admin';
+import InputText from '@/components/admin/form/product/InputText';
+import InputSelect from '@/components/admin/form/product/InputSelect.admin';
 import { FieldErrors, FieldValues } from 'react-hook-form';
-import { colors, marks, sizes } from '@/constants/productsMock';
+import { colors, sizes } from '@/constants/productsMock';
 import { useSelector } from 'react-redux';
-import { useQuery } from '@tanstack/react-query';
-import { getCategories } from '@/api/categories';
 import useCategoryList from '@/hooks/useCategoryList';
+import useMarkList from '@/hooks/useMarkList';
 
 type ProductFormType = {
     onSubmit: () => FormEventHandler<HTMLFormElement> | undefined,
@@ -26,6 +25,8 @@ export default function ProductForm({ onSubmit, handleSubmit, register, errors }
     const selectColors = useSelector<any>(state => state.selectColors)
     const productDefaultValue = useSelector<any>(state => state.productDefaultValue)
     const { categories } = useCategoryList()
+    const { marks } = useMarkList()
+
 
     let form: MutableRefObject<HTMLFormElement | undefined> = useRef();
     let submitButton: MutableRefObject<HTMLButtonElement | null> = useRef(null);
@@ -72,7 +73,6 @@ export default function ProductForm({ onSubmit, handleSubmit, register, errors }
                         }
                     }}
                 />
-
 
                 <InputSelect
                     label='Marques'

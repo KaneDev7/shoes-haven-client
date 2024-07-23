@@ -1,6 +1,6 @@
 import React, { FormEventHandler, useContext, useRef, useState } from 'react'
 import { FieldErrors, FieldValues, useForm } from 'react-hook-form'
-import InputText from '../../admin/form/InputText'
+import InputText from '../../admin/form/product/InputText'
 import Button from '../shared/buttons'
 import { emailValidationRegex } from '@/constants/validation'
 import { useSelector } from 'react-redux'

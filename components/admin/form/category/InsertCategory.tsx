@@ -3,15 +3,15 @@ import React, { MutableRefObject, createContext, useEffect, useRef, useState } f
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from "react-hook-form"
 import { useRouter } from 'next/navigation';
-import Spiner from '../../client/shared/Spiner';
+import Spiner from '../../../client/shared/Spiner';
 import CategoryForm from './CategoryForm';
 import UploadCategortImg from './UploadCategortImg';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { addCategory, getCategories, updateCategory } from '@/api/categories';
 import { Category } from '@/types/category.type';
-import Categories from '../categories/Categories';
-import { setCategorytDefaultValue } from '@/redux/domains/form/categoryDefaultValue';
-import { setIsCategoryUpdate } from '@/redux/domains/form/isCategoryUpdate';
+import Categories from '../../categories/Categories';
+import { setCategorytDefaultValue } from '@/redux/domains/form/category/categoryDefaultValue';
+import { setIsCategoryUpdate } from '@/redux/domains/form/category/isCategoryUpdate';
 
 export const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9tYXIga2FuZSIsInVzZXJJZCI6IjY2NTc4OWIxYzU2ZTMyZTRiM2U2NWJiYiIsImlhdCI6MTcxNzE4NjMyNiwiZXhwIjoxNzE3MTg2Mzg2fQ.Mi3pDWTI7RTMhR0Frtysmeq5aPr6BLhwyieuFTRNVzM'
 export const FilesCategoryContext = createContext(null)
@@ -78,8 +78,7 @@ export default function InsertCategory() {
         },
 
         onSettled: (data, error, context) => {
-            if (data?.status === 201) {
-
+            if (data?.status === 201) { 
                 setIsSubmiting(false)
                 reset()
                 setImageUris([])

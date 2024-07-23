@@ -2,26 +2,27 @@
 import { deleteProduct, getOneProduct, toggleStock } from '@/api/products'
 import Button from '@/components/admin/shared/Button.admin'
 import Header from '@/components/admin/shared/Header'
-import { token } from '@/components/admin/form/InsertProduct'
+import { token } from '@/components/admin/form/product/InsertProduct'
 import ToggleInput from '@/components/admin/productDetail/Toggle'
-import { setSelectCategories } from '@/redux/domains/form/caregories.slice'
-import { setSelectColors } from '@/redux/domains/form/colors.slice'
-import { setIsProducUpdate } from '@/redux/domains/form/isProducUpdate'
-import { setProductDefaultValue } from '@/redux/domains/form/productDefaultValue'
-import { setSelectSize } from '@/redux/domains/form/size.slice'
+import { setSelectCategories } from '@/redux/domains/form/category/categories.slice'
+import { setSelectColors } from '@/redux/domains/form/product/colors.slice'
+import { setIsProducUpdate } from '@/redux/domains/form/product/isProducUpdate'
+import { setProductDefaultValue } from '@/redux/domains/form/product/productDefaultValue'
+import { setSelectSize } from '@/redux/domains/form/product/size.slice'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import ProductNav from '@/components/admin/shared/ProductNav'
 
 export default function ProductDetail() {
     const productId = useParams().id as string
-   
-    const {data : product , isLoading, error} = useQuery({
-        queryKey : ['product', productId],
-        queryFn :  async () => getOneProduct(productId)
+
+    const { data: product, isLoading, error } = useQuery({
+        queryKey: ['product', productId],
+        queryFn: async () => getOneProduct(productId)
     })
 
     const [isProductOnStock, setIsProductOnStock] = useState<boolean>()
@@ -67,6 +68,8 @@ export default function ProductDetail() {
                         />
                     </Link>
                 </Header>
+                <ProductNav />
+
                 <div className='flex gap-4 flex-wrap mt-5 bg-white p-4'>
                     {
                         product?.uri?.map(src => (

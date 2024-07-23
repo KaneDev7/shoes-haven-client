@@ -1,7 +1,9 @@
-import { setSelectColors, toggleSelectColor } from '@/redux/domains/form/colors.slice'
-import { setSelectSize, toggleSelectSize } from '@/redux/domains/form/size.slice'
+import { setSelectColors, toggleSelectColor } from '@/redux/domains/form/product/colors.slice'
+import { setSelectMark, toggleSelectMark } from '@/redux/domains/form/product/mark.slice'
+import { setSelectSize, toggleSelectSize } from '@/redux/domains/form/product/size.slice'
 import { setSelectedFilter } from '@/redux/domains/products/SelectedFilter.slice'
 import { initQueryParams, setQueryParams } from '@/redux/domains/products/queryParams.slice'
+import { usePathname } from 'next/navigation'
 import React, { useState } from 'react'
 import { IoMdCloseCircleOutline } from 'react-icons/io'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,7 +16,11 @@ export default function RenderSelectedFilter() {
   const selectedFilter = useSelector(state => state.selectedFilter)
   const selectColors = useSelector(state => state.selectColors)
   const selectSizes = useSelector(state => state.selectSizes)
+  const selectMarks = useSelector(state => state.selectMarks)
+  const queryParams = useSelector(state => state.queryParams)
+
   const dispatch = useDispatch()
+  const pathName = usePathname()
 
   const handleClick = (type, value) => {
     switch (type) {
@@ -36,6 +42,14 @@ export default function RenderSelectedFilter() {
         const selectFilterSizeUpdated = [...selectSizes, value]
         return dispatch(setQueryParams([type, selectFilterSizeUpdated.join(',')]))
 
+      case 'mark':
+        dispatch(toggleSelectMark(value))
+        if (selectMarks.includes(value)) {
+          const selectFilterMarkUpdated = selectMarks.filter(item => item !== value)
+          return dispatch(setQueryParams([type, selectFilterMarkUpdated.join(',')]))
+        }
+        const selectFilterMarkUpdated = [...selectMarks, value]
+        return dispatch(setQueryParams([type, selectFilterMarkUpdated.join(',')]))
       default:
         break;
     }
@@ -46,9 +60,11 @@ export default function RenderSelectedFilter() {
     dispatch(initQueryParams())
     dispatch(setSelectColors([]))
     dispatch(setSelectSize([]))
+    dispatch(setSelectMark([]))
+    dispatch(initQueryParams())
   }
 
-  if (selectedFilter.length > 0)
+  if ((selectedFilter.length > 0) || (queryParams.price_lte || queryParams.price_gte ) && pathName === '/products')
     return (
       <div className='flex justify-between items-center'>
         <div className='flex items-center gap-4  my-5'>
@@ -63,14 +79,17 @@ export default function RenderSelectedFilter() {
                     size={20}
                     className='text-secondaryColor'
                   />
+
                 </div>
               ))
             ))
           }
         </div>
+
         <p
           onClick={handleResetFilter}
-          className='text-red-400 cursor-pointer hover:underline text-sm'>Supprimer les filtres</p>
+          className='text-red-400 cursor-pointer hover:underline text-sm'>Effacer les filtres
+        </p>
       </div>
     )
 }

@@ -8,14 +8,18 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setSelectedFilter } from '@/redux/domains/products/SelectedFilter.slice';
 import Spiner from '@/components/client/shared/Spiner'
+import useCategoryUri from '@/hooks/useCategoryUri'
+import { setQueryParams } from '@/redux/domains/products/queryParams.slice'
 
 export default function Products() {
     const queryParams = useSelector(state => state.queryParams)
+    const selectMarks = useSelector(state => state.selectMarks)
     const selectColors = useSelector(state => state.selectColors)
     const selectSizes = useSelector(state => state.selectSizes)
+    const { categoryUri } = useCategoryUri(queryParams.category)
     const dispatch = useDispatch()
 
-
+    console.log('queryParams', queryParams)
     const { data: products, isLoading, error, isFetching, refetch } = useQuery({
         queryKey: ['products'],
         queryFn: async () => getProducts(queryParams)
@@ -36,34 +40,49 @@ export default function Products() {
                     value: selectSizes
                 })
             }
+            if (queryParams.mark) {
+                querySelected.push({
+                    type: 'mark',
+                    value: selectMarks
+                })
+            }
 
             dispatch(setSelectedFilter(querySelected))
             refetch()
         }
         selectedFilterFn()
-    }, [queryParams, selectColors, selectSizes])
+    }, [queryParams, selectColors, selectSizes, selectMarks])
 
-
+    useEffect(() => {
+        if(!queryParams){
+            dispatch(setQueryParams(['category', 'all']))
+        }
+    },[])
+    
     return (
         <div className='p-4'>
-            <header className='globalMaxWidth mb-10 overflow-hidden rounded-md mt-4'>
-                <Image
-                    width={1000}
-                    height={1000}
-                    src='/categories/5.jpg'
-                    alt=''
-                    className='w-full max-h-[300px] object-cover'
-                />
-            </header>
+            {
+                categoryUri &&
+                <header className='globalMaxWidth mb-10 overflow-hidden rounded-md mt-4'>
+                    <Image
+                        width={1000}
+                        height={1000}
+                        src={`/uploads/categories/${categoryUri}`}
+                        alt=''
+                        className='w-full max-h-[300px] object-cover'
+                    />
+                </header>
+            }
+
             <section className='mt-20 '>
-                <div className='globalMaxWidth lg:flex sm:block gap-5 relative'>
+                <div className='globalMaxWidth block lg:flex items-start justify-start gap-5 relative'>
                     <SideBar />
-                    <div className='flex-1 relative'>
+                    <div className='flex-1 relative '>
                         {isFetching && <Spiner />}
                         <RenderProductList
                             products={products}
                             loading={isLoading}
-                            title={(queryParams.category && queryParams.category !== 'all' ) ? queryParams.category : 'TOUS LES PRODUITS'}
+                            title={(queryParams.category && queryParams.category !== 'all') ? queryParams.category : 'TOUS LES PRODUITS'}
                             gridParamsStyle='productsPage sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '
                             headerRightEl={
                                 <select className='p-2'>

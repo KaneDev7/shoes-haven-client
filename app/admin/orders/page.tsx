@@ -1,7 +1,7 @@
 "use client"
 import { getOrders } from '@/api/orders'
 import Header from '@/components/admin/shared/Header'
-import { token } from '@/components/admin/form/InsertProduct'
+import { token } from '@/components/admin/form/product/InsertProduct'
 import Search from '@/components/admin/shared/Search.admin'
 import TableList from '@/components/admin/shared/TableList'
 import { orderTableHeaderList } from '@/constants/data'

@@ -1,6 +1,6 @@
 "use client"
 
-import { toggleSelectColor } from '@/redux/domains/form/colors.slice'
+import { toggleSelectColor } from '@/redux/domains/form/product/colors.slice'
 import { setQueryParams } from '@/redux/domains/products/queryParams.slice'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
