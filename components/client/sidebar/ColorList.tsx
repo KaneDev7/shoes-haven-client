@@ -31,7 +31,7 @@ export default function ColorList() {
     if (selectColors.includes(colorCliked)) {
       const selectColorUpdated = selectColors.filter(item => item !== colorCliked)
       return dispatch(setQueryParams(['color', selectColorUpdated.join(',')]))
-    }
+    } 
     const selectColorUpdated = [...selectColors, colorCliked]
     return dispatch(setQueryParams(['color', selectColorUpdated.join(',')]))
   }
@@ -39,7 +39,7 @@ export default function ColorList() {
   return (
     <div className=''>
       <h2>COULEURS</h2>
-      <ul className='flex flex-wrap gap-5 max-w-[300px] mt-5 '>
+      <ul className='flex flex-wrap gap-5  mt-5 '>
         {
           colorList.map(color => (
             <li

@@ -11,7 +11,7 @@ type ProductMenuType = {
 export default function ProductMenu({ isMonseInLink }: ProductMenuType) {
   return (
     <PopOver isMonseInLink={isMonseInLink} >
-      <ul className='globalMaxWidth min-h-[500px] flex  p-10 rounded-md shadow-md gap-20 absolute  left-[50%] translate-x-[-50%] z-[5]'>
+      <ul className='globalMaxWidth min-h-[500px] flex bg-white p-10 rounded-md shadow-md gap-20 absolute  left-[50%] translate-x-[-50%] z-[5]'>
         <li className='max-w-[250px] w-full '>
           <LinkList
             linksList={Collections}

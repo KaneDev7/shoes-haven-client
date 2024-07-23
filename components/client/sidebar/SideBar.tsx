@@ -18,9 +18,9 @@ export default function SideBar() {
     }
 
     return (
-        <aside className='sidebar min-w-[350px] rounded-md mb-10 py-10 px-7 md:sticky static top-0 '>
+        <aside className='sidebar lg:max-w-[300px]  rounded-md mb-10 py-10 px-7 lg:sticky static top-0 '>
             <div className=' flex lg:flex-col flex-row flex-wrap gap-10 '>
-                <div className='w-[300px] '>
+                <div className='w-full'>
                     <div className='w-full'>
                         <h2 className={`mb-5`} >CATEGORIES</h2>
                         <ul className='leading-8 text-xs '>
@@ -38,15 +38,13 @@ export default function SideBar() {
                     </div>
                 </div>
                 <ColorList />
-                <MarkList />
-
                 <div>
                     <h2 className='mb-5'>TAILLES</h2>
                     <Sizes
                         style='gap-4'
                         sizes={[40, 41, 42, 43, 44, 45, 46]} />
                 </div>
-
+                <MarkList />
                 <div>
                     <h2 className='mb-5'>FILTRER PAR PRIX</h2>
                     <RangeSlider />

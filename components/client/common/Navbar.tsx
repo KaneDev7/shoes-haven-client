@@ -34,6 +34,8 @@ const NavbarRightPart = () => {
                 onMouseLeave={handleDesableMenu}
                 className='w-[50px] h-[50px] flex justify-center items-center rounded-full bg-white text-blackColor2  '>
                 <LuUser2 size={20} className='h-[200px]' />
+                <UserInfos isMonseInLink={isMonseInLink} />
+
             </div>
 
             <Link href='/cart'>
@@ -45,7 +47,6 @@ const NavbarRightPart = () => {
                     </span>
                 </div>
             </Link>
-            <UserInfos isMonseInLink={isMonseInLink} />
         </div>
     } else {
         return <div className='flex items-center gap-4 '>
@@ -96,10 +97,10 @@ export default function Navbar() {
                     </Link>
                     <Link href='/'>A PROPOS</Link>
                     <Link href='/'>CONTACT</Link>
-                    <ProductMenu isMonseInLink={isMonseInLink} />
                 </nav>
                 <NavbarRightPart />
             </div>
+            <ProductMenu isMonseInLink={isMonseInLink} />
         </section>
     )
 }

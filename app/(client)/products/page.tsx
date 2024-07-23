@@ -19,11 +19,15 @@ export default function Products() {
     const { categoryUri } = useCategoryUri(queryParams.category)
     const dispatch = useDispatch()
 
-    console.log('queryParams', queryParams)
     const { data: products, isLoading, error, isFetching, refetch } = useQuery({
         queryKey: ['products'],
         queryFn: async () => getProducts(queryParams)
     })
+
+    const handleSortBy = (event : React.ChangeEvent<HTMLSelectElement>) =>{
+       const value =  event.target.value
+       dispatch(setQueryParams(['sort_price', value]))
+    }
 
     useEffect(() => {
         const selectedFilterFn = () => {
@@ -53,12 +57,16 @@ export default function Products() {
         selectedFilterFn()
     }, [queryParams, selectColors, selectSizes, selectMarks])
 
+    function isObjEmpty (obj) {
+        return Object.keys(obj).length === 0;
+    }
+
     useEffect(() => {
-        if(!queryParams){
+        if ( isObjEmpty(queryParams)) {
             dispatch(setQueryParams(['category', 'all']))
         }
-    },[])
-    
+    }, [])
+
     return (
         <div className='p-4'>
             {
@@ -85,10 +93,10 @@ export default function Products() {
                             title={(queryParams.category && queryParams.category !== 'all') ? queryParams.category : 'TOUS LES PRODUITS'}
                             gridParamsStyle='productsPage sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '
                             headerRightEl={
-                                <select className='p-2'>
+                                <select onChange={handleSortBy} className='p-2'>
                                     <option selected hidden value="">Tirer par</option>
-                                    <option value="">Prix inferieur</option>
-                                    <option value="">Pris superieur</option>
+                                    <option value="asc">Prix inferieur</option>
+                                    <option value="desc">Pris superieur</option>
                                 </select>
                             }
                         />

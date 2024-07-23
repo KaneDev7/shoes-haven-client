@@ -43,6 +43,7 @@ export interface QueryParams  {
     color ?: string,
     price_lte? : string,
     price_gte? : string,
+    sort_price: string
     mark? : string,
     onStock? : string
 }

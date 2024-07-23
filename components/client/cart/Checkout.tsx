@@ -246,6 +246,7 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
                             name='email'
                             type='email'
                             errors={errors}
+                            disabled={true}
                             register={register}
                             validations={{
                                 required: { value: true, message: "L'email est obligatoire" },

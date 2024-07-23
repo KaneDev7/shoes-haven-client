@@ -126,13 +126,7 @@ export const adminLink: Link[] = [
         ],
         iconName: 'AiOutlineProduct'
     },
-
-    // {
-    //     title : 'Catégories',
-    //     href : '/admin/categories',
-    //     iconName : 'AiOutlineProduct'
-    // },
-
+    
     {
         title: 'Commandes',
         href: '/admin/orders',
@@ -175,6 +169,29 @@ export const productAdminLink: Link[] = [
         href: '/admin/marks',
         iconName: 'MdOutlineDashboard'
     },
-
-
 ]
+
+export const ProfileLinks: Link[] = [
+    {
+        title: 'PROFILE',
+        href: '/acount/profile',
+        iconName: 'MdOutlineDashboard',
+        subRoute: [
+            '/admin/products/',
+        ],
+    },
+
+    {
+        title: 'COMMANDES',
+        href: '/acount/orders',
+        iconName: 'AiOutlineProduct'
+    },
+
+
+    {
+        title: ' CHANGER DE MOT DE PASSE',
+        href: '/acount/settings',
+        iconName: 'MdOutlineDashboard'
+    },
+]
+

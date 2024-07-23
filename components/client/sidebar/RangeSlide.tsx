@@ -6,8 +6,8 @@ import React, { useState, useEffect, ChangeEvent, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 const RangeSlider: React.FC = () => {
-    const [minPrice, setMinPrice] = useState<number>(5000);
-    const [maxPrice, setMaxPrice] = useState<number>(20000);
+    const [minPrice, setMinPrice] = useState<number>(500);
+    const [maxPrice, setMaxPrice] = useState<number>(50000);
     const minRangeRef = useRef<HTMLInputElement>(null);
     const maxRangeRef = useRef<HTMLInputElement>(null);
     const progressRef = useRef<HTMLDivElement>(null);
@@ -113,20 +113,20 @@ const RangeSlider: React.FC = () => {
                 <input
                     type="range"
                     className="range-min"
-                    min="500"
+                    min="1000"
                     max="50000"
                     value={minPrice}
-                    step="100"
+                    step="500"
                     ref={minRangeRef}
                     onChange={(e) => setMinPrice(parseInt(e.target.value))}
                 />
                 <input
                     type="range"
                     className="range-max"
-                    min="500"
+                    min="1000"
                     max="50000"
                     value={maxPrice}
-                    step="100"
+                    step="500"
                     ref={maxRangeRef}
                     onChange={(e) => setMaxPrice(parseInt(e.target.value))}
                 />

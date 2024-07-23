@@ -9,7 +9,6 @@ import { Link as AdminLink } from '@/types/link.type'
 
 const NavLink = ({ link }: { link: AdminLink }) => {
   const pathName = usePathname()
-  // const isMatch = (pathName === link.href || link?.subRoute?.includes(pathName))
   const isMatch = (pathName === link.href || link?.subRoute?.includes(pathName) || link.title === 'Produits' && pathName.startsWith(link.subRoute![0]))
 
   return (

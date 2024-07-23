@@ -33,11 +33,12 @@ type InputType = {
     validations: InputTextValidationType | any,
     name: string,
     value?: string,
+    disabled? : boolean
     errors: FieldErrors<InputValidationRules>
     register: UseFormRegister<InputValidationRules>
 }
 
-export default function InputText({ label, placeholder, variant, type, name, register, errors, validations }: InputType) {
+export default function InputText({ label, placeholder, variant, type, name, register, errors, validations, disabled }: InputType) {
 
     return (
         <div className={`flex flex-col gap-2 `} >
@@ -56,7 +57,8 @@ export default function InputText({ label, placeholder, variant, type, name, reg
                         {...register(name, validations)}
                         type={type}
                         placeholder={placeholder}
-                        className={`px-2 py-3 border-2 ${errors[name] && 'border-red-200'} focus:border-secondaryColor  bg-gray-50/50 text-sm  rounded-md outline-none`}
+                        disabled={disabled}
+                        className={`px-2 py-3 border-2 ${disabled && 'bg-[#f0f0f0] '} ${errors[name] && 'border-red-200'} focus:border-secondaryColor  bg-gray-50/50 text-sm  rounded-md outline-none`}
                     />
             }
             {errors[name] && <p className='text-red-400 text-sm'> {errors[name]?.message } </p>}

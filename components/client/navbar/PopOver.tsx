@@ -30,7 +30,7 @@ export default function PopOver({ isMonseInLink, children }: ProductMenuType) {
       <div
         onMouseEnter={() => setIsMonseInMenu(true)}
         onMouseLeave={() => setIsMonseInMenu(false)}
-        className={`absolute  w-full top-[100%] left-[50%] translate-x-[-50%] z-[5] translate-y-[100px] opacity-0 transAnime ${sty} `}>
+        className={`absolute  w-full top-[100%] left-[50%] translate-x-[-50%] z-[5] translate-y-[100px]  transAnime`}>
             {children}
       </div>
     )

@@ -54,7 +54,6 @@ export default function ProductDetail() {
 
     useEffect(() => {
         setIsProductOnStock(product?.onStock)
-
     }, [product])
 
     if (!isLoading)
