@@ -15,10 +15,6 @@ export default function Profile() {
     setShowModal(true)
   }
 
-  const hadleDeletUserAcount = async () => {
-
-  }
-
   return (
     <div className='globalMaxWidth mt-20 bg-white '>
       <h1 className='font-bold text-2xl'>Mon compte </h1>
@@ -65,7 +61,6 @@ export default function Profile() {
           />
 
           <Button
-            handleClick={hadleDeletUserAcount}
             text='Se déconnecter'
             style='text-blackColor2 border-2 border-gray-100 hover:border-gray-200 p-2 rounded-md text-xs '
           />
@@ -78,7 +73,7 @@ export default function Profile() {
           setIsShowModal={setShowModal}
           title='Modification des informations'>
           <div className=' bg-white '>
-            <EditUserInfos  refetch={() => { }} />
+            <EditUserInfos />
           </div>
         </Modal>
       }

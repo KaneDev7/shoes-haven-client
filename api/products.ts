@@ -1,5 +1,5 @@
 import instanceAxios from "@/lib/axios"
-import { Product } from "@/types/product.type"
+import { Product, Status } from "@/types/product.type"
 import { createUrlParams } from "@/utils/commun"
 
 export const getProducts = async (queryObject : any = {}) : Promise<Product[] | any> => {
@@ -25,6 +25,7 @@ export const getSameProducts = async (productId: string) : Promise<Product[] | a
         return error
     }
 }
+
 
 export const getOneProduct = async (productId : string) : Promise<Product | any> => {
     try {
@@ -95,7 +96,7 @@ export const deleteProduct = async (token : string, productId :string) : Promise
 }
 
 
-export const toggleStock = async (token : string, productId :string, statut : boolean | undefined) : Promise<any> => {
+export const toggleStock = async (token : string, productId :string, statut : Status | undefined) : Promise<any> => {
     try {
         const response = await instanceAxios.put(`/products/update/stock/${productId}`,
         {onStock : statut},   

@@ -93,10 +93,10 @@ export default function Products() {
                             title={(queryParams.category && queryParams.category !== 'all') ? queryParams.category : 'TOUS LES PRODUITS'}
                             gridParamsStyle='productsPage sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '
                             headerRightEl={
-                                <select onChange={handleSortBy} className='p-2'>
+                                <select onChange={handleSortBy} className='p-2 text-sm'>
                                     <option selected hidden value="">Tirer par</option>
-                                    <option value="asc">Prix inferieur</option>
-                                    <option value="desc">Pris superieur</option>
+                                    <option className='' value="asc">Prix inferieur</option>
+                                    <option className='' value="desc">Pris superieur</option>
                                 </select>
                             }
                         />

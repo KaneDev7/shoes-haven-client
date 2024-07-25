@@ -1,23 +1,16 @@
 "use client"
-import { createUser } from '@/api/authentification'
 import InputText from '@/components/admin/form/product/InputText'
 import Button from '@/components/client/shared/buttons'
 import Spiner from '@/components/client/shared/Spiner'
+import { CREATE_USER, ERROR, ERROR_MESSAGE, PENDING } from '@/constants/data'
 import { emailValidationRegex } from '@/constants/validation'
-import { setcurrentUser } from '@/redux/domains/users/currentUser.slice'
-import { handleResponseError } from '@/utils/errorResponse'
+import useMutatationHook from '@/hooks/useMutatationHook'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
-
 
 export default function Register() {
-  const [errorMessage, setErrorMessage] = useState('')
-  const [isSubmiting, setIsSubmiting] = useState(false)
-
   const {
     register,
     watch,
@@ -26,35 +19,15 @@ export default function Register() {
   } = useForm()
 
   const [password, confirmPassword] = watch(['password', 'confirmPassword'])
-  const router = useRouter()
-  const dispatch = useDispatch()
+
+  const { mutate, status, errorMessage } = useMutatationHook({ fonctionName: CREATE_USER })
 
   const onSubmit = async (data) => {
-    console.log('data', data)
     const formData = new FormData()
     formData.append('username', data.username)
     formData.append('email', data.email)
     formData.append('password', data.password)
-
-    setIsSubmiting(true)
-
-    const response = await createUser(formData)
-    console.log('response', response)
-
-    const errorHandeler = handleResponseError(response)
-    if (errorHandeler.message) {
-      setIsSubmiting(false)
-      return setErrorMessage(errorHandeler.message)
-    }
-    dispatch(setcurrentUser({
-      username: data.username,
-      password: data.password,
-      email: data.email,
-      isNew : true,
-    }))
-
-    router.push('/login')
-
+    mutate(formData)
   }
 
   return (
@@ -66,11 +39,10 @@ export default function Register() {
 
         {/* form */}
         <div className=' flex-1 p-20 relative'>
-          {isSubmiting && <Spiner />}
+          {status === PENDING && <Spiner />}
           <h1 className='text-3xl font-bold mb-10 text-center '>Créer un compte</h1>
-          {
-            errorMessage && <p className='text-sm my-4 bg-red-100 text-red-500 p-4 rounded-md'> {errorMessage} </p>
-          }
+          { status === ERROR && <p className='text-sm my-4 bg-red-100 text-red-500 p-4 rounded-md'> {errorMessage || ERROR_MESSAGE} </p>}
+        
           <form className='flex flex-col gap-4' action="" onSubmit={handleSubmit(onSubmit)}>
             <InputText
               name='username'

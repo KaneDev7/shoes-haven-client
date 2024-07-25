@@ -26,7 +26,6 @@ type TableListType = {
 
 export default function TableList({ headerList, data, error, loading, type, refetch }: TableListType) {
     const [itemsId, setItemsId] = useState([])
-    const router = useRouter()
 
     const { mutate: mutateProducts } = useMutation({
         mutationFn: async (id) => {

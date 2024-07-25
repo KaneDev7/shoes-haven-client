@@ -52,7 +52,7 @@ export default function RenderProductList({ products, title, headerRightEl, styl
         </div>
         {
           pathName === '/products' &&
-          <p className='mt-2'> {products?.length} Produit {products?.length > 1 && "s"} Trouvé{products?.length > 1 && "s"}  </p>
+          <p className='mt-2'> {products?.length} Produit{products?.length > 1 && "s"} Trouvé{products?.length > 1 && "s"}  </p>
         }
 
         {

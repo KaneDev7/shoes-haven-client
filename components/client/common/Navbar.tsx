@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { IoChevronDownSharp, IoSearch } from "react-icons/io5";
 import { LuUser2 } from "react-icons/lu";
 import { IoBagOutline } from "react-icons/io5";
@@ -101,6 +101,7 @@ export default function Navbar() {
                 <NavbarRightPart />
             </div>
             <ProductMenu isMonseInLink={isMonseInLink} />
+
         </section>
     )
 }

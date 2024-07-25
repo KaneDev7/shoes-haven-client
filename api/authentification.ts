@@ -12,7 +12,6 @@ export const createUser = async (formData: FormData): Promise<any> => {
         )
         return response.data
 
-
     } catch (error) {
         console.log(error)
         return error
@@ -30,8 +29,8 @@ export const login = async (formData: FormData): Promise<any> => {
                 }
             }
         )
+        console.log('dsds',response.data)
         return response.data
-
 
     } catch (error) {
         console.log(error)

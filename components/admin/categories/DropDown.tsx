@@ -33,11 +33,9 @@ export const Dropdown = ({ orderId, status, onStatusChange }: Dropdowtype) => {
     const [selectedOption, setSelectedOption] = useState(status);
     const options: Status[] = ['pendding', 'deliveried', 'canceled'];
 
-
     const handleOpen = () => {
         setIsOpen(true);
     };
-
 
     const handleMouseLeave = () => {
         setIsOpen(false);

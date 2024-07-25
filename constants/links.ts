@@ -1,6 +1,6 @@
 import { Link } from "@/types/link.type"
 
-
+export const privateRoutes : string[] = ['/acount/profile', '/acount/orders', '/acount/settings', '/cart']
 
 export const Collections: Link[] = [
     {

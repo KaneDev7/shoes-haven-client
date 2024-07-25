@@ -68,7 +68,8 @@ export const deleteAllItemFromCart = async (token: string | undefined) => {
                 },
             }
         )
-        return response.data.data
+
+        return response
     } catch (error) {
         console.log(error)
         return error

@@ -1,34 +1,24 @@
-import { creatUserContactAdress, getUser } from '@/api/user'
 import InputText from '@/components/admin/form/product/InputText'
-import { useMutation } from '@tanstack/react-query'
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import Button from '../shared/buttons'
 import { emailValidationRegex } from '@/constants/validation'
-
+import useMutatationHook from '@/hooks/useMutatationHook'
+import Spiner from '../shared/Spiner'
 
 // Toast 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Spiner from '../shared/Spiner'
-import { setcurrentUser } from '@/redux/domains/users/currentUser.slice'
+import { CREATE_USER_CONTACT_ADDRESS, ERROR, ERROR_MESSAGE, PENDING, SUCCESS, UPDATE_SUCCESS_MESSAGE } from '@/constants/data'
 
 
-type EditUserInfosType = {
-    refetch: () => void
-
-}
-export default function EditUserInfos({ refetch }: EditUserInfosType) {
+export default function EditUserInfos() {
     const currentUser = useSelector(state => state.currentUser)
-    const [status, setStatus] = useState<'pending' | 'success' | 'error'>()
-    const dispatch = useDispatch()
-
     const {
         register,
         handleSubmit,
         formState: { errors },
-
     } = useForm({
         defaultValues: {
             city: currentUser?.address?.city,
@@ -37,40 +27,9 @@ export default function EditUserInfos({ refetch }: EditUserInfosType) {
             email: currentUser.email
         }
     })
-
-    const {
-        mutate: mutateAdress, isError: isErrorAdress } = useMutation({
-            mutationFn: async (userContactAdress) => {
-                return await creatUserContactAdress(currentUser.token, userContactAdress)
-            },
-
-            onSettled: async (data, error, context) => {
-                if (data?.status === 201) {
-                    refetch()
-                    setStatus('success')
-                    console.log('success')
-                    try {
-                        const userData = await getUser(currentUser?.token)
-                        sessionStorage.setItem('session', JSON.stringify(userData))
-                        sessionStorage.setItem(`cart_${userData?._id}`, JSON.stringify(userData?.cart))
-                        toast.success("Vos informations ont été mis à jour avec succée", { hideProgressBar: true })
-                        dispatch(setcurrentUser(userData))
-                    } catch (error) {
-                        window.location.href = '/login'
-                    }
-
-                } else {
-                    setStatus('error')
-                    console.log('error')
-                    toast.error("Quelques chose s'est mal passé. réssayer ultérieurement", { hideProgressBar: true })
-                }
-            },
-        })
-
+    const { mutate: mutateAdress, status } = useMutatationHook({ fonctionName: CREATE_USER_CONTACT_ADDRESS })
 
     const onSubmit = async (data) => {
-
-        setStatus('pending')
         const userContactAdress = {
             user_id: currentUser._id,
             phoneNum: data.phoneNum,
@@ -82,13 +41,20 @@ export default function EditUserInfos({ refetch }: EditUserInfosType) {
         mutateAdress(userContactAdress)
     }
 
+    useEffect(() => {
+        if (status === SUCCESS) {
+            toast.success(UPDATE_SUCCESS_MESSAGE, { hideProgressBar: true })
+        }
+        if (status === ERROR) {
+            toast.error(ERROR_MESSAGE, { hideProgressBar: true })
+        }
+    }, [status])
+
     return (
         <div className='relative'>
             <ToastContainer />
-            {
-                status === 'pending' &&
-                <Spiner />
-            }
+            {status === PENDING && <Spiner/>}
+
             <form action="" onSubmit={handleSubmit(onSubmit)} >
                 <div className='space-y-2 mt-5'>
                     <h2 className='font-bold text-xl'> Adress de livraison </h2>
@@ -108,18 +74,13 @@ export default function EditUserInfos({ refetch }: EditUserInfosType) {
                         name='street'
                         errors={errors}
                         register={register}
-                        validations={
-                            {
-                                required: { value: true, message: 'Séléctionner d\'abord la Quartier ou nous devons vous livrer votre commande' }
-                            }
-                        }
+                        validations={{ required: { value: true, message: 'Séléctionner d\'abord la Quartier ou nous devons vous livrer votre commande' } }}
                     />
                 </div>
 
 
                 <div className='space-y-2 mt-5'>
                     <h2 className='font-bold text-xl'> Contact </h2>
-
                     <InputText
                         placeholder='Votre email'
                         name='email'
@@ -141,11 +102,7 @@ export default function EditUserInfos({ refetch }: EditUserInfosType) {
                         name='phoneNum'
                         errors={errors}
                         register={register}
-                        validations={
-                            {
-                                required: { value: true, message: 'Le numéro de téléphone est obligatoire' }
-                            }
-                        }
+                        validations={{ required: { value: true, message: 'Le numéro de téléphone est obligatoire' } }}
                     />
                 </div>
 

@@ -7,7 +7,6 @@ import Footer from "@/components/client/common/Footer";
 import Trust from "@/components/client/common/Trust";
 import RequireAuthProvider from "@/context/RequireAuth";
 import LocalCartProvider from "@/context/cartContext";
-import ProfileNav from "@/components/client/profile/ProfileNav";
 
 const inter = Inter({ subsets: ["latin"] });
 

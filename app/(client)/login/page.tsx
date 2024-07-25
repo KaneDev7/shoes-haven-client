@@ -1,22 +1,18 @@
 "use client"
-import { login } from '@/api/authentification'
-import { getUser } from '@/api/user'
 import InputText from '@/components/admin/form/product/InputText'
 import Button from '@/components/client/shared/buttons'
 import Spiner from '@/components/client/shared/Spiner'
-import { handleResponseError } from '@/utils/errorResponse'
+import { ERROR, LOGIN, PENDING } from '@/constants/data'
+import useMutatationHook from '@/hooks/useMutatationHook'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 
-
 export default function Login() {
-    const [errorMessage, setErrorMessage] = useState('')
-    const [isSubmiting, setIsSubmiting] = useState(false)
     const currentUser = useSelector(state => state.currentUser)
-
+    
     const {
         register,
         handleSubmit,
@@ -27,29 +23,15 @@ export default function Login() {
         }
     })
 
-    const onSubmit = async (data) => {
+    const { mutate, status, errorMessage } = useMutatationHook({ fonctionName: LOGIN })
+
+    const onSubmit = (data) => {
         const formData = new FormData()
         formData.append('username', data.username)
         formData.append('password', data.password)
-
-        setIsSubmiting(true)
-        const response = await login(formData)
-
-        const errorHandeler = handleResponseError(response)
-        if (errorHandeler.message) {
-            setIsSubmiting(false)
-            return setErrorMessage(errorHandeler.message)
-        }
-
-        try {
-            const userData = await getUser(response?.data?.token)
-            sessionStorage.setItem('session', JSON.stringify(userData))
-            sessionStorage.setItem(`cart_${userData?._id}`, JSON.stringify(userData?.cart))
-            window.location.href = '/'
-        } catch (error) {
-            return setErrorMessage('Quelques chose s\'est mal passée réssayer plus tard ')
-        }
+        mutate(formData)
     }
+
 
     return (
         <div className='max-w-[1200px] w-full mx-auto flex justify-center items-center mt-20 shadow-sm rounded-md bg-white'>
@@ -60,15 +42,10 @@ export default function Login() {
 
                 {/* form */}
                 <div className='flex-1 p-20 relative'>
-                    {isSubmiting && <Spiner />}
+                    {status === PENDING && <Spiner />}
                     <h1 className='text-3xl font-bold mb-10 text-center '>Se connecter </h1>
-                    {
-                        currentUser?.isNew && <p className='text-sm my-4 bg-green-100 text-green-500 p-4 rounded-md'> Compte crée avec succée </p>
-                    }
-                    {
-                        errorMessage && <p className='text-sm my-4 bg-red-100 text-red-500 p-4 rounded-md'> {errorMessage} </p>
-                    }
-
+                    {currentUser?.isNew && <p className='text-sm my-4 bg-green-100 text-green-500 p-4 rounded-md'> Compte crée avec succée </p>}
+                    {status === ERROR && <p className='text-sm my-4 bg-red-100 text-red-500 p-4 rounded-md'> {errorMessage} </p>}
 
                     <form className='flex flex-col gap-4' action="" onSubmit={handleSubmit(onSubmit)}>
                         <InputText

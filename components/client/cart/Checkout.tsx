@@ -1,49 +1,18 @@
-import React, { FormEventHandler, useContext, useRef, useState } from 'react'
+import React, { FormEventHandler, useContext, useEffect, } from 'react'
 import { FieldErrors, FieldValues, useForm } from 'react-hook-form'
 import InputText from '../../admin/form/product/InputText'
 import Button from '../shared/buttons'
 import { emailValidationRegex } from '@/constants/validation'
 import { useSelector } from 'react-redux'
-import { creatUserContactAdress } from '@/api/user'
 import { CartItem } from '@/types/user.type'
 import { CartContext } from '@/context/cartContext'
-import { createOrder } from '@/api/orders'
-import { deleteAllItemFromCart } from '@/api/cart'
 import Modal from '../modal/modal'
 import Link from 'next/link'
-import { useMutation } from '@tanstack/react-query'
 import Spiner from '../shared/Spiner'
-
-const ExpeditionData: ExpeditionCardType[] = [
-    {
-        text: 'Livraison Locale',
-    },
-    {
-        text: 'Expédition gratuit',
-        number: '100'
-    },
-    {
-        text: 'Livraison Locale',
-        number: '3'
-    }
-]
-
-type ExpeditionCardType = {
-    text: string,
-    number?: string
-}
-
-
-const ExpeditionCard = ({ text, number }: ExpeditionCardType) => {
-    return <div className='flex justify-between items-center opacity-60 font-semibold'>
-        <div className='flex gap-2 items-center '>
-            <span className='w-[13px] h-[13px] bg-black/20 rounded-full'></span>
-            <p className=' font-semibold'>{text} </p>
-        </div>
-        <p>{number && number} </p>
-    </div>
-}
-
+import { ExpeditionCard } from './ExpeditionCard'
+import useMutatationHook from '@/hooks/useMutatationHook'
+import { CREATE_ORDER, CREATE_USER_CONTACT_ADDRESS, DELETE_ALL_ITEM_FROM_CART, ERROR, PENDING, SUCCESS } from '@/constants/data'
+import { expeditionData } from '@/constants/cart'
 
 type ProductFormType = {
     onSubmit: () => FormEventHandler<HTMLFormElement> | undefined,
@@ -60,13 +29,11 @@ type CheckOutType = {
 export default function Checkout({ cart, refetch }: CheckOutType) {
     const currentUser = useSelector(state => state.currentUser)
     const { totalPrice, resetQuantity } = useContext(CartContext)
-    const [status, setStatus] = useState<'pending' | 'success' | 'error'>()
 
     const {
         register,
         handleSubmit,
         formState: { errors },
-
     } = useForm({
         defaultValues: {
             city: currentUser?.address?.city,
@@ -75,6 +42,37 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
             email: currentUser.email
         }
     })
+
+    const { mutate: mutateAdress, status: mutateAdressStatus } = useMutatationHook({ fonctionName: CREATE_USER_CONTACT_ADDRESS })
+    const { mutate: mutateOrder, status: mutateOrderStatus } = useMutatationHook({ fonctionName: CREATE_ORDER })
+    const { mutate: mutateCart, status: mutateCartStatus } = useMutatationHook({ fonctionName: DELETE_ALL_ITEM_FROM_CART })
+
+    // const {
+    //     mutate: mutateCart, isError: isErrorCart } = useMutation({
+    //         mutationFn: async () => {
+    //             return await deleteAllItemFromCart(currentUser?.token)
+    //         },
+    //         onSuccess: async () => {
+    //             resetQuantity()
+    //             refetch()
+    //             setStatus('success')
+    //         },
+    //     })
+
+    // const {
+    //     mutate: mutateOrder, isError: IsErrorOrder } = useMutation({
+    //         mutationFn: async (userOrder) => {
+    //             return await createOrder(userOrder, currentUser.token)
+    //         },
+
+    //         onSettled: (data, error, context) => {
+    //             if (data?.status === 201) {
+    //                 mutateCart()
+    //             } else {
+    //                 setStatus('error')
+    //             }
+    //         },
+    //     })
 
     const userOrder = {
         user_id: currentUser._id,
@@ -87,58 +85,15 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
         order_date: Date.now()
     }
 
-    const {
-        mutate: mutateCart, isError: isErrorCart } = useMutation({
-            mutationFn: async () => {
-                return await deleteAllItemFromCart(currentUser?.token)
-            },
-            onSuccess: () => {
-                resetQuantity()
-                refetch()
-                setStatus('success')
-            },
-        })
-
-    const {
-        mutate: mutateOrder, isError: IsErrorOrder } = useMutation({
-            mutationFn: async (userOrder) => {
-                return await createOrder(userOrder, currentUser.token)
-            },
-
-            onSettled: (data, error, context) => {
-                if (data?.status === 201) {
-                    mutateCart()
-                }else{
-                    setStatus('error')
-                }
-            },
-        })
-
-    const {
-        mutate: mutateAdress, isError: isErrorAdress } = useMutation({
-            mutationFn: async (userContactAdress) => {
-                return await creatUserContactAdress(currentUser.token, userContactAdress)
-            },
-
-            onSuccess: () => {
-            },
-
-            onSettled: (data, error, context) => {
-                if (data?.status === 201) {
-                    mutateOrder(userOrder)
-                }else{
-                    setStatus('error')
-                }
-            },
-        })
-
-
-    const checkoutRef = useRef()
 
     const onSubmit = async (data) => {
 
-        setStatus('pending')
-        if (!currentUser?.address) {
+        if (!currentUser?.address
+            // currentUser.phoneNum !== data.phoneNum ||
+            // currentUser?.address?.sstreet !== data.street ||
+            // currentUser?.address?.city !== data.city
+        ) {
+            console.log('add')
             const userContactAdress = {
                 user_id: currentUser._id,
                 phoneNum: data.phoneNum,
@@ -149,26 +104,46 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
             }
             mutateAdress(userContactAdress)
         } else {
+            console.log('or')
             mutateOrder(userOrder)
         }
     }
 
+    console.log('mutateAdressStatus', mutateAdressStatus, 'mutateOrderStatus', mutateOrderStatus, 'mutateCartStatus', mutateCartStatus)
+    useEffect(() => {
+        if (mutateAdressStatus === SUCCESS) {
+            console.log('mutateAdressStatus', mutateAdressStatus)
+            mutateOrder(userOrder)
+        }
+        if (mutateOrderStatus === SUCCESS) {
+            console.log('mutateOrderStatus', mutateOrderStatus)
+            mutateCart()
+        }
+        if (mutateCartStatus === SUCCESS) {
+            console.log('mutateCartStatus', mutateCartStatus)
+            resetQuantity()
+            refetch()
+        }
+    }, [mutateAdressStatus, mutateOrderStatus, mutateCartStatus])
 
     return (
-        <div ref={checkoutRef} className='col-span-1 p-10 border relative'>
+        <div className='col-span-1 p-10 border relative'>
 
             {/* LOADING */}
             {
-                status === 'pending' &&
+                mutateAdressStatus === PENDING ||
+                mutateOrderStatus === PENDING ||
+                mutateCartStatus === PENDING &&
                 <Spiner />
             }
 
             {/* SUCCESS COMMAND */}
-            {status === 'success' &&
+            {
+                mutateCartStatus === SUCCESS &&
                 <Modal title='Commande effectuée'>
                     <div className='space-y-4'>
                         <p> Votre commande est effectuée avec succée. Nous vous enverrons bientot un email. </p>
-                        <Link href='/orders'>
+                        <Link href='acount/orders'>
                             <Button
                                 text="Acceder à mes commandes"
                                 style='w-full  h-[55px] mt-5 bg-secondaryColor text-blackColor2 font-bold rounded-md'
@@ -179,7 +154,10 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
             }
 
             {/* ERROR COMMAND */}
-            {status === 'error' &&
+            {
+                mutateAdressStatus === ERROR ||
+                mutateOrderStatus === ERROR ||
+                mutateCartStatus === ERROR &&
                 <Modal title='Commande échouée' status='error'>
                     <div className='space-y-4'>
                         <p> Quelques choses s'est mal passer. Réssayer ultérieurement </p>
@@ -199,7 +177,7 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
                 <h2 className='font-bold text-xl'> Expédition </h2>
                 <div className='space-y-2 mt-5'>
                     {
-                        ExpeditionData.map(item => (
+                        expeditionData.map(item => (
                             <ExpeditionCard
                                 text={item.text}
                                 number={item.number}
@@ -262,11 +240,7 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
                             name='phoneNum'
                             errors={errors}
                             register={register}
-                            validations={
-                                {
-                                    required: { value: true, message: 'Le numéro de téléphone est obligatoire' }
-                                }
-                            }
+                            validations={{ required: { value: true, message: 'Le numéro de téléphone est obligatoire' } }}
                         />
                     </div>
 
