@@ -1,18 +1,10 @@
-"use client"
-
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Saira_Extra_Condensed } from "next/font/google";
-import NavSlide from '../banner/NavSlide';
 import Image from 'next/image';
 
 const saira_Extra_Condensed = Saira_Extra_Condensed({ weight: ['800'], subsets: ['latin'] });
 
-
-interface Category { title: string, uri: string }
-
 export default function BannerHome() {
-
-
   return (
     <section className='w-full h-[80vh] banner relative'>
       <div className='relative h-full globalMaxWidth'>

@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import Button from '../shared/buttons'
+import Button from '../../shared/buttons'
 import Image from 'next/image'
 import { Category } from '@/types/category.type'
 import Link from 'next/link'

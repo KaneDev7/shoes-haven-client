@@ -1,72 +1,24 @@
 "use client"
-import { getProducts } from '@/api/products'
 import SideBar from '@/components/client/sidebar/SideBar'
-import RenderProductList from '@/components/client/containers/RenderProductList'
-import { useQuery } from '@tanstack/react-query'
+import RenderProductList from '@/components/client/products/RenderProductList'
 import Image from 'next/image'
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { setSelectedFilter } from '@/redux/domains/products/SelectedFilter.slice';
-import Spiner from '@/components/client/shared/Spiner'
+import React, {useContext } from 'react'
+import { useSelector } from 'react-redux'
+import Spiner from '@/components/shared/Spiner'
 import useCategoryUri from '@/hooks/useCategoryUri'
-import { setQueryParams } from '@/redux/domains/products/queryParams.slice'
+import { ERROR_MESSAGE } from '@/constants/data'
+import SelectSortBy from '@/components/client/products/SelectSortBy'
+import { ProductsContext } from '@/context/ProductContext'
+
 
 export default function Products() {
     const queryParams = useSelector(state => state.queryParams)
-    const selectMarks = useSelector(state => state.selectMarks)
-    const selectColors = useSelector(state => state.selectColors)
-    const selectSizes = useSelector(state => state.selectSizes)
     const { categoryUri } = useCategoryUri(queryParams.category)
-    const dispatch = useDispatch()
+    const { error, isFetching, products, isLoading } = useContext(ProductsContext)
 
-    const { data: products, isLoading, error, isFetching, refetch } = useQuery({
-        queryKey: ['products'],
-        queryFn: async () => getProducts(queryParams)
-    })
-
-    const handleSortBy = (event : React.ChangeEvent<HTMLSelectElement>) =>{
-       const value =  event.target.value
-       dispatch(setQueryParams(['sort_price', value]))
-    }
-
-    useEffect(() => {
-        const selectedFilterFn = () => {
-            let querySelected = []
-            if (queryParams.color) {
-                querySelected.push({
-                    type: 'color',
-                    value: selectColors
-                })
-            }
-            if (queryParams.size) {
-                querySelected.push({
-                    type: 'size',
-                    value: selectSizes
-                })
-            }
-            if (queryParams.mark) {
-                querySelected.push({
-                    type: 'mark',
-                    value: selectMarks
-                })
-            }
-
-            dispatch(setSelectedFilter(querySelected))
-            refetch()
-        }
-        selectedFilterFn()
-    }, [queryParams, selectColors, selectSizes, selectMarks])
-
-    function isObjEmpty (obj) {
-        return Object.keys(obj).length === 0;
-    }
-
-    useEffect(() => {
-        if ( isObjEmpty(queryParams)) {
-            dispatch(setQueryParams(['category', 'all']))
-        }
-    }, [])
-
+    const title = (queryParams.category && queryParams.category !== 'all') ? queryParams.category : 'TOUS LES PRODUITS'
+    
+    if (error) return <p>{ERROR_MESSAGE}</p>
     return (
         <div className='p-4'>
             {
@@ -89,16 +41,10 @@ export default function Products() {
                         {isFetching && <Spiner />}
                         <RenderProductList
                             products={products}
-                            loading={isLoading}
-                            title={(queryParams.category && queryParams.category !== 'all') ? queryParams.category : 'TOUS LES PRODUITS'}
-                            gridParamsStyle='productsPage sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '
-                            headerRightEl={
-                                <select onChange={handleSortBy} className='p-2 text-sm'>
-                                    <option selected hidden value="">Tirer par</option>
-                                    <option className='' value="asc">Prix inferieur</option>
-                                    <option className='' value="desc">Pris superieur</option>
-                                </select>
-                            }
+                            isLoading={isLoading}
+                            title={title}
+                            gridParamsStyle='productsPage sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+                            headerRightEl={<SelectSortBy />}
                         />
                     </div>
                 </div>

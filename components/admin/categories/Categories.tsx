@@ -1,7 +1,7 @@
 import React from 'react'
 import CategoryCard from './CategoryCard'
 import { Category } from '@/types/category.type'
-import Spiner from '@/components/client/shared/Spiner'
+import Spiner from '@/components/shared/Spiner'
 
 
 type CategoriesType = {

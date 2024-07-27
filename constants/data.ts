@@ -1,5 +1,6 @@
 import { MutateFonctionName, MutateStatus } from "@/types/mutate.type"
 
+
 export const PENDING : MutateStatus = 'pending'
 export const ERROR : MutateStatus = 'error'
 export const SUCCESS : MutateStatus = 'success'
@@ -40,4 +41,16 @@ export const orderTableHeaderList : string[] = [
     'Action'
 ]
 
- 
+export const SIZES_DATA : number[] =  [40, 41, 42, 43, 44, 45, 46]
+export const COLORS_DATA: string[] =  ["Rouge", "Vert", "Bleu", "Jeune", "Orange", "Noir", "Gris", 'Blanc', 'Maron', 'Beige']
+
+
+// query parmas key
+export const CATEGORY_KEY = "category"
+export const COLOR_KEY =  "color"
+export const SIZE_KEY =  "size"
+export const MARK_KEY =  "mark"
+export const SORT_PRICE = 'sort_price' 
+
+// URL
+export const BASE_URL = 'http://localhost:3000'

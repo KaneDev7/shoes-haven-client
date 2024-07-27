@@ -7,7 +7,7 @@ import { IoBagOutline } from "react-icons/io5";
 import ProductMenu from '../navbar/ProductMenu';
 import { AuthContext } from '@/context/RequireAuth';
 import { CartContext } from '@/context/cartContext';
-import Button from '../shared/buttons';
+import Button from '../../shared/buttons';
 import UserInfos from '../navbar/UserInfos';
 
 

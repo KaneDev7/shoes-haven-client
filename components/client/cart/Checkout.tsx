@@ -1,25 +1,19 @@
-import React, { FormEventHandler, useContext, useEffect, } from 'react'
-import { FieldErrors, FieldValues, useForm } from 'react-hook-form'
-import InputText from '../../admin/form/product/InputText'
-import Button from '../shared/buttons'
+import React, {useContext, useEffect, } from 'react'
+import { useForm } from 'react-hook-form'
+import InputText from '../../shared/InputText'
+import Button from '../../shared/buttons'
 import { emailValidationRegex } from '@/constants/validation'
 import { useSelector } from 'react-redux'
-import { CartItem } from '@/types/user.type'
 import { CartContext } from '@/context/cartContext'
 import Modal from '../modal/modal'
 import Link from 'next/link'
-import Spiner from '../shared/Spiner'
+import Spiner from '../../shared/Spiner'
 import { ExpeditionCard } from './ExpeditionCard'
 import useMutatationHook from '@/hooks/useMutatationHook'
 import { CREATE_ORDER, CREATE_USER_CONTACT_ADDRESS, DELETE_ALL_ITEM_FROM_CART, ERROR, PENDING, SUCCESS } from '@/constants/data'
 import { expeditionData } from '@/constants/cart'
+import { CartItem } from '@/types/cart.type'
 
-type ProductFormType = {
-    onSubmit: () => FormEventHandler<HTMLFormElement> | undefined,
-    handleSubmit: (data: any) => void,
-    register: () => void
-    errors: FieldErrors<FieldValues>
-}
 
 type CheckOutType = {
     cart: CartItem,
@@ -47,33 +41,6 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
     const { mutate: mutateOrder, status: mutateOrderStatus } = useMutatationHook({ fonctionName: CREATE_ORDER })
     const { mutate: mutateCart, status: mutateCartStatus } = useMutatationHook({ fonctionName: DELETE_ALL_ITEM_FROM_CART })
 
-    // const {
-    //     mutate: mutateCart, isError: isErrorCart } = useMutation({
-    //         mutationFn: async () => {
-    //             return await deleteAllItemFromCart(currentUser?.token)
-    //         },
-    //         onSuccess: async () => {
-    //             resetQuantity()
-    //             refetch()
-    //             setStatus('success')
-    //         },
-    //     })
-
-    // const {
-    //     mutate: mutateOrder, isError: IsErrorOrder } = useMutation({
-    //         mutationFn: async (userOrder) => {
-    //             return await createOrder(userOrder, currentUser.token)
-    //         },
-
-    //         onSettled: (data, error, context) => {
-    //             if (data?.status === 201) {
-    //                 mutateCart()
-    //             } else {
-    //                 setStatus('error')
-    //             }
-    //         },
-    //     })
-
     const userOrder = {
         user_id: currentUser._id,
         username: currentUser.username,
@@ -85,15 +52,12 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
         order_date: Date.now()
     }
 
-
     const onSubmit = async (data) => {
-
-        if (!currentUser?.address
-            // currentUser.phoneNum !== data.phoneNum ||
-            // currentUser?.address?.sstreet !== data.street ||
-            // currentUser?.address?.city !== data.city
+        if (!currentUser?.address ||
+            currentUser.phoneNum !== data.phoneNum ||
+            currentUser?.address?.sstreet !== data.street ||
+            currentUser?.address?.city !== data.city
         ) {
-            console.log('add')
             const userContactAdress = {
                 user_id: currentUser._id,
                 phoneNum: data.phoneNum,
@@ -104,23 +68,18 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
             }
             mutateAdress(userContactAdress)
         } else {
-            console.log('or')
             mutateOrder(userOrder)
         }
     }
 
-    console.log('mutateAdressStatus', mutateAdressStatus, 'mutateOrderStatus', mutateOrderStatus, 'mutateCartStatus', mutateCartStatus)
     useEffect(() => {
         if (mutateAdressStatus === SUCCESS) {
-            console.log('mutateAdressStatus', mutateAdressStatus)
             mutateOrder(userOrder)
         }
         if (mutateOrderStatus === SUCCESS) {
-            console.log('mutateOrderStatus', mutateOrderStatus)
             mutateCart()
         }
         if (mutateCartStatus === SUCCESS) {
-            console.log('mutateCartStatus', mutateCartStatus)
             resetQuantity()
             refetch()
         }
@@ -196,9 +155,7 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
                             name='city'
                             errors={errors}
                             register={register}
-                            validations={{
-                                required: { value: true, message: 'Séléctionner d\'abord la ville ou département' }
-                            }}
+                            validations={{ required: { value: true, message: 'Séléctionner d\'abord la ville ou département' } }}
                         />
 
                         <InputText
@@ -207,18 +164,12 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
                             name='street'
                             errors={errors}
                             register={register}
-                            validations={
-                                {
-                                    required: { value: true, message: 'Séléctionner d\'abord la Quartier ou nous devons vous livrer votre commande' }
-                                }
-                            }
+                            validations={{ required: { value: true, message: 'Séléctionner d\'abord la Quartier ou nous devons vous livrer votre commande' } }}
                         />
                     </div>
 
-
                     <div className='space-y-2 mt-5'>
                         <h2 className='font-bold text-xl'> Contact </h2>
-
                         <InputText
                             placeholder='Votre email'
                             name='email'
@@ -250,7 +201,6 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
                         style={`w-full h-[55px] mt-10 bg-secondaryColor text-blackColor2 font-bold rounded-md  ${totalPrice === 0 && ' pointer-events-none opacity-50'}  `}
                     />
                 </form>
-
             </div>
         </div>
     )

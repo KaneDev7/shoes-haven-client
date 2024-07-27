@@ -12,14 +12,6 @@ export default function LocalCartProvider({ children }: { children: ReactNode })
     const [totalPrice, setTotalPrice] = useState(0)
     const [isLoading, setIsLoading] = useState(true)
 
-    useEffect(() => {
-        const totalItems = cart?.reduce((acc, item) => {
-            return acc += item.quantity
-        }, 0)
-        setCartQuantities(totalItems)
-
-    }, [cart])
-
     const updateTotalPrice = (prix: number) => {
         setTotalPrice(v => v + prix)
     }
@@ -32,6 +24,13 @@ export default function LocalCartProvider({ children }: { children: ReactNode })
         setCartQuantities(value)
     }
 
+    useEffect(() => {
+        const totalItems = cart?.reduce((acc, item) => {
+            return acc += item.quantity
+        }, 0)
+        setCartQuantities(totalItems)
+    }, [cart])
+    
     useEffect(() => {
         const fetchtData = async () => {
             const session: User | any = JSON.parse(sessionStorage.getItem('session')) || null

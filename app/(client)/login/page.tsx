@@ -1,7 +1,5 @@
 "use client"
-import InputText from '@/components/admin/form/product/InputText'
-import Button from '@/components/client/shared/buttons'
-import Spiner from '@/components/client/shared/Spiner'
+import Spiner from '@/components/shared/Spiner'
 import { ERROR, LOGIN, PENDING } from '@/constants/data'
 import useMutatationHook from '@/hooks/useMutatationHook'
 import Image from 'next/image'
@@ -9,18 +7,17 @@ import Link from 'next/link'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
+import LoginForm from '@/components/client/form/LoginForm'
 
 export default function Login() {
     const currentUser = useSelector(state => state.currentUser)
-    
+
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm({
-        defaultValues: {
-            username: currentUser?.username,
-        }
+        defaultValues: { username: currentUser?.username, }
     })
 
     const { mutate, status, errorMessage } = useMutatationHook({ fonctionName: LOGIN })
@@ -31,7 +28,6 @@ export default function Login() {
         formData.append('password', data.password)
         mutate(formData)
     }
-
 
     return (
         <div className='max-w-[1200px] w-full mx-auto flex justify-center items-center mt-20 shadow-sm rounded-md bg-white'>
@@ -47,39 +43,12 @@ export default function Login() {
                     {currentUser?.isNew && <p className='text-sm my-4 bg-green-100 text-green-500 p-4 rounded-md'> Compte crée avec succée </p>}
                     {status === ERROR && <p className='text-sm my-4 bg-red-100 text-red-500 p-4 rounded-md'> {errorMessage} </p>}
 
-                    <form className='flex flex-col gap-4' action="" onSubmit={handleSubmit(onSubmit)}>
-                        <InputText
-                            name='username'
-                            placeholder='Entrez votre nom et prénom'
-                            label='Nom d’utilsateur'
-                            type='text'
-                            errors={errors}
-                            register={register}
-                            variant='cours'
-                            validations={{
-                                required: { value: true, message: "Le nom d’utilsateur est obligatoire" },
-                            }}
-                        />
-
-                        <InputText
-                            name='password'
-                            placeholder='Entrez votre mot de passe'
-                            label='Mot de passe'
-                            type='password'
-                            errors={errors}
-                            register={register}
-                            variant='cours'
-                            validations={{
-                                required: { value: true, message: "Le mot de passe est obligatoire" },
-                            }}
-                        />
-
-                        <Button
-                            text="Se connecter"
-                            type='submit'
-                            style='w-full  h-[55px] mt-5 bg-secondaryColor text-blackColor2 font-bold rounded-md'
-                        />
-                    </form>
+                    <LoginForm
+                        errors={errors}
+                        handleSubmit={handleSubmit}
+                        onSubmit={onSubmit}
+                        register={register}
+                    />
 
                     <p className='mt-5'>
                         Vous n'avez pas encore de compte?<Link href='/register' className='text-secondaryColor font-semibold hover:underline '> s'insrire </Link> maintenant

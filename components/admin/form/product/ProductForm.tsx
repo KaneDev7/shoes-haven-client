@@ -1,6 +1,6 @@
 "use client"
 import React, { FormEventHandler, MutableRefObject, useEffect, useRef, useState } from 'react'
-import InputText from '@/components/admin/form/product/InputText';
+import InputText from '@/components/shared/InputText';
 import InputSelect from '@/components/admin/form/product/InputSelect.admin';
 import { FieldErrors, FieldValues } from 'react-hook-form';
 import { colors, sizes } from '@/constants/productsMock';

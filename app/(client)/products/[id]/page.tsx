@@ -3,7 +3,7 @@ import { getOneProduct, getProducts } from '@/api/products'
 import { token } from '@/components/admin/form/product/InsertProduct'
 import ProductDeatilSkeleton from '@/components/client/products/ProductDeatilSkeleton'
 import ProductDetail from '@/components/client/productDetails/ProductDetail'
-import RenderProductList from '@/components/client/containers/RenderProductList'
+import RenderProductList from '@/components/client/products/RenderProductList'
 import { Product } from '@/types/product.type'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
@@ -22,20 +22,16 @@ export default function page() {
         queryKey : ['product', productId],
         queryFn :  async () => getOneProduct(productId)
     })
-
     const product = data as Product
     
     if (isLoading) return <ProductDeatilSkeleton/>
-
         return (
             <div className='p-4'>
-                <ProductDetail
-                    product={product}
-                />
+                <ProductDetail product={product}/>
                 <div className='flex-1 mt-40'>
                     <RenderProductList
                         products={similarProducts}
-                        loading={similarProductsLoding}
+                        isLoading={similarProductsLoding}
                         title="PRODUITS SIMILAIRES"
                         gridParamsStyle='productsPage sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5'
                     />

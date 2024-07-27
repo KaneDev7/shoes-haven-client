@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MdRemoveShoppingCart } from "react-icons/md";
 import { useSelector } from 'react-redux';
-import Button from '@/components/client/shared/buttons';
+import Button from '@/components/shared/buttons';
 import { CartContext } from '@/context/cartContext';
 import { CartItem } from '@/components/client/cart/CartItem';
 
@@ -27,6 +27,7 @@ export default function Cart() {
 
     const cart = data?.items
     const total = data?.total
+
     setCart(cart)
     setTotalPrice(total)
 
@@ -39,9 +40,9 @@ export default function Cart() {
                         <header className='flex justify-between p-4 border-b font-bold'>
                             <h3 className='w-[40%]  mr-4'>Produit</h3>
                             <h3 className='w-[130px] mr-4'>Prix</h3>
-                            <h3 className='flex-1 mr-4' >Taille</h3>
-                            <h3 className='flex-1 mr-4' >Quantité</h3>
-                            <h3 className='w-[70px] mr-4 '></h3>
+                            <h3 className='flex-1 mr-4'>Taille</h3>
+                            <h3 className='flex-1 mr-4'>Quantité</h3>
+                            <h3 className='w-[70px] mr-4'></h3>
                         </header>
 
                         {

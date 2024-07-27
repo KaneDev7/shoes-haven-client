@@ -6,3 +6,4 @@ export const updateSession = async (token: string) => {
     sessionStorage.setItem(`cart_${userData?._id}`, JSON.stringify(userData?.cart))
     return userData
 }
+

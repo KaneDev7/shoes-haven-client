@@ -1,11 +1,11 @@
-import InputText from '@/components/admin/form/product/InputText'
+import InputText from '@/components/shared/InputText'
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
-import Button from '../shared/buttons'
+import Button from '../../shared/buttons'
 import { emailValidationRegex } from '@/constants/validation'
 import useMutatationHook from '@/hooks/useMutatationHook'
-import Spiner from '../shared/Spiner'
+import Spiner from '../../shared/Spiner'
 
 // Toast 
 import { ToastContainer, toast } from 'react-toastify';

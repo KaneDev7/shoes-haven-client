@@ -9,7 +9,6 @@ import { AiOutlineProduct } from 'react-icons/ai';
 import { BsCart2 } from 'react-icons/bs';
 import { FiUser } from 'react-icons/fi';
 
-
 type NavAdminType = {
     data: AdminLink[]
 }
@@ -33,7 +32,6 @@ const getIcons = (iconName: string | undefined) => {
 }
 const navActif = 'bg-secondaryColor font-bold'
 
-
 const NavLink = ({ link }: { link: AdminLink }) => {
     const pathName = usePathname()
 
@@ -50,7 +48,6 @@ const NavLink = ({ link }: { link: AdminLink }) => {
 }
 
 export default function NavAdmin({ data }: NavAdminType) {
-
     return (
         <ul className='space-y-5'>
             {

@@ -5,8 +5,6 @@ import { usePathname } from 'next/navigation'
 import React from 'react'
 import { Link as AdminLink } from '@/types/link.type'
 
-
-
 const NavLink = ({ link }: { link: AdminLink }) => {
   const pathName = usePathname()
   const isMatch = (pathName === link.href || link?.subRoute?.includes(pathName) || link.title === 'Produits' && pathName.startsWith(link.subRoute![0]))

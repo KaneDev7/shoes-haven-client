@@ -3,14 +3,12 @@ import CatCard from '../categories/CatCard'
 import { getCategories } from '@/api/categories'
 import { useQuery } from '@tanstack/react-query'
 import { Category } from '@/types/category.type'
-import { useRouter } from 'next/navigation'
 
 export default function Categories() {
   const { data, isLoading, error, isFetching, refetch } = useQuery({
     queryKey: ['categories'],
     queryFn: async () => getCategories()
   })
-  
   const categories: Category[] = data
 
   if (!isLoading)

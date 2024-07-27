@@ -3,12 +3,12 @@ import { creatUserContactAdress } from "./user";
 import { addProduct, deleteProduct, toggleStock, updateProduct } from "./products";
 import { Status } from "@/types/product.type";
 import { DeleteOrder, createOrder, updateOrder } from "./orders";
-import { deleteAllItemFromCart } from "./cart";
+import { addToCart, deleteAllItemFromCart } from "./cart";
 import { createUser, login } from "./authentification";
 
 export const executeMutateFonction = async (
     fonctionName: MutateFonctionName,
-    token: string = '' ,
+    token: string = '',
     data: any = null,
     status?: Status,
     id?: string
@@ -32,6 +32,8 @@ export const executeMutateFonction = async (
             return toggleStock(token, data, status)
         case 'deleteAllItemFromCart':
             return deleteAllItemFromCart(token)
+        case 'addToCart':
+            return addToCart(data,token)
         case 'createUser':
             return createUser(data)
         case 'login':

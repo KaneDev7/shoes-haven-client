@@ -1,6 +1,6 @@
 "use client"
 import React, { FormEventHandler, MutableRefObject, useRef } from 'react'
-import InputText from '@/components/admin/form/product/InputText';
+import InputText from '@/components/shared/InputText';
 import { FieldErrors, FieldValues } from 'react-hook-form';
 import Button from '../../shared/Button.admin';
 

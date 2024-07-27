@@ -2,7 +2,7 @@
 import Modal from '@/components/client/modal/modal'
 import EditUserInfos from '@/components/client/profile/EditUserInfos'
 import ProfileNav from '@/components/client/profile/ProfileNav'
-import Button from '@/components/client/shared/buttons'
+import Button from '@/components/shared/buttons'
 import React, { useState } from 'react'
 import { FaUserLarge } from 'react-icons/fa6'
 import { useSelector } from 'react-redux'

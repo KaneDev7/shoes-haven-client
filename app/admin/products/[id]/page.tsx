@@ -18,17 +18,15 @@ import { useDispatch } from 'react-redux'
 import ProductNav from '@/components/admin/shared/ProductNav'
 
 export default function ProductDetail() {
+    const [isProductOnStock, setIsProductOnStock] = useState<boolean>()
     const productId = useParams().id as string
+    const dispatch = useDispatch()
+    const route = useRouter()
 
     const { data: product, isLoading, error } = useQuery({
         queryKey: ['product', productId],
         queryFn: async () => getOneProduct(productId)
     })
-
-    const [isProductOnStock, setIsProductOnStock] = useState<boolean>()
-
-    const dispatch = useDispatch()
-    const route = useRouter()
 
     const hadleEditProduct = () => {
         dispatch(setProductDefaultValue(product))

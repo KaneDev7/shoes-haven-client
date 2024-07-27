@@ -2,7 +2,7 @@
 import React, { MutableRefObject, createContext, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useForm } from "react-hook-form"
-import Spiner from '../../../client/shared/Spiner';
+import Spiner from '../../../shared/Spiner';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { addMark, getMarks } from '@/api/marks';
 import { Mark } from '@/types/mark';

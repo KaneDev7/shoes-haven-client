@@ -1,8 +1,5 @@
+import { CartItem } from "./cart.type"
 
-export type CartItem = {
-    productId: string,
-    quantity: number,
-}
 
 export interface User {
     _id?: string,

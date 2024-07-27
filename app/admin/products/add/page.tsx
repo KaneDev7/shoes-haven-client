@@ -6,7 +6,6 @@ import Link from 'next/link';
 import React from 'react'
 import ProductNav from '@/components/admin/shared/ProductNav';
 
-
 export default function Products() {
 
   return (

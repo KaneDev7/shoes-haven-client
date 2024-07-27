@@ -14,7 +14,6 @@ const RangeSlider: React.FC = () => {
     const selectedFilter = useSelector(state => state.selectedFilter)
 
     const dispatch = useDispatch()
-
     const priceGap = 500;
 
     useEffect(() => {
@@ -84,7 +83,7 @@ const RangeSlider: React.FC = () => {
 
             dispatch(setQueryParams(['price_lte', maxVal.toString()]))
             dispatch(setQueryParams(['price_gte', minVal.toString()]))
-            dispatch(setSelectedFilter([...selectedFilter,{type: 'price', value: `${minVal} - ${maxVal}`}]))
+            dispatch(setSelectedFilter([...selectedFilter, { type: 'price', value: `${minVal} - ${maxVal}` }]))
 
         }
 
@@ -104,38 +103,43 @@ const RangeSlider: React.FC = () => {
     }, [minPrice, maxPrice]);
 
     return (
-        <div className="wrapper">
+        <div>
+            <h2 className='mb-5'>FILTRER PAR PRIX</h2>
 
-            <div className="slider">
-                <div ref={progressRef} className="progress"></div>
-            </div>
-            <div className="range-input">
-                <input
-                    type="range"
-                    className="range-min"
-                    min="1000"
-                    max="50000"
-                    value={minPrice}
-                    step="500"
-                    ref={minRangeRef}
-                    onChange={(e) => setMinPrice(parseInt(e.target.value))}
-                />
-                <input
-                    type="range"
-                    className="range-max"
-                    min="1000"
-                    max="50000"
-                    value={maxPrice}
-                    step="500"
-                    ref={maxRangeRef}
-                    onChange={(e) => setMaxPrice(parseInt(e.target.value))}
-                />
-            </div>
-            <div className='flex items-center gap-5 mt-7 text-sm'>
-                <p>Range : </p>
-                <p className='font-semibold'> {`${minPrice} FCFA - ${maxPrice} FCFA `} </p>
+            <div className="wrapper">
+
+                <div className="slider">
+                    <div ref={progressRef} className="progress"></div>
+                </div>
+                <div className="range-input">
+                    <input
+                        type="range"
+                        className="range-min"
+                        min="1000"
+                        max="50000"
+                        value={minPrice}
+                        step="500"
+                        ref={minRangeRef}
+                        onChange={(e) => setMinPrice(parseInt(e.target.value))}
+                    />
+                    <input
+                        type="range"
+                        className="range-max"
+                        min="1000"
+                        max="50000"
+                        value={maxPrice}
+                        step="500"
+                        ref={maxRangeRef}
+                        onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+                    />
+                </div>
+                <div className='flex items-center gap-5 mt-7 text-sm'>
+                    <p>Range : </p>
+                    <p className='font-semibold'> {`${minPrice} FCFA - ${maxPrice} FCFA `} </p>
+                </div>
             </div>
         </div>
+
     );
 };
 

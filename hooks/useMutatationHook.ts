@@ -1,11 +1,13 @@
 import { executeMutateFonction } from '@/api/mutate'
-import { CREATE_USER, CREATE_USER_CONTACT_ADDRESS, ERROR, LOGIN, PENDING, SUCCESS } from '@/constants/data'
+import { ADD_TO_CART, CREATE_USER, CREATE_USER_CONTACT_ADDRESS, DELETE_ITEM_FROM_CART, ERROR, LOGIN, PENDING, SUCCESS } from '@/constants/data'
+import { CartContext } from '@/context/cartContext'
 import { setcurrentUser } from '@/redux/domains/users/currentUser.slice'
 import { MutateFonctionName, MutateStatus } from '@/types/mutate.type'
+import { updateCart } from '@/utils/cart'
 import { updateSession } from '@/utils/session'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 type useMutationHookType = {
@@ -19,6 +21,7 @@ type Option = {
 
 export default function useMutatationHook(option: Option) {
     const currentUser = useSelector(state => state.currentUser)
+    const { resetQuantity } = useContext(CartContext)
     const [status, setStatus] = useState<MutateStatus>()
     const [errorMessage, setErrorMessage] = useState<string>('')
     const dispatch = useDispatch()
@@ -26,7 +29,7 @@ export default function useMutatationHook(option: Option) {
 
     const isUserDataChanged = option.fonctionName === CREATE_USER_CONTACT_ADDRESS || option.fonctionName === LOGIN
     const isAuthenticateAction = option.fonctionName === LOGIN || option.fonctionName === CREATE_USER
-   
+
     const { mutate } = useMutation({
         mutationFn: async (data) => {
             setStatus(PENDING)
@@ -52,7 +55,13 @@ export default function useMutatationHook(option: Option) {
                     }
                 }
                 // register
-                if(option.fonctionName === CREATE_USER) router.push('/login')
+                if (option.fonctionName === CREATE_USER) router.push('/login')
+
+                // cart
+                if (option.fonctionName === ADD_TO_CART) {
+                    const { quantity } = await updateCart(currentUser.token)
+                    resetQuantity(quantity)
+                }
                 setStatus(SUCCESS)
             } else {
                 setStatus(ERROR)

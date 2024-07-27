@@ -1,5 +1,5 @@
 import React from 'react'
-import Spiner from '@/components/client/shared/Spiner'
+import Spiner from '@/components/shared/Spiner'
 import { Mark } from '@/types/mark'
 import MarkCard from '../form/mark/MarkCard'
 

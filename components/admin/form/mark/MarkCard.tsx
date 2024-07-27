@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import Image from 'next/image'
 import React, { useContext, useState } from 'react'
-import Spiner from '@/components/client/shared/Spiner'
+import Spiner from '@/components/shared/Spiner'
 import { useDispatch } from 'react-redux'
 import { Mark } from '@/types/mark'
 import { DefaultValueMarkContext, token } from './InsertMark'

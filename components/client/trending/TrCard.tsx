@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
-import Button from '../shared/buttons'
+import Button from '../../shared/buttons'
 import Sizes from '../sidebar/Sizes'
 
 export default function TrCard({src}:{src : string} ) {

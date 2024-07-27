@@ -3,7 +3,7 @@ import React, { MutableRefObject, createContext, useEffect, useRef, useState } f
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from "react-hook-form"
 import { useRouter } from 'next/navigation';
-import Spiner from '../../../client/shared/Spiner';
+import Spiner from '../../../shared/Spiner';
 import CategoryForm from './CategoryForm';
 import UploadCategortImg from './UploadCategortImg';
 import { useMutation, useQuery } from '@tanstack/react-query';

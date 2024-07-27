@@ -1,24 +1,20 @@
 "use client"
 import BannerHome from "@/components/client/containers/BannerHome";
 import Categories from "@/components/client/containers/Categories";
-import Button from "@/components/client/shared/buttons";
-import RenderProductList from "@/components/client/containers/RenderProductList";
-import { useQuery } from "@tanstack/react-query";
-import { getProducts } from "@/api/products";
+import Button from "@/components/shared/buttons";
+import RenderProductList from "@/components/client/products/RenderProductList";
 import { initQueryParams, setQueryParams } from "@/redux/domains/products/queryParams.slice";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { setSelectColors } from "@/redux/domains/form/product/colors.slice";
 import { setSelectSize } from "@/redux/domains/form/product/size.slice";
+import { CATEGORY_KEY } from "@/constants/data";
+import { ProductsContext } from "@/context/ProductContext";
 
 
 export default function Home() {
-  const { data: products, isLoading, error } = useQuery({
-    queryKey: ['products'],
-    queryFn: async () => getProducts()
-  })
-
+  const { products, isLoading } = useContext(ProductsContext)
   const router = useRouter()
   const dispatch = useDispatch()
 
@@ -26,29 +22,26 @@ export default function Home() {
     dispatch(initQueryParams())
     dispatch(setSelectColors([]))
     dispatch(setSelectSize([]))
-    dispatch(setQueryParams(['category', 'all']))
+    dispatch(setQueryParams([CATEGORY_KEY, 'all']))
     router.push(`/products`)
   }
 
-  useEffect(()=> {
+  useEffect(() => {
     dispatch(initQueryParams())
     dispatch(setSelectColors([]))
     dispatch(setSelectSize([]))
-    dispatch(setQueryParams(['category', 'all']))
-  },[])
+    dispatch(setQueryParams([CATEGORY_KEY, 'all']))
+  }, [])
 
   return (
     <>
       <BannerHome />
       <Categories />
       <RenderProductList
+        isLoading={isLoading}
         products={products}
-        loading={isLoading}
         title="NOS CHAUSSURES"
-        style="mt-20"
-        headerRightEl={
-          <Button handleClick={handleClick} text='Voir plus' style='bg-black text-white py-2 px-10 rounded-full' />
-        }
+        headerRightEl={<Button handleClick={handleClick} text='Voir plus' style='bg-black text-white py-2 px-10 rounded-full' />}
         gridParamsStyle="grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
       />
     </>
