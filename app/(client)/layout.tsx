@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import "../globals.css";
 import "../slideStyle.css";
 
-import Navbar from "@/components/client/common/Navbar";
+import Navbar from "@/components/client/common/navbar/Navbar";
 import Footer from "@/components/client/common/Footer";
 import Trust from "@/components/client/common/Trust";
 import RequireAuthProvider from "@/context/RequireAuth";

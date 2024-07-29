@@ -93,9 +93,8 @@ export default function InsertProduct() {
         if (imageUris.length === 0 && !isProducUpdate) {
             return setFileError('Veillez ajouter des images')
         }
-
         const formData = new FormData();
-
+        
         formData.append('title', data.title);
         formData.append('productId', data.productId);
         formData.append('description', data.description);

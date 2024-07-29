@@ -12,9 +12,9 @@ import { useDispatch, useSelector } from 'react-redux'
 export default function RenderSelectedFilter() {
   const selectedFilter = useSelector(state => state.selectedFilter)
   const queryParams = useSelector(state => state.queryParams)
+  const pathName = usePathname()
 
   const dispatch = useDispatch()
-  const pathName = usePathname()
 
   const handleClick = (key: string, value:string) => {
     dispatchQueryParams(key, value)
@@ -50,12 +50,7 @@ export default function RenderSelectedFilter() {
               ))
             }
           </div>
-
-          <p
-            onClick={handleResetFilter}
-            className='text-red-400 cursor-pointer hover:underline text-sm'>
-            Effacer les filtres
-          </p>
+          <p onClick={handleResetFilter} className='text-red-400 cursor-pointer hover:underline text-sm'> Effacer les filtres</p>
         </div>
         
         <div className='flex items-center gap-4 text-sm'>

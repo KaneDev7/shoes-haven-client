@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import ColorList from './ColorList'
 import Sizes from './Sizes'
 import RangeSlider from './RangeSlide'
 import MarkList from './markList'
-import { SIZES_DATA } from '@/constants/data'
 import CategoriesList from './CategoriesList'
 
 export default function SideBar() {

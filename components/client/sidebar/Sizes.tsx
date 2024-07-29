@@ -1,17 +1,12 @@
 "use client"
-
 import { SIZES_DATA, SIZE_KEY } from '@/constants/data'
 import { toggleSelectSize } from '@/redux/domains/form/product/size.slice'
-import { setQueryParams } from '@/redux/domains/products/queryParams.slice'
 import { dispatchQueryParams } from '@/utils/commun'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-type SizeProps = {
-    style?: string,
-}
 
-export default function Sizes({ style }: SizeProps) {
+export default function Sizes({ style }: { style?: string}) {
     const selectSizes = useSelector(state => state.selectSizes)
     const dispatch = useDispatch()
 

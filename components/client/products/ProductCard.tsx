@@ -5,11 +5,7 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 
 
-type Productsype = {
-  product?: Product
-}
-
-export default function ProductCard({ product }: Productsype) {
+export default function ProductCard({ product }: { product?: Product }) {
   const [count, setCount] = useState(0)
 
   const handleMouseEnter = () => {
@@ -22,10 +18,7 @@ export default function ProductCard({ product }: Productsype) {
   }
 
   return (
-    <Link
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      href={`/products/${product?._id}`} >
+    <Link onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} href={`/products/${product?._id}`} >
       <li className='col-span-1 bg-white rounded-md shadow-md relative overflow-hidden'>
         <div className='w-full h-full self-start flex flex-col items-center justify-between '>
           <Image className='w-full h-full object-contain' src={`/uploads/${product?.uri[count]}`} height={300} width={300} alt="" />
