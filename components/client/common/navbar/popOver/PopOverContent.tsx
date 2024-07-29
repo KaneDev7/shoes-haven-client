@@ -18,7 +18,8 @@ export default function PopOverContent({ children}: { children: ReactNode }) {
             <div
                 onMouseEnter={handleMonseInTheContent}
                 onMouseLeave={handleMonseOutTheContent}
-                className={` absolute top-[${spaceY}px] left-[50%] translate-x-[-50%] translate-y-[50px]  z-[10]  transAnime`}>
+                style={{top : spaceY+"px"}}
+                className={` absolute  left-[50%] translate-x-[-50%] translate-y-[50px]  z-[10]  transAnime`}>
                 {children}
             </div>
         )

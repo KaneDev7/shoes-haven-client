@@ -19,7 +19,7 @@ const NavLink = ({ link }: { link: AdminLink }) => {
 
 export default function ProfileNav() {
     return (
-        <div className='w-full border-b border-gray-100 mt-10 mb-10'   >
+        <div className='w-full border-b border-black/10 mt-10 mb-10'   >
             <div className='flex'>
                 <nav className='space-x-4 flex items-center gap-4 text-sm  flex-wrap' >
                     {

@@ -8,7 +8,7 @@ type ProductMenuType = {
 
 export const PopOverContext = createContext(null)
 
-export default function PopOverProvider({ children, spaceY = 0 }: ProductMenuType) {
+export default function PopOverProvider({ children, spaceY  }: ProductMenuType) {
   const [isMonseInContent, setIsMonseInContent] = useState(false)
   const [showContent, setShowContent] = useState(false)
   const [isMonseInElement, setIsMonseInElement] = useState(false)

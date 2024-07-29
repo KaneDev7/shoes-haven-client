@@ -8,6 +8,7 @@ import Trust from "@/components/client/common/Trust";
 import RequireAuthProvider from "@/context/RequireAuth";
 import LocalCartProvider from "@/context/cartContext";
 import ProductContextProvider from "@/context/ProductContext";
+import OrderContextProvider from "@/context/OrderContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,7 @@ export default function RootLayout({
     <body className={inter.className}>
       <RequireAuthProvider>
         <LocalCartProvider>
-          <ProductContextProvider>
+          <ProductContextProvider> 
             <Navbar />
             <div className="mx-4">{children}</div>
             <Trust />
