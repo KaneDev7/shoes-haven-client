@@ -8,7 +8,7 @@ import CategoriesList from './CategoriesList'
 export default function SideBar() {
 
     return (
-        <aside className='sidebar lg:max-w-[300px]  rounded-md mb-10 py-10 px-7 lg:sticky static top-0 '>
+        <aside className='sidebar lg:max-w-[360px] max-h-[80vh] overflow-y-scroll scrollStyle rounded-md mb-10 py-10 px-7 lg:sticky static top-0 '>
             <div className=' flex lg:flex-col flex-row flex-wrap gap-10 '>
                 <CategoriesList />
                 <ColorList />
@@ -17,5 +17,5 @@ export default function SideBar() {
                 <RangeSlider />
             </div>
         </aside>
-    )
+    )   
 }

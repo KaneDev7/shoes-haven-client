@@ -1,4 +1,4 @@
-import React, { createContext } from 'react'
+import React, { createContext, useState } from 'react'
 import OrderHeader from './OrderHeader'
 import OrderFooter from './OrderFooter'
 import OrderContent from './OrderContent'
@@ -11,6 +11,7 @@ type OrderCardType = {
 export const OrderCardContext = createContext(null)
 
 export default function OrderCard({ order }: OrderCardType) {
+    const [isShowContent, setIsShowContent] = useState(false)
     const {
         items,
         order_date,
@@ -28,6 +29,8 @@ export default function OrderCard({ order }: OrderCardType) {
                 payment_method,
                 total_price,
                 user_id,
+                isShowContent,
+                setIsShowContent,
             }} >
                 <OrderHeader />
                 <OrderContent />

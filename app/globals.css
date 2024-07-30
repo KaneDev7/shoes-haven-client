@@ -7,15 +7,35 @@
     .globalMaxWidth {
       @apply max-w-[1500px] w-full mx-auto
     }
-    
+
     .sidebar h2 {
       @apply font-semibold
     }
   }
 
-
   :root {
     --secondaryColor: #FFBD59,
+  }
+
+  /* width */
+  .scrollStyle::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  .scrollStyle::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  .scrollStyle::-webkit-scrollbar-thumb {
+    background: #b6b6b6;
+    border-radius: 5px;
+  }
+
+  /* Handle on hover */
+  .scrollStyle::-webkit-scrollbar-thumb:hover {
+    background: #b6b6b6;
   }
 
   body {
@@ -38,12 +58,12 @@
   .swiper-button-next,
   .swiper-button-prev {
     color: rgba(0, 0, 0, 0.627) !important;
-   font-size: 18px !important;
+    font-size: 18px !important;
   }
 
   .swiper-button-next::after,
   .swiper-button-prev::after {
-   font-size: 30px !important;
+    font-size: 30px !important;
   }
 
   @media (max-width : 400px) {

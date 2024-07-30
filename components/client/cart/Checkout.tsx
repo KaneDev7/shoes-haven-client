@@ -1,8 +1,6 @@
-import React, {useContext, useEffect, } from 'react'
+import React, { useContext, useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
-import InputText from '../../shared/InputText'
 import Button from '../../shared/buttons'
-import { emailValidationRegex } from '@/constants/validation'
 import { useSelector } from 'react-redux'
 import { CartContext } from '@/context/cartContext'
 import Modal from '../modal/modal'
@@ -13,7 +11,8 @@ import useMutatationHook from '@/hooks/useMutatationHook'
 import { CREATE_ORDER, CREATE_USER_CONTACT_ADDRESS, DELETE_ALL_ITEM_FROM_CART, ERROR, PENDING, SUCCESS } from '@/constants/data'
 import { expeditionData } from '@/constants/cart'
 import { CartItem } from '@/types/cart.type'
-
+import { addressAndContactObjectFactory, checkUserInfosDiff, orderObjectFactory } from '@/utils/cart'
+import UserInfosForm from '../profile/UserInfosForm'
 
 type CheckOutType = {
     cart: CartItem,
@@ -41,32 +40,16 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
     const { mutate: mutateOrder, status: mutateOrderStatus } = useMutatationHook({ fonctionName: CREATE_ORDER })
     const { mutate: mutateCart, status: mutateCartStatus } = useMutatationHook({ fonctionName: DELETE_ALL_ITEM_FROM_CART })
 
-    const userOrder = {
-        user_id: currentUser._id,
-        username: currentUser.username,
-        email: currentUser.email,
-        items: cart,
-        total_price: totalPrice,
-        status: 'pendding',
-        payment_method: 'Cash',
-        order_date: Date.now()
-    }
+    const userOrder = useMemo(() => {
+        return orderObjectFactory(currentUser, { cart, totalPrice })
+    }, [currentUser])
 
-    const onSubmit = async (data) => {
-        if (!currentUser?.address ||
-            currentUser.phoneNum !== data.phoneNum ||
-            currentUser?.address?.sstreet !== data.street ||
-            currentUser?.address?.city !== data.city
-        ) {
-            const userContactAdress = {
-                user_id: currentUser._id,
-                phoneNum: data.phoneNum,
-                address: {
-                    street: data.street,
-                    city: data.city
-                }
-            }
-            mutateAdress(userContactAdress)
+    const onSubmit = async (data: any) => {
+        const isUserInfosChanged = checkUserInfosDiff(currentUser, data)
+        const addressAndContactObject = addressAndContactObjectFactory(currentUser, data)
+
+        if (isUserInfosChanged) {
+            mutateAdress(addressAndContactObject)
         } else {
             mutateOrder(userOrder)
         }
@@ -76,14 +59,20 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
         if (mutateAdressStatus === SUCCESS) {
             mutateOrder(userOrder)
         }
+    }, [mutateAdressStatus])
+
+    useEffect(() => {
         if (mutateOrderStatus === SUCCESS) {
             mutateCart()
         }
+    }, [mutateOrderStatus])
+
+    useEffect(() => {
         if (mutateCartStatus === SUCCESS) {
             resetQuantity()
             refetch()
         }
-    }, [mutateAdressStatus, mutateOrderStatus, mutateCartStatus])
+    }, [mutateCartStatus])
 
     return (
         <div className='col-span-1 p-10 border relative'>
@@ -99,7 +88,7 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
             {/* SUCCESS COMMAND */}
             {
                 mutateCartStatus === SUCCESS &&
-                <Modal title='Commande effectuée'>
+                <Modal title='Commande effectuée' status='success'>
                     <div className='space-y-4'>
                         <p> Votre commande est effectuée avec succée. Nous vous enverrons bientot un email. </p>
                         <Link href='acount/orders'>
@@ -117,6 +106,7 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
                 mutateAdressStatus === ERROR ||
                 mutateOrderStatus === ERROR ||
                 mutateCartStatus === ERROR &&
+                
                 <Modal title='Commande échouée' status='error'>
                     <div className='space-y-4'>
                         <p> Quelques choses s'est mal passer. Réssayer ultérieurement </p>
@@ -147,61 +137,17 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
             </div>
 
             <div className='mt-10'>
-                <form action="" onSubmit={handleSubmit(onSubmit)} >
-                    <div className='space-y-2 mt-5'>
-                        <h2 className='font-bold text-xl'> Adress de livraison </h2>
-                        <InputText
-                            placeholder='Ville'
-                            name='city'
-                            errors={errors}
-                            register={register}
-                            validations={{ required: { value: true, message: 'Séléctionner d\'abord la ville ou département' } }}
-                        />
+                <UserInfosForm
+                    errors={errors}
+                    handleSubmit={handleSubmit}
+                    onSubmit={onSubmit}
+                    register={register}
+                />
 
-                        <InputText
-                            placeholder='Quartier'
-                            variant='single'
-                            name='street'
-                            errors={errors}
-                            register={register}
-                            validations={{ required: { value: true, message: 'Séléctionner d\'abord la Quartier ou nous devons vous livrer votre commande' } }}
-                        />
-                    </div>
-
-                    <div className='space-y-2 mt-5'>
-                        <h2 className='font-bold text-xl'> Contact </h2>
-                        <InputText
-                            placeholder='Votre email'
-                            name='email'
-                            type='email'
-                            errors={errors}
-                            disabled={true}
-                            register={register}
-                            validations={{
-                                required: { value: true, message: "L'email est obligatoire" },
-                                pattern: {
-                                    value: emailValidationRegex,
-                                    message: "Entrez un email valide"
-                                },
-                            }}
-                        />
-
-                        <InputText
-                            placeholder='Votre numéro de téléphone'
-                            name='phoneNum'
-                            errors={errors}
-                            register={register}
-                            validations={{ required: { value: true, message: 'Le numéro de téléphone est obligatoire' } }}
-                        />
-                    </div>
-
-                    <Button
-                        text="Passer la commande"
-                        type='submit'
-                        style={`w-full h-[55px] mt-10 bg-secondaryColor text-blackColor2 font-bold rounded-md  ${totalPrice === 0 && ' pointer-events-none opacity-50'}  `}
-                    />
-                </form>
             </div>
         </div>
     )
 }
+
+
+

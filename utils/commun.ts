@@ -1,4 +1,7 @@
 import { BASE_URL, COLOR_KEY, MARK_KEY, SIZE_KEY } from "@/constants/data";
+import { toggleSelectColor } from "@/redux/domains/form/product/colors.slice";
+import { toggleSelectMark } from "@/redux/domains/form/product/mark.slice";
+import { SelectType, toggleSelectSize } from "@/redux/domains/form/product/size.slice";
 import { setQueryParams } from "@/redux/domains/products/queryParams.slice";
 import { store } from "@/redux/store/store";
 import { QueryParams } from "@/types/product.type";
@@ -54,7 +57,7 @@ export const selectedFilterFn = (queryParams: QueryParams) => {
 }
 
 
-const getSpacificSelectFilter = (key: string): any[] => {
+export const getSpacificSelectFilter = (key: string): any[] => {
     switch (key) {
         case COLOR_KEY:
             return store.getState().selectColors
@@ -67,7 +70,7 @@ const getSpacificSelectFilter = (key: string): any[] => {
     }
 }
 
-export const dispatchQueryParams = (key: string, value: string) => {
+export const dispatchQueryParams = (key: string, value: SelectType) => {
     const dispatch: Dispatch = store.dispatch
     const selectFilter: any[] = getSpacificSelectFilter(key)
 
@@ -77,4 +80,22 @@ export const dispatchQueryParams = (key: string, value: string) => {
     }
     const selectFilterUpdated = [...selectFilter, value]
     return dispatch(setQueryParams([key, selectFilterUpdated.join(',')]))
+}
+
+
+export const dispatchToggleSelect = (key: string, value: SelectType) => {
+    const dispatch: Dispatch = store.dispatch
+    switch (key) {
+        case COLOR_KEY:
+            dispatch(toggleSelectColor(value))
+            break
+        case SIZE_KEY:
+            dispatch(toggleSelectSize(value))
+            break
+        case MARK_KEY:
+            dispatch(toggleSelectMark(value))
+            break
+        default:
+            return [];
+    }
 }

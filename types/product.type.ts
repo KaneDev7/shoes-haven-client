@@ -48,4 +48,4 @@ export interface QueryParams  {
     onStock? : string
 }
 
-export  type Status = 'pendding' | 'deliveried' | 'canceled'
+export  type Status = 'pending' | 'deliveried' | 'cancelled'

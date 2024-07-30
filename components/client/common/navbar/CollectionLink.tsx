@@ -7,9 +7,9 @@ import PopOverContent from './popOver/PopOverContent';
 
 export default function CollectionLink() {
     return (
-        <PopOverProvider spaceY={70}>
+        <PopOverProvider spaceY={60}>
             <PopOverTrigger>
-                <div className='flex gap-2 py-3 '>
+                <div className='flex gap-2 py-3 cursor-pointer '>
                     <p>COLLECTIONS</p>
                     <IoChevronDownSharp size={15} />
                 </div>

@@ -49,13 +49,10 @@ export default function InputSelect({ data, label, placeholder, variant, name, r
 
     const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
         if (variant === 'multuple') {
-            const selectElments = event.target.value
             console.log('selectElments', selectElments)
             handleToggleSelect(selectElments)
         }
-
     }
-
 
     return (
         <div className='flex flex-col gap-2'>
@@ -79,7 +76,7 @@ export default function InputSelect({ data, label, placeholder, variant, name, r
                 }
 
                 {
-                    data.map((item, index) => (
+                    data?.map((item, index) => (
 
                         variant === 'multuple' ?
                             (<option key={index} selected={isProducUpdate && item === defaultValue.at(-1)} disabled={selectlist.includes(item)} value={item} >{item}</option>) :

@@ -5,8 +5,9 @@ import { OrderCardContext } from './OrderCard'
 
 
 export default function OrderContent() {
-  const {items, total_price} = useContext(OrderCardContext)
-  
+  const {items, total_price, isShowContent} = useContext(OrderCardContext)
+ 
+  if(isShowContent)
   return (
     <div className='flex flex-col lg:flex-row mt-5' >
       <div className='flex-1 p-4'>

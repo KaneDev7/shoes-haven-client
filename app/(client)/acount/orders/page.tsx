@@ -23,11 +23,7 @@ export default function Orders() {
       <div>
         <ul className='space-y-10'>
           {isLoading && <Spiner />}
-          {
-            orders?.map(order => (
-              <OrderCard order={order} />
-            ))
-          }
+          { orders?.map(order => (<OrderCard order={order} /> ))}
         </ul>
       </div>
     </div>

@@ -4,6 +4,9 @@ import React, { useState } from 'react'
 import { LuChevronsLeftRight } from "react-icons/lu";
 import { token } from '../form/product/InsertProduct';
 import { Status } from '@/types/product.type';
+import { CANCELLED, DELIVERIED, PENDING } from '@/constants/data';
+import { MutateStatus } from '@/types/mutate.type';
+import DropdownItem from './DropdownItem';
 
 type Dropdowtype = {
     orderId: string,
@@ -11,27 +14,11 @@ type Dropdowtype = {
     onStatusChange: (value: Status) => void
 }
 
-type DropdownItemType = {
-    status: Status,
-    handleOptionClick: (option: Status) => void,
-    selectedOption: Status
-}
-
-const DropdownItem = ({ status, selectedOption, handleOptionClick }: DropdownItemType) => {
-    const statusText = status === 'deliveried' ? 'Livré' : status === 'pendding' ? 'En cours' : 'Annulé'
-    return <div
-        onClick={() => handleOptionClick(status)}
-        className={`${selectedOption === status ? 'pointer-events-none opacity-50' : 'cursor-pointer'} text-nowrap  px-4 py-2 text-sm hover:bg-gray-100`}
-    >
-        {statusText}
-    </div>
-}
-
 
 export const Dropdown = ({ orderId, status, onStatusChange }: Dropdowtype) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(status);
-    const options: Status[] = ['pendding', 'deliveried', 'canceled'];
+    const options: (Status | MutateStatus) [] = [PENDING, DELIVERIED, CANCELLED];
 
     const handleOpen = () => {
         setIsOpen(true);

@@ -1,5 +1,5 @@
 "use client"
-import React, { FormEventHandler, MutableRefObject, useEffect, useRef, useState } from 'react'
+import React, { FormEventHandler, MutableRefObject, useContext, useEffect, useRef, useState } from 'react'
 import InputText from '@/components/shared/InputText';
 import InputSelect from '@/components/admin/form/product/InputSelect.admin';
 import { FieldErrors, FieldValues } from 'react-hook-form';
@@ -7,6 +7,7 @@ import { colors, sizes } from '@/constants/productsMock';
 import { useSelector } from 'react-redux';
 import useCategoryList from '@/hooks/useCategoryList';
 import useMarkList from '@/hooks/useMarkList';
+import { FilterTextContext } from '@/context/FilterTextContext';
 
 type ProductFormType = {
     onSubmit: () => FormEventHandler<HTMLFormElement> | undefined,
@@ -24,10 +25,9 @@ export default function ProductForm({ onSubmit, handleSubmit, register, errors }
     const selectSizes = useSelector<any>(state => state.selectSizes)
     const selectColors = useSelector<any>(state => state.selectColors)
     const productDefaultValue = useSelector<any>(state => state.productDefaultValue)
-    const { categories } = useCategoryList()
-    const { marks } = useMarkList()
+    const { marks, categories } = useContext(FilterTextContext)
 
-
+ 
     let form: MutableRefObject<HTMLFormElement | undefined> = useRef();
     let submitButton: MutableRefObject<HTMLButtonElement | null> = useRef(null);
 
@@ -84,7 +84,7 @@ export default function ProductForm({ onSubmit, handleSubmit, register, errors }
                     register={register}
                     errors={errors}
                 />
-                
+
                 <InputSelect
                     label='Catégories'
                     placeholder='Choisissez le nom du catégorie'

@@ -8,7 +8,6 @@ import Trust from "@/components/client/common/Trust";
 import RequireAuthProvider from "@/context/RequireAuth";
 import LocalCartProvider from "@/context/cartContext";
 import ProductContextProvider from "@/context/ProductContext";
-import OrderContextProvider from "@/context/OrderContext";
 
 const inter = Inter({ subsets: ["latin"] });
 

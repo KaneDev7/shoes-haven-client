@@ -1,7 +1,11 @@
 import Button from '@/components/shared/buttons'
-import React from 'react'
+import React, { useContext } from 'react'
+import { OrderCardContext } from './OrderCard'
 
 export default function OrderFooter() {
+  const {status, isShowContent} = useContext(OrderCardContext)
+
+  if(status === 'pending' && isShowContent)
     return (
         <footer className='w-full flex justify-end items-center mt-10'>
             <Button

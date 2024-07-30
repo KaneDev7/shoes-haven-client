@@ -1,27 +1,28 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import LinkList from '../footer/LinkList'
-import { Collections, Marks } from '@/constants/links'
 import Image from 'next/image'
+import FilterLinkList from './FilterLinkList'
+import { FilterTextContext } from '@/context/FilterTextContext'
+import { CATEGORY_KEY } from '@/constants/data'
 
 
 export default function MegaMenu() {
+  const {marks, categories} = useContext(FilterTextContext)
+
   return (
-    <ul className=' min-h-[500px] bg-white flex  p-10 rounded-md shadow-md gap-20'>
+    <ul className='translate-x-[60px] min-w-[1200px] bg-white flex  p-10 rounded-md shadow-md gap-20'>
       <li className='max-w-[250px] w-full '>
-        <LinkList
-          linksList={Collections}
+        <FilterLinkList
+          filterData={categories}
           title='CATEGORIES'
-          titleStyle='text-secondaryColor font-extrabold pb-2 border-b-2 border-secondaryColor mb-4'
-          linkStyle='text-blackColor2 '
+          type={CATEGORY_KEY}
         />
       </li>
 
       <li className='max-w-[250px] w-full '>
-        <LinkList
-          linksList={Marks}
+        <FilterLinkList
+          filterData={marks}
           title='MARQUES'
-          titleStyle='text-secondaryColor font-extrabold pb-2 border-b-2 border-secondaryColor mb-4'
-          linkStyle='text-blackColor2 capitalize'
         />
       </li>
 
@@ -45,14 +46,14 @@ export default function MegaMenu() {
             height={400}
             src='/menu/1.png'
             alt=''
-            className='w-full  h-[120px] rounded-md object-cover'
+            className='w-full  h-[100px] rounded-md object-cover'
           />
           <Image
             width={400}
             height={400}
             src='/menu/2.jpg'
             alt=''
-            className='w-full h-[300px] rounded-md'
+            className='w-full h-[200px] rounded-md object-cover'
           />
         </div>
       </li>

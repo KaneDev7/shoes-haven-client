@@ -32,7 +32,7 @@ export default function OrderProductCard({ item }: { item: CartItem }) {
           </p>
         </div>
       </div>
-      <h2 className='font-semibold text-blackColor2'>{product?.price} FCFA</h2>
+      <h2 className='font-semibold text-blackColor2'>{product?.price * item.quantity} FCFA</h2>
     </li>
   )
 }

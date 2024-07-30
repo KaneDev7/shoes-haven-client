@@ -1,12 +1,14 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FaUserLarge } from 'react-icons/fa6'
 import { useSelector } from 'react-redux'
-import Link from 'next/link'
-
+import { useRouter } from 'next/navigation'
+import { PopOverContext } from '@/context/PopOverProvider'
 
 export default function UserInfos() {
     const currentUser = useSelector(state => state.currentUser)
+    const { setShowContent } = useContext(PopOverContext)
+    const router = useRouter()
 
     const handleDisconnect = () => {
         sessionStorage.removeItem('session')
@@ -14,35 +16,34 @@ export default function UserInfos() {
         window.location.href = '/'
     }
 
+    const handeleNavigateTo = (url : string) => {
+        setShowContent(false)
+        router.push(url)
+    }
+
     return (
         <div
-            className='w-[200px] p-5 bg-white shadow-md  rounded-md z-[5] '>
-            <Link href='/acount/profile'>
-                <div className='flex flex-col items-center justify-center gap-4'>
-                    <div className='w-[50px] h-[50px] p-4 flex justify-center items-center bg-gray-100 rounded-full '>
-                        <FaUserLarge size={20} />
-                    </div>
-                    <p className='text-sm font-semibold cursor-pointer hover:underline'> {currentUser.username} </p>
+            className='w-[200px] p-5 bg-white shadow-md  rounded-md z-[5]  '>
+            <div
+                onClick={() => handeleNavigateTo('/acount/profile')}
+                className='flex flex-col items-center justify-center gap-4 cursor-pointer'>
+                <div className='w-[50px] h-[50px] p-4 flex justify-center items-center bg-gray-100 rounded-full '>
+                    <FaUserLarge size={20} />
                 </div>
-            </Link>
+                <p className='text-sm font-semibold cursor-pointer hover:underline'> {currentUser.username} </p>
+            </div>
 
             <ul className='mt-5 text-sm space-y-4'>
-                <li>
-                    <Link href='/acount/profile'>
-                        Informations
-                    </Link>
+                <li className='cursor-pointer' onClick={() => handeleNavigateTo('/acount/profile')}>
+                    Informations
                 </li>
 
-                <li>
-                    <Link href='/acount/orders'>
-                        Commandes
-                    </Link>
+                <li className='cursor-pointer' onClick={() => handeleNavigateTo('/acount/orders')}>
+                    Commandes
                 </li>
 
-                <li>
-                    <Link href='/acount/settings'>
-                        Favoris
-                    </Link>
+                <li className='cursor-pointer' onClick={() => handeleNavigateTo('/acount/settings')}>
+                    Favoris
                 </li>
             </ul>
             <div onClick={handleDisconnect}

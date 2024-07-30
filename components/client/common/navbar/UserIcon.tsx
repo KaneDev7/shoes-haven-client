@@ -7,7 +7,7 @@ import UserInfos from '../../navbar/UserInfos'
 
 export default function UserIcon() {
     return (
-        <PopOverProvider spaceY={70}>
+        <PopOverProvider spaceY={65}>
             <PopOverTrigger>
                 <div className='w-[50px] h-[50px] flex justify-center items-center rounded-full bg-white text-blackColor2  '>
                     <LuUser2 size={20} className='h-[200px]' />

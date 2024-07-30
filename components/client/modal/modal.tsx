@@ -31,7 +31,7 @@ export default function Modal({ children, title, status, isShowModal,setIsShowMo
         <div className='flex inset-0 z-20 items-center justify-center w-screen h-screen bg-black/50  fixed'>
             <div className='bg-white rounded-md '>
                 <header className='flex items-center justify-between gap-20 px-4 py-5 border-b border-gray-400 '>
-                    <div className='flex items-center '>
+                    <div className='flex items-center gap-2 '>
                         <h1 className=' font-semibold text-lg'>{title} </h1>
                         {status === 'error' && <MdError color='red' size={20} />  }
                         {status === 'success' && <FaCheckCircle color='green' size={20} />  }

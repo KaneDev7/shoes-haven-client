@@ -18,7 +18,7 @@ export default function RequireAuthProvider({ children }: { children: ReactNode 
 
     useEffect(() => {
         const session: User | any = JSON.parse(sessionStorage.getItem('session')) || null
-        if(!session && isPrivateRoutes ) return window.location.href = '/login'
+        if(!session && isPrivateRoutes) window.location.href = '/login'
         setAuth(session)
         dispatch(setcurrentUser(session))
         setIsLoading(false)

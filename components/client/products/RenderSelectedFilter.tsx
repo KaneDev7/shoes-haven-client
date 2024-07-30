@@ -1,9 +1,10 @@
+import { SelectType } from '@/redux/domains/form/category/categories.slice'
 import { setSelectColors } from '@/redux/domains/form/product/colors.slice'
 import { setSelectMark } from '@/redux/domains/form/product/mark.slice'
 import { setSelectSize } from '@/redux/domains/form/product/size.slice'
 import { setSelectedFilter } from '@/redux/domains/products/SelectedFilter.slice'
-import { initQueryParams } from '@/redux/domains/products/queryParams.slice'
-import { dispatchQueryParams } from '@/utils/commun'
+import { initQueryParams, setQueryParams } from '@/redux/domains/products/queryParams.slice'
+import { dispatchToggleSelect, getSpacificSelectFilter } from '@/utils/commun'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 import { IoMdCloseCircleOutline } from 'react-icons/io'
@@ -13,11 +14,13 @@ export default function RenderSelectedFilter() {
   const selectedFilter = useSelector(state => state.selectedFilter)
   const queryParams = useSelector(state => state.queryParams)
   const pathName = usePathname()
-
   const dispatch = useDispatch()
 
-  const handleClick = (key: string, value:string) => {
-    dispatchQueryParams(key, value)
+  const handleDeleteFilter = (key: string, value: SelectType) => {
+    const selectFilter: any[] = getSpacificSelectFilter(key)
+    const selectFilterUpdated = selectFilter.filter(item => item !== value)
+    dispatch(setQueryParams([key, selectFilterUpdated.join(',')]))
+    dispatchToggleSelect(key, value)
   }
 
   const handleResetFilter = () => {
@@ -41,7 +44,7 @@ export default function RenderSelectedFilter() {
                   <div className='flex items-center gap-3 py-1 px-4 bg-blackColor2 text-sm text-white font-semibold rounded-full'>
                     <p> {selected} </p>
                     <IoMdCloseCircleOutline
-                      onClick={() => handleClick(item.type, selected)}
+                      onClick={() => handleDeleteFilter(item.type, selected)}
                       size={20}
                       className='text-secondaryColor'
                     />
@@ -52,11 +55,11 @@ export default function RenderSelectedFilter() {
           </div>
           <p onClick={handleResetFilter} className='text-red-400 cursor-pointer hover:underline text-sm'> Effacer les filtres</p>
         </div>
-        
+
         <div className='flex items-center gap-4 text-sm'>
-            {queryParams.price_gte && <p>Prix minimum : {queryParams.price_gte} FCFA </p>}
-            {queryParams.price_lte && <p>Prix maximum : {queryParams.price_lte} FCFA </p>}
-          </div>
+          {queryParams.price_gte && <p>Prix minimum : {queryParams.price_gte} FCFA </p>}
+          {queryParams.price_lte && <p>Prix maximum : {queryParams.price_lte} FCFA </p>}
+        </div>
       </div>
     )
 }

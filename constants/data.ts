@@ -1,7 +1,9 @@
 import { MutateFonctionName, MutateStatus } from "@/types/mutate.type"
+import { Status } from "@/types/product.type"
 
-
-export const PENDING : MutateStatus = 'pending'
+export const DELIVERIED : Status = 'deliveried'
+export const CANCELLED : Status = 'cancelled'
+export const PENDING : MutateStatus | Status = 'pending'
 export const ERROR : MutateStatus = 'error'
 export const SUCCESS : MutateStatus = 'success'
 

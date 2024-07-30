@@ -1,8 +1,7 @@
 import InputText from '@/components/shared/InputText'
 import Button from '@/components/shared/buttons'
-import { emailValidationRegex } from '@/constants/validation'
 import React, { FormEventHandler } from 'react'
-import { FieldErrors, FieldValues, UseFormWatch } from 'react-hook-form'
+import { FieldErrors, FieldValues } from 'react-hook-form'
 
 export type AuthFormType = {
     onSubmit: () => FormEventHandler<HTMLFormElement> | undefined,
@@ -11,7 +10,7 @@ export type AuthFormType = {
     errors: FieldErrors<FieldValues>
 }
 
-export default function LoginForm({ errors, handleSubmit, onSubmit, register, watch }: AuthFormType) {
+export default function LoginForm({ errors, handleSubmit, onSubmit, register }: AuthFormType) {
 
     return (
         <form className='flex flex-col gap-4' action="" onSubmit={handleSubmit(onSubmit)}>

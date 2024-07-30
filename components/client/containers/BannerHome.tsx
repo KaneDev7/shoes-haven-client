@@ -15,7 +15,7 @@ export default function BannerHome() {
         </div>
 
         <Image height={2000} width={2000}
-          className='lg:aspect-square object-cover w-full lg:max-h-full min-h-full relative'
+          className='lg:aspect-square object-cover scale-50 md:scale-75 lg:scale-100 w-full lg:max-h-full min-h-full relative'
           src="/banner.png" alt=""
         />
       </div>

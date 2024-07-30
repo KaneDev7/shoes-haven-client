@@ -41,7 +41,7 @@ export default function Home() {
         isLoading={isLoading}
         products={products}
         title="NOS CHAUSSURES"
-        headerRightEl={<Button handleClick={handleClick} text='Voir plus' style='bg-black text-white py-2 px-10 rounded-full' />}
+        headerRightEl={<Button handleClick={handleClick} text='Voir tous' style='bg-black text-white py-2 px-10 rounded-md' />}
         gridParamsStyle="grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
       />
     </>

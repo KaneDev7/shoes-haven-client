@@ -1,17 +1,18 @@
 "use client"
 import { CATEGORY_KEY } from '@/constants/data'
-import useCategoryList from '@/hooks/useCategoryList'
+import { FilterTextContext } from '@/context/FilterTextContext'
 import { setQueryParams } from '@/redux/domains/products/queryParams.slice'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 export default function CategoriesList() {
-    const { categories } = useCategoryList()
+    const { categories } = useContext(FilterTextContext)
     const queryParams = useSelector(state => state.queryParams)
     const dispatch = useDispatch()
-
+    
     const handleClick = (category) => {
         dispatch(setQueryParams([CATEGORY_KEY, category]))
+
     }
     return (
         <div className='w-full'>
