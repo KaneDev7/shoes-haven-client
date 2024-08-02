@@ -16,6 +16,7 @@ export interface Product {
 export interface Order {
     _id: string,
     user_id: string,
+    order_id : string
     username : string
     email : string
     items: [

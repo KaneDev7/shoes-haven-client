@@ -12,16 +12,20 @@ type CategoriesType = {
 export default function Categories({ categories, isLoading, isFetching }: CategoriesType) {
     if (!isLoading)
         return (
-            <ul className='space-y-10 relative '>
-                {isFetching || isLoading && <Spiner />}
-                {
-                    categories.map(category => (
-                        <CategoryCard
-                            key={category._id}
-                            category={category}
-                        />
-                    ))
-                }
-            </ul>
+            <div>
+                <h2 className='text-2xl font-bold text-blackColor2 pb-10'>Liste  des catégories</h2>
+                <ul className='space-y-10 relative h-[70vh] overflow-y-auto scrollStyle px-5 '>
+                    {isFetching || isLoading && <Spiner />}
+                    {
+                        categories.map(category => (
+                            <CategoryCard
+                                key={category._id}
+                                category={category}
+                            />
+                        ))
+                    }
+                </ul>
+            </div>
+
         )
 }

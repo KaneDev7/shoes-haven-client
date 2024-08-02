@@ -1,8 +1,6 @@
 import InsertCategory from '@/components/admin/form/category/InsertCategory'
 import Header from '@/components/admin/shared/Header'
 import ProductNav from '@/components/admin/shared/ProductNav'
-import Button from '@/components/shared/buttons'
-import Link from 'next/link'
 import React from 'react'
 
 export default function Category() {

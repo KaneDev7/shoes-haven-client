@@ -17,7 +17,6 @@ export const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9tY
 export const FilesCategoryContext = createContext(null)
 export const DefaultValueCategoryContext = createContext(null)
 
-
 export type imageDataType = {
     uri: string,
     name: string,
@@ -35,7 +34,6 @@ export default function InsertCategory() {
     const categoryDefaultValue = useSelector<any>(state => state.categoryDefaultValue)
 
     let seclectRef: MutableRefObject<HTMLButtonElement | null> = useRef(null);
-    const route = useRouter()
     const dispatch = useDispatch()
 
     const {
@@ -53,7 +51,7 @@ export default function InsertCategory() {
 
     const categories: Category[] = data
 
-    const { mutate: mutateAddCategory } = useMutation({
+    const { mutate: mutateAddCategory, status } = useMutation({
         mutationFn: async (formData) => {
             return await addCategory(formData, token)
         },
@@ -121,7 +119,6 @@ export default function InsertCategory() {
         }
     }
 
-
     useEffect(() => {
         onReset()
     },[])
@@ -138,16 +135,19 @@ export default function InsertCategory() {
 
             <div className='flex bg-white p-5 mt-4'>
 
-                <div className='flex gap-4 w-full flex-col lg:flex-row flex-wrap'>
-                    <div className='flex-1'>
-                        <FilesCategoryContext.Provider value={{ setFiles, files }}>
-                            <UploadCategortImg
-                                clickOtherElement={clickOtherElement}
-                                setFileError={setFileError}
-                                fileError={fileError}
-                                imageUris={imageUris}
-                                setImageUris={setImageUris}
-                            />
+                <div className='flex gap-4 w-full max-w-[1200px]  mx-auto flex-col-reverse lg:flex-row flex-wrap'>
+                    <div className='flex-1 '>
+                        <FilesCategoryContext.Provider value={{ 
+                            setFiles,
+                             files,
+                             clickOtherElement,
+                             setFileError,
+                             fileError,
+                             imageUris,
+                             setImageUris,
+                            
+                            }}>
+                            <UploadCategortImg />
                         </FilesCategoryContext.Provider>
 
                         <CategoryForm

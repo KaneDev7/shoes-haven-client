@@ -3,11 +3,12 @@ import React, { FormEventHandler, MutableRefObject, useContext, useEffect, useRe
 import InputText from '@/components/shared/InputText';
 import InputSelect from '@/components/admin/form/product/InputSelect.admin';
 import { FieldErrors, FieldValues } from 'react-hook-form';
-import { colors, sizes } from '@/constants/productsMock';
 import { useSelector } from 'react-redux';
 import useCategoryList from '@/hooks/useCategoryList';
 import useMarkList from '@/hooks/useMarkList';
 import { FilterTextContext } from '@/context/FilterTextContext';
+import { COLORS_DATA, SIZES_DATA } from '@/constants/data';
+import Button from '@/components/shared/buttons';
 
 type ProductFormType = {
     onSubmit: () => FormEventHandler<HTMLFormElement> | undefined,
@@ -27,9 +28,8 @@ export default function ProductForm({ onSubmit, handleSubmit, register, errors }
     const productDefaultValue = useSelector<any>(state => state.productDefaultValue)
     const { marks, categories } = useContext(FilterTextContext)
 
- 
+
     let form: MutableRefObject<HTMLFormElement | undefined> = useRef();
-    let submitButton: MutableRefObject<HTMLButtonElement | null> = useRef(null);
 
     return (
         <div className='flex-1 border-2 p-4 rounded-md'>
@@ -100,7 +100,7 @@ export default function ProductForm({ onSubmit, handleSubmit, register, errors }
                 <InputSelect
                     label='Tailles'
                     placeholder='Selectionner la taille'
-                    data={sizes}
+                    data={SIZES_DATA}
                     defaultValue={selectSizes}
                     variant='multuple'
                     name='size'
@@ -111,7 +111,7 @@ export default function ProductForm({ onSubmit, handleSubmit, register, errors }
                 <InputSelect
                     label='Couleurs'
                     placeholder='Selectionner la couleur'
-                    data={colors}
+                    data={COLORS_DATA}
                     variant='multuple'
                     defaultValue={selectColors}
                     name='color'
@@ -162,13 +162,11 @@ export default function ProductForm({ onSubmit, handleSubmit, register, errors }
                     }
                 />
 
-                <button
-                    hidden
-                    id='submitButton'
+                <Button
+                    text="Enregistrer"
                     type='submit'
-                    ref={submitButton}>
-                    submit
-                </button>
+                    style='w-full h-[55px] flex justify-center items-center mt-2 bg-secondaryColor text-blackColor2 font-bold rounded-md'
+                />
             </form>
         </div>
     )

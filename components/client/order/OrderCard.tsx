@@ -19,6 +19,7 @@ export default function OrderCard({ order }: OrderCardType) {
         payment_method,
         total_price,
         user_id,
+        order_id
     } = order
     return (
         <li>
@@ -29,6 +30,7 @@ export default function OrderCard({ order }: OrderCardType) {
                 payment_method,
                 total_price,
                 user_id,
+                order_id,
                 isShowContent,
                 setIsShowContent,
             }} >

@@ -107,7 +107,7 @@ export default function InsertMark() {
 
             <div className='flex bg-white p-5 mt-4'>
 
-                <div className='flex gap-4 w-full flex-col lg:flex-row flex-wrap'>
+                <div className='flex gap-4 w-full max-w-[1200px]  mx-auto flex-col-reverse lg:flex-row flex-wrap'>
                     <div className='flex-1'>
                         <FilesMarkContext.Provider value={{ setFiles, files }}>
                             <UploadMarktImg

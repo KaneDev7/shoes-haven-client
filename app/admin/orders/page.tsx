@@ -11,14 +11,13 @@ import React, { createContext } from 'react'
 export const OrderContext = createContext(null)
 
 export default function Orders() {
-
   const { data: orders, isLoading, error, refetch } = useQuery({
     queryKey: ['orders'],
     queryFn: async () => getOrders(token)
   })
 
   return (
-    <OrderContext.Provider value={{refetch}}>
+    <OrderContext.Provider value={{ refetch }}>
       <div className='w-full'>
         <Header title='Commandes'>
           <Search

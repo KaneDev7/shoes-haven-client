@@ -2,8 +2,9 @@
 import React, { FormEventHandler, MutableRefObject, useRef } from 'react'
 import InputText from '@/components/shared/InputText';
 import { FieldErrors, FieldValues } from 'react-hook-form';
-import Button from '../../shared/Button.admin';
 import { useSelector } from 'react-redux';
+import Button from '@/components/shared/buttons';
+import { PENDING } from '@/constants/data';
 
 type ProductFormType = {
     onSubmit: () => FormEventHandler<HTMLFormElement> | undefined,
@@ -11,13 +12,14 @@ type ProductFormType = {
     register: () => void
     errors: FieldErrors<FieldValues>
     onReset: () => void
+    status: string
 }
 
 export const validationRules = {
     required: { value: true, message: 'Ce Champ est obligatoire' },
 }
 
-export default function CategoryForm({ onSubmit, handleSubmit, register, onReset, errors }: ProductFormType) {
+export default function CategoryForm({ onSubmit, handleSubmit, register, onReset, status, errors }: ProductFormType) {
 
     let form: MutableRefObject<HTMLFormElement | undefined> = useRef();
     const isCategoryUpdate: boolean = useSelector<any>(state => state.isCategoryUpdate)
@@ -66,6 +68,7 @@ export default function CategoryForm({ onSubmit, handleSubmit, register, onReset
                 />
 
                 <Button
+                    isLoading={status === PENDING}
                     text="Enregistrer"
                     type='submit'
                     style='w-full h-[55px] flex justify-center items-center mt-2 bg-secondaryColor text-blackColor2 font-bold rounded-md'

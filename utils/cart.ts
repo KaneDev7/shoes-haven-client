@@ -27,7 +27,7 @@ export const addressAndContactObjectFactory = (currentUser: User, data: any) => 
     }
 }
 
-export const orderObjectFactory = (currentUser: User, {cart, totalPrice}: {cart: CartItem, totalPrice: string}) => {
+export const orderObjectFactory = (currentUser: User, {cart, totalPrice} : {cart: CartItem, totalPrice: string}) => {
     return {
         user_id: currentUser._id,
         username: currentUser.username,

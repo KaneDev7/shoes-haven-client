@@ -45,9 +45,7 @@ export default function UploadImges({
     }
 
     return (
-
-        <div
-            className={`flex-1 p-4 space-y-4 cursor-pointer border-2 ${isProducUpdate && 'opacity-50 pointer-events-none'} `} >
+        <div className={`flex-1 p-4 space-y-4 cursor-pointer border-2 self-start ${isProducUpdate && 'opacity-50 pointer-events-none'} `} >
             <p className='text-sm'>Ajouter  Images</p>
             <div
                 onClick={() => clickOtherElement(inputFile)}

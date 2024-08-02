@@ -1,39 +1,38 @@
-import { MutateFonctionName } from "@/types/mutate.type";
 import { creatUserContactAdress } from "./user";
 import { addProduct, deleteProduct, toggleStock, updateProduct } from "./products";
-import { Status } from "@/types/product.type";
 import { DeleteOrder, createOrder, updateOrder } from "./orders";
 import { addToCart, deleteAllItemFromCart } from "./cart";
 import { createUser, login } from "./authentification";
+import { MutationOption } from "@/hooks/useMutatationHook";
 
-export const executeMutateFonction = async (
-    fonctionName: MutateFonctionName,
-    token: string = '',
-    data: any = null,
-    status?: Status,
-    id?: string
+export const executeMutateFonction = async (data: any, {
+    fonctionName,
+    token,
+    status,
+    id,
+}: MutationOption
 ) => {
     switch (fonctionName) {
         case 'creatUserContactAdress':
-            return creatUserContactAdress(token, data)
+            return creatUserContactAdress(token as string, data)
         case 'createOrder':
-            return createOrder(data, token)
+            return createOrder(data, token as string)
         case 'updateOrder':
-            return updateOrder(data, token)
+            return updateOrder(data, token as string)
         case 'deleteOrder':
-            return DeleteOrder(token, data)
+            return DeleteOrder(data , token as string )
         case 'updateProduct':
-            return updateProduct(data, token, id as string)
+            return updateProduct(data,  id as string , token as string)
         case 'addProduct':
-            return addProduct(data, token)
+            return addProduct(data, token as string)
         case 'deleteProduct':
-            return deleteProduct(token, data)
+            return deleteProduct(id as string, status as string)
         case 'toggleStock':
-            return toggleStock(token, data, status)
+            return toggleStock(id as string, status, token as string)
         case 'deleteAllItemFromCart':
             return deleteAllItemFromCart(token)
         case 'addToCart':
-            return addToCart(data,token)
+            return addToCart(data, token as string)
         case 'createUser':
             return createUser(data)
         case 'login':

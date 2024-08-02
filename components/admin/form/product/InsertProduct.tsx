@@ -8,7 +8,6 @@ import { addProduct, updateProduct } from '@/api/products';
 import { useRouter } from 'next/navigation';
 import { handleResponseError } from '@/utils/errorResponse';
 import Spiner from '../../../shared/Spiner';
-import Button from '../../shared/Button.admin';
 
 export const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9tYXIga2FuZSIsInVzZXJJZCI6IjY2NTc4OWIxYzU2ZTMyZTRiM2U2NWJiYiIsImlhdCI6MTcxNzE4NjMyNiwiZXhwIjoxNzE3MTg2Mzg2fQ.Mi3pDWTI7RTMhR0Frtysmeq5aPr6BLhwyieuFTRNVzM'
 export const FilesContext = createContext(null)
@@ -56,11 +55,6 @@ export default function InsertProduct() {
         element?.click()
     }
 
-    const handleClick = () => {
-        const submitButton = seclectRef.current?.querySelector('#submitButton')
-        clickOtherElement(submitButton)
-    }
-
     const insertProduct = async (formData: FormData) => {
         setIsSubmiting(true)
 
@@ -94,7 +88,7 @@ export default function InsertProduct() {
             return setFileError('Veillez ajouter des images')
         }
         const formData = new FormData();
-        
+
         formData.append('title', data.title);
         formData.append('productId', data.productId);
         formData.append('description', data.description);
@@ -107,7 +101,6 @@ export default function InsertProduct() {
         if (files && !isProducUpdate) {
             files.forEach((file: any) => formData.append('files', file));
         }
-        
         await insertProduct(formData)
     }
 
@@ -123,7 +116,7 @@ export default function InsertProduct() {
 
             <div className=' flex bg-white mt-4  md:px-2 px-5'>
 
-                <div className='flex gap-4 w-full flex-col lg:flex-row flex-wrap'>
+                <div className='flex gap-4 w-full max-w-[1200px] mx-auto  flex-col lg:flex-row flex-wrap'>
                     <FilesContext.Provider value={{ setFiles, files }}>
                         <UploadImges
                             clickOtherElement={clickOtherElement}
@@ -142,13 +135,6 @@ export default function InsertProduct() {
                     />
                 </div>
 
-            </div>
-            <div className='w-full flex justify-end mt-4'>
-                    <Button
-                        handleClick={handleClick}
-                        text="Enregistrer"
-                        style='md:w-[50%] w-[100%] md:mx-2 mx-4  h-[55px] flex justify-center items-center mt-5 bg-secondaryColor text-blackColor2 font-bold rounded-md'
-                    />
             </div>
         </section>
     )

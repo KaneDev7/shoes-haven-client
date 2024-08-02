@@ -8,8 +8,9 @@ type SizeRenderType = {
 }
 export default function SizeRender({ ProductSize, selectSize, onSelectSizeChange }: SizeRenderType) {
     const ProductSizeArr = ProductSize?.split(',')
-    const isSizeMatch = (size: number) => {
-        return ProductSizeArr.map(item => item.trim()).includes(size.toString())
+    
+    const isSizeMatch = (size: string) => {
+        return ProductSizeArr.map(item => item.trim()).includes(size)
     }
     return <div className='flex flex-col gap-4 pb-6 border-b'>
         <h2 className='text-[18px] font-semibold'>Selectionnez une Taille</h2>
@@ -18,7 +19,7 @@ export default function SizeRender({ ProductSize, selectSize, onSelectSizeChange
                 SIZES_DATA.map((size) => (
                     <div
                         onClick={() => onSelectSizeChange(size)}
-                        className={`w-[50px] h-[40px] relative cursor-pointer font-semibold overflow-hidden rounded-lg flex items-center justify-center ${!isSizeMatch(size) && 'pointer-events-none opacity-70'} ${Number(selectSize) === size ? 'bg-secondaryColor' : 'bg-gray-100'}   text-blackColor2`} >
+                        className={`w-[50px] h-[40px] relative cursor-pointer font-semibold overflow-hidden rounded-lg flex items-center justify-center ${!isSizeMatch(size) && 'pointer-events-none opacity-70'} ${selectSize === size ? 'bg-secondaryColor' : 'bg-gray-100'}   text-blackColor2`} >
                         {size}
                         {
                             !isSizeMatch(size) &&

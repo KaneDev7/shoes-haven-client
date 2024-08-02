@@ -1,9 +1,9 @@
 import instanceAxios from "@/lib/axios"
 import { User } from "@/types/user.type"
 
-export const getUser = async (token: string): Promise<User | any> => {
+export const getUser = async (token: string, userId:string): Promise<User | any> => {
     try {
-        const response = await instanceAxios.get('/users/me',
+        const response = await instanceAxios.get(`/users/me/${userId} `,
             {
                 headers: {
                     'Authorization': `Bearer ${token}`,

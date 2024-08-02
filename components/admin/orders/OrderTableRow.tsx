@@ -26,6 +26,8 @@ export default function OrderTableRow({checkOneItem, itemsId, order }: OrderTabl
         <td className='px-6 py-4'>
             <input type="checkbox" checked={itemsId.includes(order._id)} onChange={(event) => checkOneItem(order._id, event)} />
         </td>
+        <td className="px-6 py-4 capitalize "> {order.order_id} </td>
+
         <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <div className=' flex gap-5 items-center w-[200px] '>
                 <div>

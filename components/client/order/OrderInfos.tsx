@@ -5,6 +5,8 @@ import { User } from '@/types/user.type'
 import OrderStatus from '@/components/shared/OrderStatus'
 
 export default function OrderInfos() {
+  const {user_id} = useContext(OrderCardContext)
+
     const currentUser: User = useSelector(state => state.currentUser)
     const { payment_method, status } = useContext(OrderCardContext)
 

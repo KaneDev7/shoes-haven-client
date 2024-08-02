@@ -3,7 +3,6 @@ import { Order } from '@/types/product.type'
 import React from 'react'
 import OrderTableRow from './OrderTableRow';
 
-
 type OrderListTableType = {
     orders: Order[]
     checkOneItem: () => { id: string, event: any }

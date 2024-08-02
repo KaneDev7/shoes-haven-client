@@ -40,9 +40,9 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
     const { mutate: mutateOrder, status: mutateOrderStatus } = useMutatationHook({ fonctionName: CREATE_ORDER })
     const { mutate: mutateCart, status: mutateCartStatus } = useMutatationHook({ fonctionName: DELETE_ALL_ITEM_FROM_CART })
 
-    const userOrder = useMemo(() => {
+    const  userOrder = useMemo(() => {
         return orderObjectFactory(currentUser, { cart, totalPrice })
-    }, [currentUser])
+    }, [currentUser, cart, totalPrice])
 
     const onSubmit = async (data: any) => {
         const isUserInfosChanged = checkUserInfosDiff(currentUser, data)
@@ -51,6 +51,7 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
         if (isUserInfosChanged) {
             mutateAdress(addressAndContactObject)
         } else {
+            console.log('userOrder', userOrder)
             mutateOrder(userOrder)
         }
     }
@@ -143,7 +144,6 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
                     onSubmit={onSubmit}
                     register={register}
                 />
-
             </div>
         </div>
     )

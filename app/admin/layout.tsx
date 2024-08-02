@@ -4,7 +4,6 @@ import SideBarAdmin from "@/components/admin/sidebar/SideBar.admin";
 import "../globals.css";
 import "../slideStyle.css";
 
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,9 +19,9 @@ export default function RootLayoutAdmin({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex gap-20 globalMaxWidth relative">
+        <div className="flex relative">
           <SideBarAdmin />
-          <div className="flex-1 ">
+          <div className="flex-1 px-10 ">
             {children}
           </div>
         </div>

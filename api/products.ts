@@ -59,7 +59,7 @@ export const addProduct = async (formData : FormData, token : string) : Promise<
 }
 
 
-export const updateProduct = async (formData : FormData, token : string, productId :string) : Promise<any> => {
+export const updateProduct = async (formData : FormData,  productId :string, token : string,) : Promise<any> => {
     try {
         const response = await instanceAxios.put(`/products/update/${productId}`,
             formData,
@@ -78,7 +78,7 @@ export const updateProduct = async (formData : FormData, token : string, product
     }
 }
 
-export const deleteProduct = async (token : string, productId :string) : Promise<any> => {
+export const deleteProduct = async (productId :string, token : string, ) : Promise<any> => {
     try {
         const response = await instanceAxios.delete(`/products/delete/${productId}`,
             {
@@ -96,7 +96,7 @@ export const deleteProduct = async (token : string, productId :string) : Promise
 }
 
 
-export const toggleStock = async (token : string, productId :string, statut : Status | undefined) : Promise<any> => {
+export const toggleStock = async (productId :string, statut : Status | undefined, token : string,)  : Promise<any> => {
     try {
         const response = await instanceAxios.put(`/products/update/stock/${productId}`,
         {onStock : statut},   

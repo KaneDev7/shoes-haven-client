@@ -20,7 +20,7 @@ export default function Login() {
         defaultValues: { username: currentUser?.username, }
     })
 
-    const { mutate, status, errorMessage } = useMutatationHook({ fonctionName: LOGIN })
+    const { mutate, status, errorMessage } = useMutatationHook({fonctionName : LOGIN})
 
     const onSubmit = (data) => {
         const formData = new FormData()

@@ -3,6 +3,7 @@ import { ADD_TO_CART, CREATE_USER, CREATE_USER_CONTACT_ADDRESS, DELETE_ITEM_FROM
 import { CartContext } from '@/context/cartContext'
 import { setcurrentUser } from '@/redux/domains/users/currentUser.slice'
 import { MutateFonctionName, MutateStatus } from '@/types/mutate.type'
+import { Status } from '@/types/product.type'
 import { updateCart } from '@/utils/cart'
 import { updateSession } from '@/utils/session'
 import { useMutation } from '@tanstack/react-query'
@@ -10,16 +11,15 @@ import { useRouter } from 'next/navigation'
 import { useContext, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-type useMutationHookType = {
-    callback: () => Promise<void>
-}
-
-type Option = {
+export type MutationOption = {
     method?: 'POST' | 'DELTE' | 'PUT',
-    fonctionName: MutateFonctionName
+    fonctionName: MutateFonctionName,
+    token? : string
+    status? : Status
+    id? : string 
 }
 
-export default function useMutatationHook(option: Option) {
+export default function useMutatationHook(option: MutationOption) {
     const currentUser = useSelector(state => state.currentUser)
     const { resetQuantity } = useContext(CartContext)
     const [status, setStatus] = useState<MutateStatus>()
@@ -28,15 +28,11 @@ export default function useMutatationHook(option: Option) {
     const router = useRouter()
 
     const isUserDataChanged = option.fonctionName === CREATE_USER_CONTACT_ADDRESS || option.fonctionName === LOGIN
-    const isAuthenticateAction = option.fonctionName === LOGIN || option.fonctionName === CREATE_USER
 
     const { mutate } = useMutation({
         mutationFn: async (data) => {
             setStatus(PENDING)
-            if (isAuthenticateAction) {
-                return await executeMutateFonction(option.fonctionName, undefined, data, undefined, undefined)
-            }
-            return await executeMutateFonction(option.fonctionName, currentUser.token, data)
+            return await executeMutateFonction(data, option)
         },
 
         onSettled: async (data, error, context) => {
@@ -45,7 +41,7 @@ export default function useMutatationHook(option: Option) {
                 if (isUserDataChanged) {
                     try {
                         const token = option.fonctionName === LOGIN ? data?.token : currentUser?.token
-                        const userData = await updateSession(token)
+                        const userData = await updateSession(token, currentUser.user_id as string)
                         dispatch(setcurrentUser(userData))
                         if (option.fonctionName === LOGIN) window.location.href = '/'
 

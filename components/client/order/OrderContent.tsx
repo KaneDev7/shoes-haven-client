@@ -1,13 +1,18 @@
+"use client"
 import React, { useContext } from 'react'
 import OrderProductCard from './OrderProductCard'
 import OrderInfos from './OrderInfos'
 import { OrderCardContext } from './OrderCard'
+import { usePathname } from 'next/navigation'
 
 
 export default function OrderContent() {
   const {items, total_price, isShowContent} = useContext(OrderCardContext)
- 
-  if(isShowContent)
+  const pathname = usePathname()
+  const isAdminPage = pathname.includes('/admin')
+  console.log('adminPage',pathname, (!isAdminPage && !isShowContent))
+
+  if(isShowContent || isAdminPage)
   return (
     <div className='flex flex-col lg:flex-row mt-5' >
       <div className='flex-1 p-4'>

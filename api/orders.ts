@@ -73,7 +73,26 @@ export const getOrdersForCurrentUser = async (token : string) : Promise<Product[
     }
 }
 
-export const DeleteOrder = async (token : string, id : string) : Promise<Product[] | any> => {
+
+export const getOneOrder = async (token : string, id :string) : Promise<Product[] | any> => {
+    try {
+        const response = await instanceAxios.get(`/orders/${id}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            }
+        )
+        
+        return response.data.data
+
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}
+
+export const DeleteOrder = async (id : string , token : string) : Promise<Product[] | any> => {
     try {
         const response = await instanceAxios.delete(`/orders/${id} `,
             {

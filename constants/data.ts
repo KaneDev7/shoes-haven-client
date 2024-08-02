@@ -34,6 +34,7 @@ export const productTableHeaderList : string[] = [
 ]
 
 export const orderTableHeaderList : string[] = [
+    "Id de la commande",
     'Clients',
     'Date',
     'Quantités',
@@ -43,7 +44,7 @@ export const orderTableHeaderList : string[] = [
     'Action'
 ]
 
-export const SIZES_DATA : number[] =  [40, 41, 42, 43, 44, 45, 46]
+export const SIZES_DATA : string[] =  ['40', '41', '42', '43', '44', '45', '46']
 export const COLORS_DATA: string[] =  ["Rouge", "Vert", "Bleu", "Jeune", "Orange", "Noir", "Gris", 'Blanc', 'Maron', 'Beige']
 
 

@@ -17,16 +17,20 @@ type UploadImgesType = {
 }
 
 export default function UploadCategortImg({
-    clickOtherElement,
-    setImageUris,
-    setFileError,
-    imageUris,
-    fileError,
+
 }: UploadImgesType) {
 
     const categoryDefaultValue = useSelector<any>(state => state.categoryDefaultValue)
     const isCategoryUpdate = useSelector<any>(state => state.isCategoryUpdate)
-    const { setFiles } = useContext(FilesCategoryContext)
+    const {
+        setFiles,
+        clickOtherElement,
+        setImageUris,
+        setFileError,
+        imageUris,
+        fileError,
+
+    } = useContext(FilesCategoryContext)
 
     let inputFile: MutableRefObject<HTMLInputElement | null> = useRef(null);
 
