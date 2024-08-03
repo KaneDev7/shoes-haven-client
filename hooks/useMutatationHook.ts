@@ -4,6 +4,7 @@ import { CartContext } from '@/context/cartContext'
 import { setcurrentUser } from '@/redux/domains/users/currentUser.slice'
 import { MutateFonctionName, MutateStatus } from '@/types/mutate.type'
 import { Status } from '@/types/product.type'
+import { User } from '@/types/user.type'
 import { updateCart } from '@/utils/cart'
 import { updateSession } from '@/utils/session'
 import { useMutation } from '@tanstack/react-query'
@@ -14,13 +15,13 @@ import { useDispatch, useSelector } from 'react-redux'
 export type MutationOption = {
     method?: 'POST' | 'DELTE' | 'PUT',
     fonctionName: MutateFonctionName,
-    token? : string
-    status? : Status
-    id? : string 
+    token?: string
+    status?: Status
+    id?: string
 }
 
 export default function useMutatationHook(option: MutationOption) {
-    const currentUser = useSelector(state => state.currentUser)
+    const currentUser : User = useSelector(state => state.currentUser)
     const { resetQuantity } = useContext(CartContext)
     const [status, setStatus] = useState<MutateStatus>()
     const [errorMessage, setErrorMessage] = useState<string>('')
@@ -41,7 +42,8 @@ export default function useMutatationHook(option: MutationOption) {
                 if (isUserDataChanged) {
                     try {
                         const token = option.fonctionName === LOGIN ? data?.token : currentUser?.token
-                        const userData = await updateSession(token, currentUser.user_id as string)
+                        const user_id = option.fonctionName === LOGIN ? data?.user_id : currentUser?._id
+                        const userData = await updateSession(token, user_id as string)
                         dispatch(setcurrentUser(userData))
                         if (option.fonctionName === LOGIN) window.location.href = '/'
 
@@ -55,7 +57,7 @@ export default function useMutatationHook(option: MutationOption) {
 
                 // cart
                 if (option.fonctionName === ADD_TO_CART) {
-                    const { quantity } = await updateCart(currentUser.token)
+                    const { quantity } = await updateCart(currentUser?.token)
                     resetQuantity(quantity)
                 }
                 setStatus(SUCCESS)

@@ -9,10 +9,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CREATE_USER_CONTACT_ADDRESS, ERROR, ERROR_MESSAGE, PENDING, SUCCESS, UPDATE_SUCCESS_MESSAGE } from '@/constants/data'
 import UserInfosForm from './UserInfosForm'
+import { User } from '@/types/user.type'
 
 
 export default function EditUserInfos() {
-    const currentUser = useSelector(state => state.currentUser)
+    const currentUser : User = useSelector(state => state.currentUser)
     const {
         register,
         handleSubmit,
@@ -25,7 +26,7 @@ export default function EditUserInfos() {
             email: currentUser.email
         }
     })
-    const { mutate: mutateAdress, status } = useMutatationHook({ fonctionName: CREATE_USER_CONTACT_ADDRESS })
+    const { mutate: mutateAdress, status } = useMutatationHook({ fonctionName: CREATE_USER_CONTACT_ADDRESS, token : currentUser?.token })
 
     const onSubmit = async (data) => {
         const userContactAdress = {

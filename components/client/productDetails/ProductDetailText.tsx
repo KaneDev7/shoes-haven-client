@@ -25,7 +25,7 @@ export default function ProductDetailText({ product }: { product: Product }) {
     const { updateTotalPrice } = useContext(CartContext)
     const [quantity, setQuantity] = useState(1)
     const router = useRouter()
-    const { mutate: mutateCart, status } = useMutatationHook({ fonctionName: ADD_TO_CART })
+    const { mutate: mutateCart, status } = useMutatationHook({ fonctionName: ADD_TO_CART, token : currentUser?.token})
 
     const onSelectSizeChange = (newSelectSize) => {
         setSelectSize(newSelectSize)

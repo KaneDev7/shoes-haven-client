@@ -1,17 +1,24 @@
 import React, { useContext } from 'react'
 import { OrderCardContext } from './OrderCard'
-import { useSelector } from 'react-redux'
-import { User } from '@/types/user.type'
 import OrderStatus from '@/components/shared/OrderStatus'
+import { useQuery } from '@tanstack/react-query'
+import { getUser } from '@/api/user'
+import { token } from '@/components/admin/form/product/InsertProduct'
 
 export default function OrderInfos() {
-  const {user_id} = useContext(OrderCardContext)
+    const { user_id } = useContext(OrderCardContext)
 
-    const currentUser: User = useSelector(state => state.currentUser)
+    const { data: currentUser, isLoading, error } = useQuery({
+        queryKey: ['user', user_id],
+        queryFn: async () => getUser(token, user_id)
+    })
+
     const { payment_method, status } = useContext(OrderCardContext)
 
+    if(!isLoading)
     return (
         <div className='flex-1  p-4 lg:border-l border-black/10  '>
+            
             <div className='p-4 border-b border-black/10'>
                 <h2 className='text-lg font-semibold'>Payement</h2>
                 <small className='text-black/50  pr-4 text-sm'>{payment_method}</small>

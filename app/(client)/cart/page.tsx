@@ -10,16 +10,17 @@ import { useSelector } from 'react-redux';
 import Button from '@/components/shared/buttons';
 import { CartContext } from '@/context/cartContext';
 import { CartItem } from '@/components/client/cart/CartItem';
+import { User } from '@/types/user.type';
 
 
 export default function Cart() {
     const router = useRouter()
-    const currentUser = useSelector(state => state.currentUser)
+    const currentUser : User = useSelector(state => state.currentUser)
     const { setCart, setTotalPrice } = useContext(CartContext)
 
     if (!currentUser) return router.push('/login')
 
-    const token = currentUser.token
+    const token = currentUser?.token
     const { data, isLoading, error, refetch } = useQuery({
         queryKey: ['cart'],
         queryFn: async () => getCart(token)

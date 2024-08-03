@@ -14,6 +14,7 @@ import { ProductContext } from '@/app/admin/products/page'
 // Toast 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useMutatationHook from '@/hooks/useMutatationHook'
 
 type TableListType = {
     type: string
@@ -27,26 +28,9 @@ type TableListType = {
 export default function TableList({ headerList, data, error, loading, type, refetch }: TableListType) {
     const [itemsId, setItemsId] = useState([])
 
-    const { mutate: mutateProducts } = useMutation({
-        mutationFn: async (id) => {
-            await deleteProduct(token, id)
-        },
-        
-        onSuccess: () => {
-            refetch()
-        }
-    })
-
-    const { mutate: mutateOrders } = useMutation({
-        mutationFn: async (id) => {
-            await DeleteOrder(token, id)
-        },
-        onSuccess: () => {
-            refetch()
-            return toast.success("Une commande a été suprimer", { hideProgressBar: true })
-        }
-    })
-
+    const {mutate : mutateProducts} = useMutatationHook({fonctionName: 'deleteProduct', token})
+    const { mutate: mutateOrders } = useMutatationHook({fonctionName: 'deleteOrder', token})
+  
     const checkOneItem = (id, event) => {
         if (event.target.checked) {
             setItemsId(ids => [...ids, id])

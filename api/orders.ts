@@ -57,7 +57,7 @@ export const getOrders = async (token : string) : Promise<Product[] | any> => {
 
 export const getOrdersForCurrentUser = async (token : string) : Promise<Product[] | any> => {
     try {
-        const response = await instanceAxios.get(`/orders/me`,
+        const response = await instanceAxios.get(`/orders/user/me`,
             {
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -65,6 +65,7 @@ export const getOrdersForCurrentUser = async (token : string) : Promise<Product[
             }
         )
         
+        console.log('response', response)
         return response.data.data
 
     } catch (error) {

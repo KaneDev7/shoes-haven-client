@@ -30,16 +30,19 @@ const getIcons = (iconName: string | undefined) => {
             break;
     }
 }
-const navActif = 'bg-secondaryColor font-bold text-black'
+const navActif = 'bg-secondaryColor font-bold text-black pointer-events-none'
 
 const NavLink = ({ link }: { link: AdminLink }) => {
     const pathName = usePathname()
+    const isMatch = (pathName === link.href ||
+        link?.subRoute?.includes(pathName) ||
+        link.title === 'Produits' && pathName.startsWith(link.subRoute![0])) ||
+        link.title === 'Commandes' && pathName.startsWith(link.subRoute![0])
 
-    const isMatch = (pathName === link.href || link?.subRoute?.includes(pathName) || link.title === 'Produits' && pathName.startsWith(link.subRoute![1]))
     return (
 
         <Link href={link.href} className='block text-xs rounded-md  '>
-            <li key={link.href} className={`flex items-center  gap-2 ${isMatch ? navActif : 'text-secondaryColor'} rounded-md   py-3 px-4`} >
+            <li key={link.href} className={`flex items-center  gap-2 ${isMatch ? navActif : 'text-secondaryColor '} hover:bg-black/10 rounded-md   py-3 px-4`} >
                 {getIcons(link.iconName)}
                 <p>{link.title} </p>
             </li>

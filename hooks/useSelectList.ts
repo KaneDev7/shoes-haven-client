@@ -3,7 +3,7 @@ import { setSelectCategories } from '@/redux/domains/form/category/categories.sl
 import { setSelectColors } from '@/redux/domains/form/product/colors.slice'
 import { setSelectSize } from '@/redux/domains/form/product/size.slice'
 import { setQueryParams } from '@/redux/domains/products/queryParams.slice'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 type SelectListType = {
@@ -36,7 +36,7 @@ export default function useSelectList({ list, name, isClient }: SelectListType) 
     }
 
     const handleToggleSelect = (selected: string | number | null, type? : string | undefined ) => {
-       
+       console.log('selected', selected)
         if (selectlist.includes(selected)) {
             const selectlistUpdated = selectlist.filter(item => item !== selected)
             setDataToRedux(selectlistUpdated, type)

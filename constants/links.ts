@@ -119,8 +119,8 @@ export const adminLink: Link[] = [
         title: 'Produits',
         href: '/admin/products',
         subRoute: [
-            '/admin/products/add',
             '/admin/products/',
+            '/admin/products/add',
             '/admin/categories',
             '/admin/marks'
         ],
@@ -130,7 +130,8 @@ export const adminLink: Link[] = [
     {
         title: 'Commandes',
         href: '/admin/orders',
-        iconName: 'BsCart2'
+        iconName: 'BsCart2',
+        subRoute: ['/admin/orders/'],
     },
 
     {

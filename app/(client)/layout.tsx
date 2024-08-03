@@ -20,14 +20,12 @@ export default function RootLayout({
   return <html lang="en">
     <body className={inter.className}>
       <RequireAuthProvider>
-        <LocalCartProvider>
           <ProductContextProvider> 
             <Navbar />
             <div className="mx-4">{children}</div>
             <Trust />
             <Footer />
           </ProductContextProvider>
-        </LocalCartProvider>
       </RequireAuthProvider>
     </body>
   </html>

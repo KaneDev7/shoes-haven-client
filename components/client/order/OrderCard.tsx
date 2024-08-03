@@ -10,7 +10,7 @@ type OrderCardType = {
 
 export const OrderCardContext = createContext(null)
 
-export default function OrderCard({ order }: OrderCardType) {
+export default function     OrderCard({ order }: OrderCardType) {
     const [isShowContent, setIsShowContent] = useState(false)
     const {
         items,
@@ -22,7 +22,6 @@ export default function OrderCard({ order }: OrderCardType) {
         order_id
     } = order
     return (
-        <li>
             <OrderCardContext.Provider value={{
                 items,
                 order_date,
@@ -33,11 +32,10 @@ export default function OrderCard({ order }: OrderCardType) {
                 order_id,
                 isShowContent,
                 setIsShowContent,
-            }} >
+            }}>
                 <OrderHeader />
                 <OrderContent />
                 <OrderFooter />
             </OrderCardContext.Provider>
-        </li>
     )
 }

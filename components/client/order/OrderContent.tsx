@@ -10,7 +10,6 @@ export default function OrderContent() {
   const {items, total_price, isShowContent} = useContext(OrderCardContext)
   const pathname = usePathname()
   const isAdminPage = pathname.includes('/admin')
-  console.log('adminPage',pathname, (!isAdminPage && !isShowContent))
 
   if(isShowContent || isAdminPage)
   return (

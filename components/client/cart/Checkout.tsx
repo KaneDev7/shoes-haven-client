@@ -13,6 +13,7 @@ import { expeditionData } from '@/constants/cart'
 import { CartItem } from '@/types/cart.type'
 import { addressAndContactObjectFactory, checkUserInfosDiff, orderObjectFactory } from '@/utils/cart'
 import UserInfosForm from '../profile/UserInfosForm'
+import { User } from '@/types/user.type'
 
 type CheckOutType = {
     cart: CartItem,
@@ -20,7 +21,7 @@ type CheckOutType = {
 }
 
 export default function Checkout({ cart, refetch }: CheckOutType) {
-    const currentUser = useSelector(state => state.currentUser)
+    const currentUser : User = useSelector(state => state.currentUser)
     const { totalPrice, resetQuantity } = useContext(CartContext)
 
     const {
@@ -36,9 +37,9 @@ export default function Checkout({ cart, refetch }: CheckOutType) {
         }
     })
 
-    const { mutate: mutateAdress, status: mutateAdressStatus } = useMutatationHook({ fonctionName: CREATE_USER_CONTACT_ADDRESS })
-    const { mutate: mutateOrder, status: mutateOrderStatus } = useMutatationHook({ fonctionName: CREATE_ORDER })
-    const { mutate: mutateCart, status: mutateCartStatus } = useMutatationHook({ fonctionName: DELETE_ALL_ITEM_FROM_CART })
+    const { mutate: mutateAdress, status: mutateAdressStatus } = useMutatationHook({ fonctionName: CREATE_USER_CONTACT_ADDRESS, token : currentUser?.token })
+    const { mutate: mutateOrder, status: mutateOrderStatus } = useMutatationHook({ fonctionName: CREATE_ORDER , token : currentUser?.token})
+    const { mutate: mutateCart, status: mutateCartStatus } = useMutatationHook({ fonctionName: DELETE_ALL_ITEM_FROM_CART, token : currentUser?.token })
 
     const  userOrder = useMemo(() => {
         return orderObjectFactory(currentUser, { cart, totalPrice })

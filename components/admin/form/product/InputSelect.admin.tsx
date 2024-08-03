@@ -24,7 +24,10 @@ export default function InputSelect({ data, label, placeholder, variant, name, r
     const isProducUpdate = useSelector(state => state.isProducUpdate)
 
     const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        console.log('befor')
         if (variant === 'multuple') {
+
+            console.log('inset')
             handleToggleSelect(event.target.value)
         }
     }
@@ -33,14 +36,14 @@ export default function InputSelect({ data, label, placeholder, variant, name, r
         <div className='flex flex-col gap-2'>
             <label className='text-sm opacity-80'>{label}</label>
 
-            <select name={name}
-                onChange={handleSelect}
-
+            <select 
                 {...register(name, {
                     validate: () => {
                         if (variant === 'multuple') return selectlist.length !== 0 || `Veillez selectionnez des ${label}`
                     }
                 })}
+                onChange={handleSelect}
+                name={name}
                 className={`px-2 py-3 border-2 focus:border-secondaryColor ${errors[name]?.message && 'border-red-300'} rounded-md  bg-gray-50/50 text-sm outline-none`}
             >
 

@@ -21,6 +21,7 @@ export const addToCart = async (data: any, token: string | undefined): Promise<a
 
 
 export const getCart = async (token: string | undefined): Promise<any> => {
+    console.log('token', token)
     try {
         const response = await instanceAxios.get('/cart',
             {

@@ -19,7 +19,7 @@ export const getUser = async (token: string, userId:string): Promise<User | any>
 }
 
 
-export const creatUserContactAdress = async (token: string, data: any): Promise<User | any> => {
+export const creatUserContactAdress = async (data: any, token: string): Promise<User | any> => {
     try {
         const response = await instanceAxios.put('/users/contact',
             data,

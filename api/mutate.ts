@@ -14,7 +14,7 @@ export const executeMutateFonction = async (data: any, {
 ) => {
     switch (fonctionName) {
         case 'creatUserContactAdress':
-            return creatUserContactAdress(token as string, data)
+            return creatUserContactAdress(data, token as string)
         case 'createOrder':
             return createOrder(data, token as string)
         case 'updateOrder':
@@ -26,7 +26,7 @@ export const executeMutateFonction = async (data: any, {
         case 'addProduct':
             return addProduct(data, token as string)
         case 'deleteProduct':
-            return deleteProduct(id as string, status as string)
+            return deleteProduct(data , token as string)
         case 'toggleStock':
             return toggleStock(id as string, status, token as string)
         case 'deleteAllItemFromCart':

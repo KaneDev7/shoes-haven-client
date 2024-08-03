@@ -36,9 +36,9 @@ export default function Products() {
     dispatch(setProductDefaultValue(initialStateProductDefaultValue))
     dispatch(setIsProducUpdate(false))
     dispatch(setFiles([]))
-
     route.push('/admin/products/add')
   }
+  
   return (
     <ProductContext.Provider value={refetch} >
       <div className='w-full'>
